@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: gul-product-service2
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: product.service
+Build-Jdk: 1.7.0_25
+Built-By: usman
+Created-By: Maven Integration for Eclipse
+Main-Class: com.test.dropwizard.eventservice.ProductServiceApplication
+

@@ -6,4 +6,5 @@
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/cli/RenderCommand.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/representation/Product.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/persistance/ProductDao.java
+/Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/representation/Category.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/eventservice/ProductServiceConfiguration.java

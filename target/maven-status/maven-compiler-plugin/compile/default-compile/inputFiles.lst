@@ -1,6 +1,7 @@
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/persistance/ProductMapper.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/core/Template.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/eventservice/ProductServiceApplication.java
+/Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/heroku/db/HerokuDatabaseConfiguration.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/resources/ProductResource.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/app/App.java
 /Users/usman/Documents/workspace-ecommerce/gul-product-service2/src/main/java/com/gul/product/service/cli/RenderCommand.java

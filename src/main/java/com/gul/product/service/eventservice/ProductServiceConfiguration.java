@@ -2,19 +2,20 @@ package com.gul.product.service.eventservice;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
-
+import io.dropwizard.db.DatabaseConfiguration;
 import java.util.Collections;
 import java.util.Map;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gul.product.service.core.Template;
+import com.gul.product.service.heroku.db.HerokuDatabaseConfiguration;
 
 public class ProductServiceConfiguration extends Configuration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceConfiguration.class);
 
     @Valid
     @NotNull
@@ -43,10 +44,14 @@ public class ProductServiceConfiguration extends Configuration {
 		return defaultName;
 	}
 
+    @JsonProperty("database")
 	public DataSourceFactory getDatabase() {
-		return database;
+        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+        database = databaseConfiguration.getDataSourceFactory(null);
+        return database;
 	}
 
+    @JsonProperty("database")
 	public void setDatabase(DataSourceFactory database) {
 		this.database = database;
 	}

@@ -11,15 +11,17 @@ database:
   driverClass: org.postgresql.Driver  
 
   # the username
+  # user: test
   user: njcyxzlnmtiyvb
 
   # the password
+  # password: test
   password: pXMOBYt7CFf_g9gRYI3_Rs5CvX
 
   # the JDBC URL
   # url: jdbc:postgresql://localhost:5432/testdropwizard
-  #url: jdbc:postgresql://ec2-23-23-188-252.compute-1.amazonaws.com:5432/ddgv02lm6vdscl
-  url: postgres://njcyxzlnmtiyvb:pXMOBYt7CFf_g9gRYI3_Rs5CvX@ec2-23-23-188-252.compute-1.amazonaws.com:5432/ddgv02lm6vdscl
+  url: jdbc:postgresql://ec2-23-23-188-252.compute-1.amazonaws.com:5432/ddgv02lm6vdscl
+  # url: postgres://njcyxzlnmtiyvb:pXMOBYt7CFf_g9gRYI3_Rs5CvX@ec2-23-23-188-252.compute-1.amazonaws.com:5432/ddgv02lm6vdscl
 
 
 # use the simple server factory if you only want to run on a single port

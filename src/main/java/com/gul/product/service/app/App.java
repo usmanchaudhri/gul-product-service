@@ -2,7 +2,6 @@ package com.gul.product.service.app;
 
 /**
  * Hello world!
- *
  */
 public class App 
 {

@@ -5,5 +5,4 @@ Implementation-Vendor-Id: product.service
 Build-Jdk: 1.7.0_79
 Built-By: usman
 Created-By: Maven Integration for Eclipse
-Main-Class: com.test.dropwizard.eventservice.ProductServiceApplication
 

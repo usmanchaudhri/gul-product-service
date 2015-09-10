@@ -6,6 +6,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+<!-- 	<changeSet author="uc" id="dropTable-product"> -->
+<!-- 		<dropTable cascadeConstraints="true" catalogName="cat" -->
+<!-- 			schemaName="public" tableName="product" /> -->
+<!-- 	</changeSet> -->
+	
     <changeSet id="7" author="uc">
         <comment>make product table and column names start lowercase</comment>
         <createSequence sequenceName="product_id_seq"/>

@@ -101,7 +101,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>com.test.dropwizard.eventservice.ProductServiceApplication</mainClass>
+                  <mainClass>com.gul.product.service.eventservice.ProductServiceApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

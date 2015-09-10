@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.04" errors="0" skipped="0" tests="1" name="com.gul.product.service.app.AppTest">
+<testsuite failures="0" time="0.003" errors="0" skipped="0" tests="1" name="com.gul.product.service.app.AppTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
-    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib"/>
-    <property name="java.vm.version" value="23.25-b01"/>
+    <property name="sun.boot.library.path" value="/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib"/>
+    <property name="java.vm.version" value="23.7-b01"/>
     <property name="gopherProxySet" value="false"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/usman/Documents/workspace-ecommerce/gul-product-service2"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=":"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -16,16 +17,16 @@
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="/Users/usman/Documents/workspace-ecommerce/gul-product-service2"/>
-    <property name="java.runtime.version" value="1.7.0_25-b15"/>
+    <property name="java.runtime.version" value="1.7.0_17-b02"/>
     <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
-    <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/endorsed"/>
+    <property name="java.endorsed.dirs" value="/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/endorsed"/>
     <property name="os.arch" value="x86_64"/>
     <property name="java.io.tmpdir" value="/var/folders/b_/n9bvz4j53qgdgm17rsf40psw0000gn/T/"/>
     <property name="line.separator" value="
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="classworlds.conf" value="/Users/usman/Documents/workspace-ecommerce/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1294270498488825962.tmp"/>
+    <property name="classworlds.conf" value="/Users/usman/Documents/Tools/Maven/apache-maven-3.3.3/bin/m2.conf"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/usman/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -39,28 +40,27 @@
     <property name="java.specification.version" value="1.7"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="user.name" value="usman"/>
-    <property name="java.class.path" value="/Users/usman/Documents/Tools/eclipse/eclipse/configuration/org.eclipse.osgi/bundles/531/1/.cp/jars/plexus-classworlds-2.4.jar"/>
+    <property name="java.class.path" value="/Users/usman/Documents/Tools/Maven/apache-maven-3.3.3/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="1.7"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B clean package"/>
+    <property name="java.home" value="/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean package"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="en"/>
     <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
     <property name="java.vm.info" value="mixed mode"/>
-    <property name="java.version" value="1.7.0_25"/>
-    <property name="java.ext.dirs" value="/Users/usman/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java"/>
-    <property name="sun.boot.class.path" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/lib/JObjC.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home/jre/classes"/>
+    <property name="java.version" value="1.7.0_17"/>
+    <property name="java.ext.dirs" value="/Users/usman/Library/Java/Extensions:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java"/>
+    <property name="sun.boot.class.path" value="/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/resources.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/rt.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/jsse.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/jce.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/charsets.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/jfr.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/lib/JObjC.jar:/Users/usman/Tools/devtools/apps/jdk1.7.0_17.jdk/Contents/Home/jre/classes"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="/Users/usman/Documents/workspace-ecommerce/gul-product-service2/EMBEDDED"/>
+    <property name="maven.home" value="/Users/usman/Documents/Tools/Maven/apache-maven-3.3.3"/>
     <property name="file.separator" value="/"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
-    <property name="maven.bootclasspath" value="/Users/usman/Documents/Tools/eclipse/eclipse/configuration/org.eclipse.osgi/bundles/531/1/.cp/jars/plexus-classworlds-2.4.jar"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.005" classname="com.gul.product.service.app.AppTest" name="testApp"/>
+  <testcase time="0.003" classname="com.gul.product.service.app.AppTest" name="testApp"/>
 </testsuite>

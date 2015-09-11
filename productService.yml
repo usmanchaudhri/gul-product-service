@@ -57,11 +57,10 @@ logging:
   loggers:
 
     # Sets the level for 'com.example.app' to DEBUG.
-    com.example.app: DEBUG
+    com.gul.product.service: DEBUG
 
     # Redirects SQL logs to a separate file
-    org.hibernate.SQL:
-      level: DEBUG
+    org.hibernate.SQL: DEBUG
 
   appenders:
     - type: console

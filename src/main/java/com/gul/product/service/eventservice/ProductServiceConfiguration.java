@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.heroku.db.HerokuDatabaseConfiguration;
 
+@Slf4j
 public class ProductServiceConfiguration extends Configuration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceConfiguration.class);
 

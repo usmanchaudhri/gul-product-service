@@ -18,7 +18,7 @@
 		<dropwizard.version.db>0.8.2</dropwizard.version.db>
 		<h2.version>1.4.187</h2.version>
 		<targetJdk>1.7</targetJdk>		
-        <postgresql.version>9.1-901.jdbc4</postgresql.version>
+        <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 		<jetty.version>9.2.9.v20150224</jetty.version>
 
         <!-- For JSP jars -->
@@ -154,12 +154,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.1-901-1.jdbc4</version>
-		</dependency>
-		
 		<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

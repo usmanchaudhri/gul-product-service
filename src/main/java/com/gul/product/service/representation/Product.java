@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 
@@ -19,7 +20,10 @@ import javax.persistence.NamedQuery;
 })
 public class Product {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) public Integer id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @SequenceGenerator(name = "productSeq", sequenceName="product_id_seq", allocationSize=1)
+	public Integer id;
+	
     @Column(name = "sku", nullable = false) public String sku;	
     @Column(name = "name", nullable = false) public String name;
     @Column(name = "shortDesc", nullable = false) public String shortDesc;

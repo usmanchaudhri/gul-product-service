@@ -5,39 +5,10 @@
   <artifactId>gul-product-service2</artifactId>
   <name>gul-product-service2</name>
   <version>0.0.1-SNAPSHOT</version>
-  <url>http://maven.apache.org</url>
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**</include>
-        </includes>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**</include>
-        </includes>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>src/test/java</directory>
-        <includes>
-          <include>**</include>
-        </includes>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </testResource>
-    </testResources>
     <plugins>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -60,14 +31,14 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>${targetJdk}</source>
-          <target>${targetJdk}</target>
+          <source>1.7</source>
+          <target>1.7</target>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.4</version>
+        <version>2.2.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -79,7 +50,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.5</version>
+        <version>2.4</version>
         <configuration>
           <archive>
             <manifest>
@@ -90,7 +61,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.2</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -101,7 +72,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>com.gul.product.service.eventservice.ProductServiceApplication</mainClass>
+                  <mainClass>com.example.helloworld.HelloWorldApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -140,35 +111,54 @@
   </build>
   <repositories>
     <repository>
-      <id>maven-repo</id>
-      <name>maven</name>
-      <url>http://repo1.maven.org/maven2</url>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <scope>test</scope>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.14.4</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.9.0</version>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-testing</artifactId>
+      <version>0.7.0</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>jersey-test-framework-core</artifactId>
+          <groupId>com.sun.jersey.jersey-test-framework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jersey-test-framework-inmemory</artifactId>
+          <groupId>com.sun.jersey.jersey-test-framework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>mockito-core</artifactId>
+          <groupId>org.mockito</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>objenesis</artifactId>
+          <groupId>org.objenesis</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>fest-assert-core</artifactId>
+          <groupId>org.easytesting</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <properties>
-    <postgresql.version>9.1-901.jdbc4</postgresql.version>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-    <glassfish.javax.version>2.2.3</glassfish.javax.version>
-    <jetty.version>9.2.9.v20150224</jetty.version>
-    <dropwizard.version>0.8.2</dropwizard.version>
-    <h2.version>1.4.187</h2.version>
-    <dropwizard.version.db>0.8.2</dropwizard.version.db>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <targetJdk>1.7</targetJdk>
   </properties>
 </project>
 

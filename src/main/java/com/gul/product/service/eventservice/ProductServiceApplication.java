@@ -17,7 +17,6 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.example.helloworld.resources.HelloWorldResource;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.persistance.ProductDao;

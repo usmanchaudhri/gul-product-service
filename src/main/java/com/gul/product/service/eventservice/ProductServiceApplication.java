@@ -17,10 +17,12 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.example.helloworld.resources.HelloWorldResource;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ProductResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
@@ -63,6 +65,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         final ProductDao dao = new ProductDao(hibernateBundle.getSessionFactory());
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
+        environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(dao));
 
 		

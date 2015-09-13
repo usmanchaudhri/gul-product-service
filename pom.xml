@@ -114,12 +114,12 @@
             <version>${dropwizard.version}</version>
         </dependency>
         
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-testing</artifactId>
-            <version>${dropwizard.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>io.dropwizard</groupId> -->
+<!--             <artifactId>dropwizard-testing</artifactId> -->
+<!--             <version>${dropwizard.version}</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
         		
 		<!-- Jetty (for the angularjs-webapp). Make sure that the version corresponds 
 			with the Jetty version included with Dropwizard. See: http://mvnrepository.com/artifact/com.yammer.dropwizard/dropwizard-core/0.6.2 -->

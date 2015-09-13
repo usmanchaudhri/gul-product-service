@@ -2,6 +2,7 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.IntParam;
+import io.dropwizard.jersey.params.LongParam;
 
 import java.util.List;
 
@@ -16,8 +17,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.codahale.metrics.annotation.Timed;
+import com.example.helloworld.core.Person;
+import com.example.helloworld.views.PersonView;
+import com.google.common.base.Optional;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.views.ProductView;
+import com.sun.jersey.api.NotFoundException;
 
 @Path("/product")
 @Produces(MediaType.APPLICATION_JSON)
@@ -50,6 +56,12 @@ public class ProductResource {
 		Product product = productDao.findById(id);
 		return Response.status(Response.Status.OK).entity(product).build();
 	}
+	
+	private Product findSafely(Integer productId) {
+//		final Optional<Product> person = productDao.findById(productId);
+		final Product product = productDao.findById(productId);
+		return product;
+	}
 
 	@GET
 	@UnitOfWork
@@ -59,5 +71,20 @@ public class ProductResource {
 		return Response.status(Response.Status.OK).entity(products).build();
 	}
 	
+    @GET
+    @Path("/view_freemarker")
+    @UnitOfWork
+    @Produces(MediaType.TEXT_HTML)
+    public ProductView getPersonViewFreemarker(@PathParam("personId") IntParam personId) {
+        return new ProductView(ProductView.Template.FREEMARKER, findSafely(personId.get()));
+    }
+    
+    @GET
+    @Path("/view_mustache")
+    @UnitOfWork
+    @Produces(MediaType.TEXT_HTML)
+    public ProductView getPersonViewMustache(@PathParam("personId") IntParam personId) {
+    	return new ProductView(ProductView.Template.MUSTACHE, findSafely(personId.get()));    
+    }
 	
 }

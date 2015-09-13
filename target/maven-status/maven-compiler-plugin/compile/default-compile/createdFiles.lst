@@ -1,7 +1,9 @@
+com/gul/product/service/representation/Saying.class
 com/gul/product/service/eventservice/ProductServiceApplication$2.class
 com/gul/product/service/representation/Product.class
 com/gul/product/service/heroku/db/HerokuDatabaseConfiguration$1.class
 com/gul/product/service/heroku/db/HerokuDatabaseConfiguration.class
+com/gul/product/service/resources/HelloProductResource.class
 com/gul/product/service/eventservice/ProductServiceApplication$1.class
 com/gul/product/service/resources/ProductResource.class
 com/gul/product/service/eventservice/ProductServiceConfiguration.class

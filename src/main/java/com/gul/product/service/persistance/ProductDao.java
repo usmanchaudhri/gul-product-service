@@ -12,8 +12,8 @@ public class ProductDao extends AbstractDAO<Product> {
 		super(sessionFactory);
 	}
 
-	public long create(Product product) {
-		return persist(product).getId();
+	public Product create(Product product) {
+		return persist(product);
 	}
 	
 	public Product findById(Integer id) {

@@ -30,10 +30,9 @@ public class ProductResource {
 	@POST
 	@UnitOfWork
 	@Timed
-	public void add(@Valid Product product) {
-		productDao.create(product);
-		// TODO - how do we return the product as a JSON response back to the client
-//		return Response.status(Response.Status.CREATED).entity(p).build();
+	public Response add(@Valid Product product) {
+		Product p = productDao.create(product);
+		return Response.status(Response.Status.CREATED).entity(p).build();
 	}
 	
 	public Product findProduct(@PathParam("id") IntParam id) {

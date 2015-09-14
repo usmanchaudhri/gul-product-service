@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>product.service</groupId>
+  <groupId>io.dropwizard</groupId>
   <artifactId>gul-product-service2</artifactId>
   <name>gul-product-service2</name>
   <version>0.0.1-SNAPSHOT</version>
-  <url>http://maven.apache.org</url>
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
   <build>
     <resources>
       <resource>
@@ -173,6 +175,7 @@
     <dropwizard.version>0.8.2</dropwizard.version>
     <h2.version>1.4.187</h2.version>
     <dropwizard.version.db>0.8.2</dropwizard.version.db>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <targetJdk>1.7</targetJdk>
   </properties>

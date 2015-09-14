@@ -34,6 +34,10 @@ public class ProductServiceConfiguration extends Configuration {
 	@JsonProperty
 	private String defaultName = "Stranger";
 
+	@NotEmpty
+	@JsonProperty
+	private String localdev = "yes";
+	
 	public Template buildTemplate() {
 		return new Template(template, defaultName);
 	}
@@ -48,10 +52,10 @@ public class ProductServiceConfiguration extends Configuration {
 
     @JsonProperty("database")
 	public DataSourceFactory getDatabase() {
-        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
-        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
-        database = databaseConfiguration.getDataSourceFactory(null);
-        LOGGER.info("Heroku DB URL=" + database.getUrl());
+//        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
+//        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+//        database = databaseConfiguration.getDataSourceFactory(null);
+//        LOGGER.info("Heroku DB URL=" + database.getUrl());
         return database;
 	}
 
@@ -75,6 +79,14 @@ public class ProductServiceConfiguration extends Configuration {
 
 	public void setDefaultName(String defaultName) {
 		this.defaultName = defaultName;
+	}
+
+	public String getLocaldev() {
+		return localdev;
+	}
+
+	public void setLocaldev(String localdev) {
+		this.localdev = localdev;
 	}
 
 }

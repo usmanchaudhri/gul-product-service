@@ -20,15 +20,16 @@ import javax.persistence.NamedQuery;
 })
 public class Product {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Id 
     @SequenceGenerator(name = "productSeq", sequenceName="product_id_seq", allocationSize=1)
-	public Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "productSeq")
+	private Long id;
 	
-    @Column(name = "sku", nullable = false) public String sku;	
-    @Column(name = "name", nullable = false) public String name;
-    @Column(name = "shortDesc", nullable = false) public String shortDesc;
-    @Column(name = "longDesc", nullable = true) public String longDesc;
-    @Column(name = "imagePath", nullable = false) public String imagePath;
+    @Column(name = "sku", nullable = false) private String sku;	
+    @Column(name = "name", nullable = false) private String name;
+    @Column(name = "shortDesc", nullable = false) private String shortDesc;
+    @Column(name = "longDesc", nullable = true) private String longDesc;
+    @Column(name = "imagePath", nullable = false) private String imagePath;
 
 	public Product() {}
 	
@@ -40,7 +41,7 @@ public class Product {
 		this.imagePath = imagePath;
 	}
 
-	public Product(Integer id, String sku, String name, String shortDesc, String longDesc, String imagePath) {
+	public Product(Long id, String sku, String name, String shortDesc, String longDesc, String imagePath) {
 		this.id = id;
 		this.sku = sku;
 		this.name = name;
@@ -76,11 +77,11 @@ public class Product {
 		return result;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

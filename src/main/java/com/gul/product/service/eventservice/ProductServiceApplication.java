@@ -4,13 +4,17 @@ import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.persistance.ProductDao;
@@ -55,17 +59,22 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 	@Override
 	public void run(ProductServiceConfiguration configuration, Environment environment) throws Exception {
         LOGGER.info("Starting the Product data service");
-        final ProductDao dao = new ProductDao(hibernateBundle.getSessionFactory());
+        final ProductDao dao;
+
+        if(configuration.getLocaldev().equalsIgnoreCase("yes")) {
+    		final DBIFactory factory = new DBIFactory();
+    		final DBI jdbi = factory.build(environment, configuration.getDatabase(), "postgresql");
+    		dao = jdbi.onDemand(ProductDao.class);
+        } else {
+        	dao = new ProductDao(hibernateBundle.getSessionFactory());
+
+        }
+
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(dao));
 
-		
-//		final DBIFactory factory = new DBIFactory();
-//		final DBI jdbi = factory.build(environment, configuration.getDatabase(), "postgresql");
-//		final ProductDao dao = jdbi.onDemand(ProductDao.class);
-//		environment.jersey().register(new ProductResource(dao));
 	}
 
 }

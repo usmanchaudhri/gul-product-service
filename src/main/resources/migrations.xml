@@ -13,6 +13,11 @@
 	
     <changeSet id="7" author="uc">
         <comment>make product table and column names start lowercase</comment>
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="0">
+				select count(*) from user_sequences where sequence_name = 'product_id_seq';
+			</sqlCheck>
+		</preConditions>
         <createSequence sequenceName="product_id_seq"/>
         <createTable tableName="product">
             <column name="id" type="bigint">

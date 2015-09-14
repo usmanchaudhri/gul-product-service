@@ -65,6 +65,8 @@ logging:
   appenders:
     - type: console
 
+localdev: yes
+
 # the key needs to match the suffix of the renderer
 #viewRendererConfiguration:
 #    .ftl:

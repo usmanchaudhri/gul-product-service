@@ -59,17 +59,17 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 	@Override
 	public void run(ProductServiceConfiguration configuration, Environment environment) throws Exception {
         LOGGER.info("Starting the Product data service");
-        final ProductDao dao;
 
-        if(configuration.getLocaldev().equalsIgnoreCase("yes")) {
-    		final DBIFactory factory = new DBIFactory();
-    		final DBI jdbi = factory.build(environment, configuration.getDatabase(), "postgresql");
-    		dao = jdbi.onDemand(ProductDao.class);
-        } else {
-        	dao = new ProductDao(hibernateBundle.getSessionFactory());
-
-        }
-
+//        if(configuration.getLocaldev().equalsIgnoreCase(Boolean.TRUE.toString())) {
+//    		final DBIFactory factory = new DBIFactory();
+//    		final DBI jdbi = factory.build(environment, configuration.getDatabase(), "postgresql");
+//    		dao = jdbi.onDemand(ProductDao.class);
+//        } else {
+//        	dao = new ProductDao(hibernateBundle.getSessionFactory());
+//
+//        }
+	
+		final ProductDao dao = new ProductDao(hibernateBundle.getSessionFactory());
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new HelloProductResource(template));

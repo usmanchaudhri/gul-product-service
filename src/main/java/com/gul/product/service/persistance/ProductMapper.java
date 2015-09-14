@@ -12,7 +12,7 @@ public class ProductMapper implements ResultSetMapper<Product> {
 	public Product map(int arg0, ResultSet rs, StatementContext statementContext)
 			throws SQLException {
 		
-		return new Product(rs.getInt("id"), rs.getString("sku"),
+		return new Product(rs.getLong("id"), rs.getString("sku"),
 				rs.getString("name"), rs.getString("shortDesc"),
 				rs.getString("longDesc"), rs.getString("imagePath"));
 	}

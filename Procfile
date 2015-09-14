@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/gul-product-service2-0.0.1-SNAPSHOT.jar db migrate productService.yml && java $JAVA_OPTS -Ddw.server.connector.port=$PORT -jar target/gul-product-service2-0.0.1-SNAPSHOT.jar server productService.yml
+web: java $JAVA_OPTS -Ddw.server.connector.port=$PORT -jar target/gul-product-service2-0.0.1-SNAPSHOT.jar server productService.yml

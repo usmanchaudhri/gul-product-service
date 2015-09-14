@@ -4,7 +4,7 @@ defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
 # Database settings.
 database:
-  driverClass: org.postgresql.Driver  
+  driverClass: org.postgresql.Driver
   user: test
   password: test
   url: jdbc:postgresql://localhost:5432/testdropwizard

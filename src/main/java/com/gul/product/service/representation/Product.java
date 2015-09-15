@@ -36,12 +36,12 @@ public class Product {
     @Column(name = "long_desc", nullable = true) private String longDesc;
     @Column(name = "image_path", nullable = false) private String imagePath;
     
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinTable(name = "product_category", catalog = "productdb", joinColumns = { 
-//			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
-//			inverseJoinColumns = { @JoinColumn(name = "category_id", 
-//					nullable = false, updatable = false) })
-//    private Set<Category> category;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "product_category", catalog = "productdb", joinColumns = { 
+			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "category_id", 
+					nullable = false, updatable = false) })
+    private Set<Category> category;
 
     
 	public Product() {}

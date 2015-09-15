@@ -1,4 +1,4 @@
-package com.gul.product.service.eventservice;
+package com.gul.product.service.app;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;

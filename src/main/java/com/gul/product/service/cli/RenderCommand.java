@@ -5,8 +5,8 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
 
 import com.google.common.base.Optional;
+import com.gul.product.service.app.ProductServiceConfiguration;
 import com.gul.product.service.core.Template;
-import com.gul.product.service.eventservice.ProductServiceConfiguration;
 
 import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;

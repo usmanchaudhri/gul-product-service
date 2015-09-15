@@ -320,7 +320,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.gul.product.service.eventservice.ProductServiceApplication</mainClass>
+                                    <mainClass>com.gul.product.service.app.ProductServiceApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

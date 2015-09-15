@@ -27,7 +27,7 @@ import javax.persistence.JoinColumn;
 public class Product {
 
 	@Id 
-    @SequenceGenerator(name = "productSeq", sequenceName="product_id_seq", allocationSize=1)
+    @SequenceGenerator(name = "productSeq", sequenceName="product_product_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "productSeq")
     @Column(name = "product_id", nullable = false) private Long id;
     @Column(name = "sku", nullable = false) private String sku;	

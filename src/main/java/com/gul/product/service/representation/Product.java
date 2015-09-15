@@ -1,14 +1,20 @@
 package com.gul.product.service.representation;
 
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -23,14 +29,21 @@ public class Product {
 	@Id 
     @SequenceGenerator(name = "productSeq", sequenceName="product_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "productSeq")
-	private Long id;
-	
+    @Column(name = "product_id", nullable = false) private Long id;
     @Column(name = "sku", nullable = false) private String sku;	
     @Column(name = "name", nullable = false) private String name;
-    @Column(name = "shortDesc", nullable = false) private String shortDesc;
-    @Column(name = "longDesc", nullable = true) private String longDesc;
-    @Column(name = "imagePath", nullable = false) private String imagePath;
+    @Column(name = "short_desc", nullable = false) private String shortDesc;
+    @Column(name = "long_desc", nullable = true) private String longDesc;
+    @Column(name = "image_path", nullable = false) private String imagePath;
+    
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinTable(name = "product_category", catalog = "productdb", joinColumns = { 
+//			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
+//			inverseJoinColumns = { @JoinColumn(name = "category_id", 
+//					nullable = false, updatable = false) })
+//    private Set<Category> category;
 
+    
 	public Product() {}
 	
 	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath) {

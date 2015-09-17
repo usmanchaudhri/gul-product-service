@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+// holds the category for clothes
 @Entity
 @Table(name = "CATEGORY")
 public class Category {

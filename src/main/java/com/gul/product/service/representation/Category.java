@@ -29,10 +29,10 @@ public class Category {
 	
 	@ManyToOne()
 	@JoinColumn(name="parent_id")
-	private Category category;
+	private Category parentCategory;
 	
-	@OneToMany(mappedBy = "category")
-	private Set<Category> subCategory;
+	@OneToMany(mappedBy = "parentCategory")
+	private Set<Category> childCategory;
 
 	private Set<Product> product;
 
@@ -68,21 +68,6 @@ public class Category {
 		this.parentId = parentId;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public Set<Category> getSubCategory() {
-		return subCategory;
-	}
-
-	public void setSubCategory(Set<Category> subCategory) {
-		this.subCategory = subCategory;
-	}
 
 	public Set<Product> getProduct() {
 		return product;
@@ -91,6 +76,22 @@ public class Category {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	public void setProduct(Set<Product> product) {
 		this.product = product;
+	}
+
+	public Category getParentCategory() {
+		return parentCategory;
+	}
+
+	public void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
+	}
+
+	public Set<Category> getChildCategory() {
+		return childCategory;
+	}
+
+	public void setChildCategory(Set<Category> childCategory) {
+		this.childCategory = childCategory;
 	}
 	
 }

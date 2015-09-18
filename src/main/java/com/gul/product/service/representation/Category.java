@@ -34,6 +34,7 @@ public class Category {
 //	@OneToMany(mappedBy = "parentCategory")
 	private Set<Category> childCategory;
 
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	private Set<Product> product;
 
 	public Long getId() {
@@ -73,7 +74,6 @@ public class Category {
 		return product;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	public void setProduct(Set<Product> product) {
 		this.product = product;
 	}

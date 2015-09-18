@@ -27,11 +27,11 @@ public class Category {
 	@Column(name = "name", nullable = false) private String name;
 	@Column(name = "parent_id", nullable = false) private Long parentId;
 	
-	@ManyToOne()
-	@JoinColumn(name="parent_id")
+//	@ManyToOne()
+//	@JoinColumn(name="parent_id")
 	private Category parentCategory;
 	
-	@OneToMany(mappedBy = "parentCategory")
+//	@OneToMany(mappedBy = "parentCategory")
 	private Set<Category> childCategory;
 
 	private Set<Product> product;

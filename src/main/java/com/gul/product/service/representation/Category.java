@@ -1,7 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,8 +25,21 @@ public class Category {
 	@Column(name = "name", nullable = false) private String name;
 	@Column(name = "parent_id", nullable = false) private Long parentId;
 	
-	@ManyToMany(mappedBy="category")
-	private List<Product> products;
+	public Category() {}
+	
+	public Category(String code, String name, Long parentId) {
+		this.code = code;
+		this.name = name;
+		this.parentId = parentId;
+	}
+
+	public Category(Long id, String code, String name, Long parentId) {
+		this.id = id;
+		this.code = code;
+		this.name = name;
+		this.parentId = parentId;
+	}
+
 	
 	public Long getId() {
 		return id;

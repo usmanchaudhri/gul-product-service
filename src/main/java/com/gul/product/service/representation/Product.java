@@ -38,10 +38,10 @@ public class Product {
     @Column(name = "long_desc", nullable = true) private String longDesc;
     @Column(name = "image_path", nullable = false) private String imagePath;
     
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
-		inverseJoinColumns = { @JoinColumn(name="category_id")} )
-    private List<Category> category;
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
+//		inverseJoinColumns = { @JoinColumn(name="category_id")} )
+//    private List<Category> category;
     
 	public Product() {}
 	

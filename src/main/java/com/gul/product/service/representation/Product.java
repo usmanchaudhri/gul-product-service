@@ -1,6 +1,8 @@
 package com.gul.product.service.representation;
 
+import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,12 +39,9 @@ public class Product {
     @Column(name = "image_path", nullable = false) private String imagePath;
     
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "product_category", catalog = "productdb", joinColumns = { 
-			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "category_id", 
-					nullable = false, updatable = false) })
-    private Set<Category> category;
-
+	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
+		inverseJoinColumns = { @JoinColumn(name="category_id")} )
+    private List<Category> category;
     
 	public Product() {}
 	

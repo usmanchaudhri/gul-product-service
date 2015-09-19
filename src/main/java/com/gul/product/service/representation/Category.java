@@ -1,16 +1,15 @@
 package com.gul.product.service.representation;
 
-import java.util.Set;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,16 +26,9 @@ public class Category {
 	@Column(name = "name", nullable = false) private String name;
 	@Column(name = "parent_id", nullable = false) private Long parentId;
 	
-//	@ManyToOne()
-//	@JoinColumn(name="parent_id")
-	private Category parentCategory;
+	@ManyToMany(mappedBy="category")
+	private List<Product> products;
 	
-//	@OneToMany(mappedBy = "parentCategory")
-	private Set<Category> childCategory;
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> product;
-
 	public Long getId() {
 		return id;
 	}
@@ -69,29 +61,4 @@ public class Category {
 		this.parentId = parentId;
 	}
 
-
-	public Set<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(Set<Product> product) {
-		this.product = product;
-	}
-
-	public Category getParentCategory() {
-		return parentCategory;
-	}
-
-	public void setParentCategory(Category parentCategory) {
-		this.parentCategory = parentCategory;
-	}
-
-	public Set<Category> getChildCategory() {
-		return childCategory;
-	}
-
-	public void setChildCategory(Set<Category> childCategory) {
-		this.childCategory = childCategory;
-	}
-	
 }

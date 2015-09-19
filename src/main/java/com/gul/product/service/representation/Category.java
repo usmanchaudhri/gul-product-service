@@ -25,6 +25,9 @@ public class Category {
 	@Column(name = "name", nullable = false) private String name;
 	@Column(name = "parent_id", nullable = false) private Long parentId;
 	
+	@ManyToMany(mappedBy="category")
+	private List<Product> products;
+	
 	public Category() {}
 	
 	public Category(String code, String name, Long parentId) {

@@ -20,6 +20,7 @@ import com.gul.product.service.core.Template;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.Category;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ProductResource;
@@ -32,7 +33,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     }
 
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
-            new HibernateBundle<ProductServiceConfiguration>(Product.class) {
+            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();

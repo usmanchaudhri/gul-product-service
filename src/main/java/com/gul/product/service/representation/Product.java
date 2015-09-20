@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
             query = "SELECT p FROM Product p"
     )
 })
+//@JsonIgnoreProperties({"category"})
 public class Product {
 
 	@Id 
@@ -43,7 +44,6 @@ public class Product {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
 		inverseJoinColumns = { @JoinColumn(name="category_id")} )
-	@JsonIgnoreProperties
     private List<Category> category;
     
 	public Product() {}
@@ -139,6 +139,14 @@ public class Product {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<Category> getCategory() {
+		return category;
+	}
+
+	public void setCategory(List<Category> category) {
+		this.category = category;
 	}
 
 	

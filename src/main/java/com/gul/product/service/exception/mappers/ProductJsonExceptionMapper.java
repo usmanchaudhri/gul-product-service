@@ -14,6 +14,9 @@ public class ProductJsonExceptionMapper implements ExceptionMapper<JsonProcessin
 
 	@Override
 	public Response toResponse(JsonProcessingException exception) {
+        LOG.info("In ProductJsonExceptionMapper", exception);
+        LOG.info("In ProductJsonExceptionMapper 2", exception.getMessage());
+        
         if (exception instanceof JsonGenerationException) {
             LOG.warn("Error generating JSON", exception);
             return Response.serverError().build();

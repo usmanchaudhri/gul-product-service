@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 import javax.persistence.JoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "PRODUCT")
 @NamedQueries({
@@ -41,6 +43,7 @@ public class Product {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
 		inverseJoinColumns = { @JoinColumn(name="category_id")} )
+	@JsonIgnoreProperties
     private List<Category> category;
     
 	public Product() {}

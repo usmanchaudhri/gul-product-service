@@ -23,9 +23,9 @@ public class ProductResourceTest {
 		Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
 				"/2015/winter/fall/sep/15/scarf");
-		when(dao.findById(10)).thenReturn(product);
+		when(dao.findById(10L)).thenReturn(product);
 		assertThat(resources.client().target("/product/10").request().get(Product.class)).isEqualTo(product);
-		verify(dao).findById(10);
+		verify(dao).findById(10L);
 	}
 
 }

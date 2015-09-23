@@ -2,7 +2,10 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.IntParam;
+import io.dropwizard.jersey.params.LongParam;
+
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;
@@ -35,14 +39,14 @@ public class ProductResource {
 		return Response.status(Response.Status.CREATED).entity(p).build();
 	}
 	
-	public Product findProduct(@PathParam("id") IntParam id) {
-		return productDao.findById(id.get());
+	public Product findProduct(@PathParam("id") Long id) {
+		return productDao.findById(id);
 	}
 	
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-	public Response getProduct(@PathParam("id") Integer id) {
+	public Response getProduct(@PathParam("id") Long id) {
 		Product product = productDao.findById(id);
 		return Response.status(Response.Status.OK).entity(product).build();
 	}

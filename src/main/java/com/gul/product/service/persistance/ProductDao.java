@@ -16,7 +16,7 @@ public class ProductDao extends AbstractDAO<Product> {
 		return persist(product);
 	}
 	
-	public Product findById(Integer id) {
+	public Product findById(Long id) {
 		return get(id);
 	}
 	

@@ -1,8 +1,8 @@
 package com.gul.product.service.representation;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,11 +34,13 @@ public class Category {
 	
 	// parent child relationship	
 	@ManyToOne 
-	@JoinColumn(name="parent_id") 
+	@JoinColumn(name="parent_id",insertable=false,updatable=false) 
 	public Category parentCategory;
 	
-	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL) 
-	public List<Category> subCategories;
+//	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name="parent_id")
+	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}
 	

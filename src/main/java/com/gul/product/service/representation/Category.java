@@ -33,7 +33,7 @@ public class Category {
 	
 	@Id 
     @SequenceGenerator(name = "categorySeq", sequenceName="category_id_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "categorySeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorySeq")
 	@Column(name = "category_id", nullable = false) private Long id;
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
@@ -49,6 +49,7 @@ public class Category {
 	
 	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
 	public List<Category> subCategories = new ArrayList<Category>();
+
 	
 	public Category() {}
 	

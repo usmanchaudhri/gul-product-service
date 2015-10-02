@@ -44,10 +44,10 @@ public class Category {
 	
 	// parent child relationship	
 	@ManyToOne 
-	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
+	@JoinColumn(name="parent_id") 
 	public Category parentCategory;
 	
-	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
 	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}

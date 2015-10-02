@@ -1,11 +1,7 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.params.IntParam;
-import io.dropwizard.jersey.params.LongParam;
-
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,9 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;

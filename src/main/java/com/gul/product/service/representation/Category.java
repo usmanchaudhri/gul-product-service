@@ -3,14 +3,18 @@ package com.gul.product.service.representation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -19,6 +23,12 @@ import javax.persistence.Table;
 // recursive relationship with the sub-category as child categories
 @Entity
 @Table(name = "CATEGORY")
+@NamedQueries({
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Category.findAll",
+            query = "SELECT c FROM Category c"
+    )
+})
 public class Category {
 	
 	@Id 
@@ -34,12 +44,10 @@ public class Category {
 	
 	// parent child relationship	
 	@ManyToOne 
-	@JoinColumn(name="parent_id",insertable=false,updatable=false) 
+	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
 	public Category parentCategory;
 	
-//	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
-	@OneToMany
-	@JoinColumn(name="parent_id")
+	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}

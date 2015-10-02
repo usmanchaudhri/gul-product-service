@@ -2,11 +2,9 @@ package com.gul.product.service.representation;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +35,7 @@ public class Category {
 	@Column(name = "category_id", nullable = false) private Long id;
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
-	@Column(name = "parent_id", nullable = true) private Long parentId;
+//	@Column(name = "parent_id", nullable = true) private Long parentId;
 	
 	@ManyToMany(mappedBy="category")
 	private List<Product> products;
@@ -56,14 +54,12 @@ public class Category {
 	public Category(String code, String name, Long parentId) {
 		this.code = code;
 		this.name = name;
-		this.parentId = parentId;
 	}
 
 	public Category(Long id, String code, String name, Long parentId) {
 		this.id = id;
 		this.code = code;
 		this.name = name;
-		this.parentId = parentId;
 	}
 
 	@Override
@@ -75,7 +71,6 @@ public class Category {
 		if(id != null ? !id.equals(category.id) : category.id != null) return false;
 		if(code != null ? !code.equals(category.code) : category.code != null) return false;
 		if(name != null ? !name.equals(category.name) : category.name != null) return false;
-		if(parentId != null ? !parentId.equals(category.parentId) : category.parentId != null) return false;
 		return true;
 	}
 	
@@ -84,7 +79,6 @@ public class Category {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (code != null ? code.hashCode() : 0);
 		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
 		return result;
 	}
 
@@ -110,14 +104,6 @@ public class Category {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
 	}
 
 	public Category getParentCategory() {

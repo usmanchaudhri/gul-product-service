@@ -44,7 +44,7 @@ public class Category {
 	
 	// parent child relationship	
 	@ManyToOne 
-	@JoinColumn(name="parent_id") 
+	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
 	public Category parentCategory;
 	
 	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)

@@ -1,8 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 import javax.persistence.JoinColumn;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name = "PRODUCT")
 @NamedQueries({
@@ -28,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
             query = "SELECT p FROM Product p"
     )
 })
-//@JsonIgnoreProperties({"category"})
 public class Product {
 
 	@Id 
@@ -40,6 +35,9 @@ public class Product {
     @Column(name = "short_desc", nullable = false) private String shortDesc;
     @Column(name = "long_desc", nullable = true) private String longDesc;
     @Column(name = "image_path", nullable = false) private String imagePath;
+    // quantity and price could be separate REST services.
+//    @Column(name = "quantity", nullable = false)  private Long quantity;
+//    @Column(name = "price", nullable = false)  private Long price;						
     
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
@@ -64,6 +62,16 @@ public class Product {
 		this.longDesc = longDesc;
 		this.imagePath = imagePath;
 	}
+
+//	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath, Long quantity, Long price) {
+//		this.sku = sku;
+//		this.name = name;
+//		this.shortDesc = shortDesc;
+//		this.longDesc = longDesc;
+//		this.imagePath = imagePath;
+//		this.quantity = quantity;
+//		this.price = price;
+//	}
 	
 	@Override
 	public boolean equals(Object o) {

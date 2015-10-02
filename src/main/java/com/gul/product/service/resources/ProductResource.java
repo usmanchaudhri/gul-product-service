@@ -16,6 +16,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;
@@ -46,7 +48,7 @@ public class ProductResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-	public Response getProduct(@PathParam("id") Long id) {
+	public Response getProduct(@PathParam("id") @NotEmpty Long id) {
 		Product product = productDao.findById(id);
 		return Response.status(Response.Status.OK).entity(product).build();
 	}

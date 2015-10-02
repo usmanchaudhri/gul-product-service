@@ -34,7 +34,7 @@ public class Category {
 	
 	// parent child relationship	
 	@ManyToOne 
-	@JoinColumn(name="PARENT_ID") 
+	@JoinColumn(name="parent_id") 
 	public Category parentCategory;
 	
 	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL) 
@@ -107,6 +107,22 @@ public class Category {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+
+	public Category getParentCategory() {
+		return parentCategory;
+	}
+
+	public void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
+	}
+
+	public List<Category> getSubCategories() {
+		return subCategories;
+	}
+
+	public void setSubCategories(List<Category> subCategories) {
+		this.subCategories = subCategories;
 	}
 
 }

@@ -14,7 +14,7 @@ public class CategoryDao extends AbstractDAO<Category> {
 		return persist(category);
 	}
 	
-	public Category findById(Integer id) {
+	public Category findById(Long id) {
 		return get(id);
 	}
 

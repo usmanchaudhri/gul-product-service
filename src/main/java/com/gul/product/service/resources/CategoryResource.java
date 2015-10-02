@@ -38,7 +38,7 @@ public class CategoryResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-	public Response getProduct(@PathParam("id") Integer id) {
+	public Response getProduct(@PathParam("id") Long id) {
 		Category category = categoryDao.findById(id);
 		return Response.status(Response.Status.OK).entity(category).build();
 	}

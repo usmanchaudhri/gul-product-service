@@ -119,7 +119,7 @@ public class Category {
 		this.parentCategory = parentCategory;
 	}
 
-	@JsonIgnore
+//	@JsonIgnore
 	public List<Category> getSubCategories() {
 		return subCategories;
 	}

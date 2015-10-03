@@ -47,11 +47,11 @@ public class Category {
 	// parent child relationship	
 	@ManyToOne 
 	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
-	public Category parentCategory;
+	public int parentCategoryId;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "parent_id")}, 
-		inverseJoinColumns = { @JoinColumn(name="category_id")})
+	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "category_id")}, 
+		inverseJoinColumns = { @JoinColumn(name="parent_id")})
 	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}
@@ -111,12 +111,12 @@ public class Category {
 		this.name = name;
 	}
 
-	public Category getParentCategory() {
-		return parentCategory;
+	public int getParentCategory() {
+		return parentCategoryId;
 	}
 
-	public void setParentCategory(Category parentCategory) {
-		this.parentCategory = parentCategory;
+	public void setParentCategory(int parentCategory) {
+		this.parentCategoryId = parentCategory;
 	}
 
 //	@JsonIgnore

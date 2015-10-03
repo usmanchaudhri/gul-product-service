@@ -20,7 +20,7 @@ public class ProductResourceTest {
 	
 	@Test
 	public void testGetProduct() {
-		Product product = new Product("abc131", "test product",
+		Product product = new Product(1L, "abc131", "test product",
 				"this is a test product", "test product long description",
 				"/2015/winter/fall/sep/15/scarf");
 		when(dao.findById(10L)).thenReturn(product);

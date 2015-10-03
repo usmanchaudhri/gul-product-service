@@ -35,6 +35,7 @@ public class CategoryResource {
 	@Timed
 	public Response add(@Valid Category category) {
 		Category c = categoryDao.create(category);
+		List<Category> subCategories = c.getSubCategories();
 		return Response.status(Response.Status.CREATED).entity(c).build();
 	}
 	

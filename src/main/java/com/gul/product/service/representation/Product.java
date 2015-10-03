@@ -28,32 +28,25 @@ public class Product {
 
 	@Id 
     @SequenceGenerator(name = "productSeq", sequenceName="product_product_id_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "productSeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productSeq")
     @Column(name = "product_id", nullable = false) private Long id;
     @Column(name = "sku", nullable = false) private String sku;	
     @Column(name = "name", nullable = false) private String name;
     @Column(name = "short_desc", nullable = false) private String shortDesc;
     @Column(name = "long_desc", nullable = true) private String longDesc;
     @Column(name = "image_path", nullable = false) private String imagePath;
+
     // quantity and price could be separate REST services.
-//    @Column(name = "quantity", nullable = false)  private Long quantity;
-//    @Column(name = "price", nullable = false)  private Long price;						
+    @Column(name = "quantity", nullable = false) private Long quantity;
+    @Column(name = "price", nullable = false) private Long price;						
     
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
 		inverseJoinColumns = { @JoinColumn(name="category_id")} )
     private List<Category> category;
     
 	public Product() {}
 	
-	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath) {
-		this.sku = sku;
-		this.name = name;
-		this.shortDesc = shortDesc;
-		this.longDesc = longDesc;
-		this.imagePath = imagePath;
-	}
-
 	public Product(Long id, String sku, String name, String shortDesc, String longDesc, String imagePath) {
 		this.id = id;
 		this.sku = sku;

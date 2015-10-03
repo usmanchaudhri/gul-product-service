@@ -28,7 +28,7 @@ public class PersistenceHelper {
 		Statement s = c.createStatement();
 		s.execute("SET DATABASE REFERENTIAL INTEGRITY FALSE");
 		Set<String> tables = new HashSet<String>();
-		ResultSet rs = s.executeQuery("");
+		ResultSet rs = s.executeQuery("select ");
 		
 	}
 }

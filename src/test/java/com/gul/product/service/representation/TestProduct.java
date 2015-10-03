@@ -15,7 +15,7 @@ public class TestProduct {
 	
 	@Test
 	public void serializesToJson() throws Exception {
-		final Product product = new Product("abc131", "test product",
+		final Product product = new Product(1L, "abc131", "test product",
 				"this is a test product", "test product long description",
 				"/2015/winter/fall/sep/15/scarf");
 		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/product.json"), Product.class));

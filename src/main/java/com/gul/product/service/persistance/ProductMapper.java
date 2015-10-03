@@ -19,7 +19,6 @@ public class ProductMapper implements ResultSetMapper<Product> {
 				rs.getString("longDesc"), rs.getString("imagePath"));
 		List<Category> categories = (List<Category>) rs.getObject("category");
 		product.setCategory(categories);
-		
 		return product;
 	}
 

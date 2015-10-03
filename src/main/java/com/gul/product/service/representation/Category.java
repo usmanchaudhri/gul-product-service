@@ -2,9 +2,11 @@ package com.gul.product.service.representation;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,9 +46,8 @@ public class Category {
 	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
 	public Category parentCategory;
 	
-	@OneToMany(mappedBy = "parentCategory")
+	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Category> subCategories = new ArrayList<Category>();
-
 	
 	public Category() {}
 	

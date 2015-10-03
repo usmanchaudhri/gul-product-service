@@ -30,12 +30,11 @@ import javax.persistence.Table;
 public class Category {
 	
 	@Id 
-    @SequenceGenerator(name = "categorySeq", sequenceName="category_id_seq", allocationSize=1)
+    @SequenceGenerator(name = "categorySeq", sequenceName="category_category_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorySeq")
 	@Column(name = "category_id", nullable = false) private Long id;
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
-//	@Column(name = "parent_id", nullable = true) private Long parentId;
 	
 	@ManyToMany(mappedBy="category")
 	private List<Product> products;
@@ -45,7 +44,7 @@ public class Category {
 	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
 	public Category parentCategory;
 	
-	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "parentCategory")
 	public List<Category> subCategories = new ArrayList<Category>();
 
 	

@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 // holds the category for clothes
 // recursive relationship with the sub-category as child categories
 @Entity
@@ -114,6 +116,7 @@ public class Category {
 		this.parentCategory = parentCategory;
 	}
 
+	@JsonIgnore
 	public List<Category> getSubCategories() {
 		return subCategories;
 	}

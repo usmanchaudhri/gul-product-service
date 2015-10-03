@@ -49,7 +49,7 @@ public class Category {
 	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
 	public Category parentCategory;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "category_id")}, 
 		inverseJoinColumns = { @JoinColumn(name="parent_id")})
 	public List<Category> subCategories = new ArrayList<Category>();

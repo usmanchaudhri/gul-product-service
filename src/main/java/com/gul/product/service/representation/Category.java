@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -39,10 +40,15 @@ public class Category {
 	@Column(name = "category_id", nullable = false) private Long id;
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
-	
-	@ManyToMany(mappedBy="category")
+
+//	@ManyToMany(mappedBy="category")
+//	private List<Product> products;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "category_id") }, 
+		inverseJoinColumns = { @JoinColumn(name="product_id")} )
 	private List<Product> products;
-	
+
 	// parent child relationship	
 	@ManyToOne 
 	@JoinColumn(name="parent_id", insertable=false, updatable=false) 

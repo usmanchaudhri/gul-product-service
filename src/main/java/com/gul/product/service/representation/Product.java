@@ -40,11 +40,6 @@ public class Product {
     @Column(name = "quantity", nullable = false) private Long quantity;
     @Column(name = "price", nullable = false) private Long price;						
     
-//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "product_id") }, 
-//		inverseJoinColumns = { @JoinColumn(name="category_id")} )
-//    private List<Category> category;
-
 	@ManyToMany(mappedBy="products")
     private List<Category> category;
 

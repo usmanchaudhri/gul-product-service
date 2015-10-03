@@ -41,10 +41,7 @@ public class Category {
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
-//	@ManyToMany(mappedBy="category")
-//	private List<Product> products;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "category_id") }, 
 		inverseJoinColumns = { @JoinColumn(name="product_id")} )
 	private List<Product> products;

@@ -2,7 +2,6 @@ package com.gul.product.service.representation;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 // holds the category for clothes
@@ -51,7 +49,9 @@ public class Category {
 	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
 	public Category parentCategory;
 	
-	@OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "category_id")}, 
+		inverseJoinColumns = { @JoinColumn(name="parent_id")})
 	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}

@@ -36,18 +36,22 @@ public class Category {
     @SequenceGenerator(name = "categorySeq", sequenceName="category_category_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorySeq")
 	@Column(name = "category_id", nullable = false) private Long id;
+	@Column(name = "parent_id", nullable = false) private Long parentCategoryId;
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "category_id") }, 
-		inverseJoinColumns = { @JoinColumn(name="product_id")} )
-	private List<Product> products;
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "category_id") }, 
+//		inverseJoinColumns = { @JoinColumn(name="product_id")} )
+//	private List<Product> products;
 
+	@OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Product> products;
+	
 	// parent child relationship	
-	@ManyToOne 
-	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
-	public int parentCategoryId;
+//	@ManyToOne 
+//	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
+//	public int parentCategoryId;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "category_id")}, 
@@ -111,15 +115,14 @@ public class Category {
 		this.name = name;
 	}
 
-	public int getParentCategory() {
+	public Long getParentCategory() {
 		return parentCategoryId;
 	}
 
-	public void setParentCategory(int parentCategory) {
+	public void setParentCategory(Long parentCategory) {
 		this.parentCategoryId = parentCategory;
 	}
 
-//	@JsonIgnore
 	public List<Category> getSubCategories() {
 		return subCategories;
 	}

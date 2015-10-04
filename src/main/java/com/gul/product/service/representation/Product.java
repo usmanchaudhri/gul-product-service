@@ -1,6 +1,7 @@
 package com.gul.product.service.representation;
 
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,8 +42,11 @@ public class Product {
     @Column(name = "quantity", nullable = false) private Long quantity;
     @Column(name = "price", nullable = false) private Long price;						
     
-	@ManyToMany(mappedBy="products")
-    private List<Category> category;
+//	@ManyToMany(mappedBy="products")
+//    private List<Category> category;
+
+	@ManyToOne
+	private Category category;
 
 	public Product() {}
 	
@@ -140,19 +145,4 @@ public class Product {
 		this.id = id;
 	}
 
-	public List<Category> getCategory() {
-		return category;
-	}
-
-	public void setCategory(List<Category> category) {
-		this.category = category;
-	}
-
-	
-	// merchant 	- this can also track the product inventory at various locations 
-	// designer
-	// pricing
-	// shipping
-	// details
-	
 }

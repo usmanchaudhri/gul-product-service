@@ -13,12 +13,9 @@ public class ProductMapper implements ResultSetMapper<Product> {
 	@Override
 	public Product map(int arg0, ResultSet rs, StatementContext statementContext)
 			throws SQLException {
-		
 		Product product = new Product(rs.getLong("id"), rs.getString("sku"),
 				rs.getString("name"), rs.getString("shortDesc"),
 				rs.getString("longDesc"), rs.getString("imagePath"));
-		List<Category> categories = (List<Category>) rs.getObject("category");
-		product.setCategory(categories);
 		return product;
 	}
 

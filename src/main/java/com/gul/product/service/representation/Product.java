@@ -1,7 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,9 +41,6 @@ public class Product {
     @Column(name = "quantity", nullable = false) private Long quantity;
     @Column(name = "price", nullable = false) private Long price;						
     
-//	@ManyToMany(mappedBy="products")
-//    private List<Category> category;
-
 	@ManyToOne
 	private Category category;
 
@@ -95,7 +91,6 @@ public class Product {
 		result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
 		return result;
 	}
-
 
 	public String getSku() {
 		return sku;

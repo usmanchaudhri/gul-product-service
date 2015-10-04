@@ -40,22 +40,12 @@ public class Category {
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "category_id") }, 
-//		inverseJoinColumns = { @JoinColumn(name="product_id")} )
-//	private List<Product> products;
-
 	@OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Product> products;
 	
-	// parent child relationship	
-//	@ManyToOne 
-//	@JoinColumn(name="parent_id", insertable=false, updatable=false) 
-//	public int parentCategoryId;
-	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "category_id")}, 
-		inverseJoinColumns = { @JoinColumn(name="parent_id")})
+	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "parent_id")}, 
+		inverseJoinColumns = { @JoinColumn(name="category_id")})
 	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}

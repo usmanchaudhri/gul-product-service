@@ -55,8 +55,7 @@ public class Product {
 
 	public Product() {}
 	
-	public Product(Long id, String sku, String name, String shortDesc, String longDesc, String imagePath) {
-		this.id = id;
+	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath) {
 		this.sku = sku;
 		this.name = name;
 		this.shortDesc = shortDesc;
@@ -141,11 +140,11 @@ public class Product {
 		this.imagePath = imagePath;
 	}
 
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

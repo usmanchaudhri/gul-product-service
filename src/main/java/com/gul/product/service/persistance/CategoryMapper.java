@@ -17,8 +17,6 @@ public class CategoryMapper implements ResultSetMapper<Category> {
 			throws SQLException {
 		Category category = new Category(rs.getLong("id"), rs.getString("code"),
 				rs.getString("name"), rs.getLong("parent_id"));
-		List<Product> products = (List<Product>) rs.getObject("products");
-		category.setProducts(products);
 		return category;
 	}
 

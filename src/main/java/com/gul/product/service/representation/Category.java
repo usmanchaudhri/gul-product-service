@@ -52,6 +52,13 @@ public class Category {
 		this.code = code;
 		this.name = name;
 	}
+	
+	public Category(Long id, String code, String name, Long parentCategoryId) {
+		this.id = id;
+		this.code = code;
+		this.name = name;
+		this.parentCategoryId = parentCategoryId;
+	}
 
 	@Override
 	public boolean equals(Object o) {

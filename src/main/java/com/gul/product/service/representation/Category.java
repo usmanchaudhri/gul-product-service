@@ -126,4 +126,12 @@ public class Category {
 		this.products = products;
 	}
 
+	public Long getParentCategoryId() {
+		return parentCategoryId;
+	}
+
+	public void setParentCategoryId(Long parentCategoryId) {
+		this.parentCategoryId = parentCategoryId;
+	}
+
 }

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
@@ -50,11 +51,17 @@ public class Product {
 
     // quantity and price could be separate REST services.
     @Column(name = "quantity", nullable = false) private Long quantity;
-    @Column(name = "price", nullable = false) private Long price;						
+    @Column(name = "price", nullable = false) private Long price;		
+    
+    @OneToOne
+    @JoinColumn(name="pricing_product_id", unique=true)
+    private Long pricingProduct;
     
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
 	private Category category;
+
+	// TODO - audit fields
 
 	public Product() {}
 	
@@ -65,16 +72,6 @@ public class Product {
 		this.longDesc = longDesc;
 		this.imagePath = imagePath;
 	}
-
-//	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath, Long quantity, Long price) {
-//		this.sku = sku;
-//		this.name = name;
-//		this.shortDesc = shortDesc;
-//		this.longDesc = longDesc;
-//		this.imagePath = imagePath;
-//		this.quantity = quantity;
-//		this.price = price;
-//	}
 	
 	@Override
 	public boolean equals(Object o) {

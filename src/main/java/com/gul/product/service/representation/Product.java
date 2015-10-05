@@ -37,7 +37,7 @@ public class Product {
     @Column(name = "price", nullable = false) private Long price;						
     
 	@ManyToOne
-	@JoinColumn(name="category_id", nullable=false)
+	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
 	private Category category;
 
 	public Product() {}

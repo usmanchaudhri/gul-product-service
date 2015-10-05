@@ -157,4 +157,8 @@ public class Product {
 		this.pricingProduct = pricingProduct;
 	}
 
+	public PricingProduct getPricingProduct() {
+		return pricingProduct;
+	}
+
 }

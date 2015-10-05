@@ -38,7 +38,7 @@ public class Product {
 	@Id
 	@GeneratedValue(generator = "uuid-gen")
 	@GenericGenerator(name = "uuid-gen", strategy = "uuid2")
-	@Column(name = "product_id", nullable = false) private UUID id;
+	@Column(name = "product_id", columnDefinition="uuid", nullable = false) private UUID id;
 	@Column(name = "sku", nullable = false) private String sku;	
     @Column(name = "name", nullable = false) private String name;
     @Column(name = "short_desc", nullable = false) private String shortDesc;

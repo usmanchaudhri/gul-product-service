@@ -1,5 +1,7 @@
 package com.gul.product.service.representation;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.TypeDef;
+
+import com.gul.product.service.persistance.UuidType;
+
 @Entity
+@TypeDef(name = "uuid", defaultForType = UUID.class, typeClass = UuidType.class)
 @Table(name = "PRODUCT")
 @NamedQueries({
     @NamedQuery(
@@ -22,11 +30,16 @@ import javax.persistence.NamedQuery;
 })
 public class Product {
 
-	@Id 
-    @SequenceGenerator(name = "productSeq", sequenceName="product_product_id_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productSeq")
-    @Column(name = "product_id", nullable = false) private Long id;
-    @Column(name = "sku", nullable = false) private String sku;	
+//	@Id 
+//    @SequenceGenerator(name = "productSeq", sequenceName="product_product_id_seq", allocationSize=1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productSeq")
+//    @Column(name = "product_id", nullable = false) private Long id;
+
+	@Id
+	@GeneratedValue(generator = "uuid-gen")
+	@GenericGenerator(name = "uuid-gen", strategy = "uuid2")
+	@Column(name = "product_id", nullable = false) private Long id;
+	@Column(name = "sku", nullable = false) private String sku;	
     @Column(name = "name", nullable = false) private String name;
     @Column(name = "short_desc", nullable = false) private String shortDesc;
     @Column(name = "long_desc", nullable = true) private String longDesc;

@@ -1,7 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +13,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
 import com.gul.product.service.persistance.UuidType;
 
 @Entity
@@ -55,7 +52,7 @@ public class Product {
     
     @OneToOne
     @JoinColumn(name="pricing_product_id", unique=true)
-    private Long pricingProduct;
+    private PricingProduct pricingProduct;
     
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
@@ -154,6 +151,10 @@ public class Product {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public void setPricingProduct(PricingProduct pricingProduct) {
+		this.pricingProduct = pricingProduct;
 	}
 
 }

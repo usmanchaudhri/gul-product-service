@@ -17,8 +17,14 @@ public class PricingProduct {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@Column(name = "pricing_product_id", nullable = false) private Long id;
 	@OneToOne(mappedBy="pricingProduct") private Product product;
-	private Long storedValue;
+	private Double storedValue;
 
+	public PricingProduct() {}
+	
+	public PricingProduct(Double storedValue) {
+		this.storedValue = storedValue;
+	}
+	
 	// TODO - audit fields
 	
 	public Long getPricingProductId() {
@@ -33,10 +39,11 @@ public class PricingProduct {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	public Long getStoredValue() {
+	public Double getStoredValue() {
 		return storedValue;
 	}
-	public void setStoredValue(Long storedValue) {
+	public void setStoredValue(Double storedValue) {
 		this.storedValue = storedValue;
 	}
+	
 }

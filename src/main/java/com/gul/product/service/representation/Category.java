@@ -46,13 +46,8 @@ public class Category {
 	public List<Category> subCategories = new ArrayList<Category>();
 	
 	public Category() {}
-	
-	public Category(String code, String name, Long parentId) {
-		this.code = code;
-		this.name = name;
-	}
 
-	public Category(Long id, String code, String name, Long parentId) {
+	public Category(Long id, String code, String name) {
 		this.id = id;
 		this.code = code;
 		this.name = name;

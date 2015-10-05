@@ -1,8 +1,11 @@
 package com.gul.product.service.representation;
 
 import java.util.UUID;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,9 +16,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+
 import com.gul.product.service.persistance.UuidType;
 
 @Entity
@@ -45,12 +50,9 @@ public class Product {
     @Column(name = "short_desc", nullable = false) private String shortDesc;
     @Column(name = "long_desc", nullable = true) private String longDesc;
     @Column(name = "image_path", nullable = false) private String imagePath;
-
-    // quantity and price could be separate REST services.
     @Column(name = "quantity", nullable = false) private Long quantity;
-    @Column(name = "price", nullable = false) private Long price;		
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name="pricing_product_id", unique=true)
     private PricingProduct pricingProduct;
     

@@ -26,11 +26,14 @@ import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
+import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
+import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
+import com.gul.product.service.resources.PricingProductResource;
 import com.gul.product.service.resources.ProductResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
@@ -41,7 +44,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     }
 
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
-            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class) {
+            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -82,6 +85,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 	
 		final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
+		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
+		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new ProductJsonExceptionMapper());
@@ -89,7 +94,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(productDao));
         environment.jersey().register(new CategoryResource(categoryDao));
-
+        environment.jersey().register(new PricingProductResource(pricingProductDao));
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

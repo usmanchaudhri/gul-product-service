@@ -16,11 +16,8 @@ public class PricingProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@Column(name = "pricing_product_id", nullable = false) private Long id;
-	
-	@OneToOne(mappedBy="pricingProduct") 
-	private Product product;
-	
-	private Double storedValue;
+	@OneToOne(mappedBy="pricingProduct") private Product product;
+	@Column(name = "stored_value", nullable = false) private Double storedValue;
 
 	public PricingProduct() {}
 	

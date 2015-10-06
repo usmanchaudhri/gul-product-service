@@ -13,7 +13,7 @@ import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 
 /**
- *	these tests are at the REST level 
+ * these tests are at the REST level
  **/
 public class ProductResourceTest {
 
@@ -22,7 +22,7 @@ public class ProductResourceTest {
 	@ClassRule
 	public static final ResourceTestRule resources = ResourceTestRule.builder().addResource(new ProductResource(dao)).build();
 	
-//	@Test
+	@Test
 	public void testGetProduct() {
 		Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
@@ -39,13 +39,12 @@ public class ProductResourceTest {
 				"/winter/2015");
 		Category category = new Category(14L, "1001", "Sub Girls Clothing");
 		product.setCategory(category);
-		
 		PricingProduct pricingProduct = new PricingProduct(50.98);
 		product.setPricingProduct(pricingProduct);
-		
 		when(dao.create(product)).thenReturn(product);
 		assertThat(resources.client().target("/product").request().get(Product.class)).isEqualTo(product);
 		verify(dao).create(product);
 	}
 
+	
 }

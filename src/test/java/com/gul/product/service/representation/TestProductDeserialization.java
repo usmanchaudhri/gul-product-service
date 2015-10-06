@@ -19,7 +19,7 @@ public class TestProductDeserialization {
 		final Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
 				"/2015/winter/fall/sep/15/scarf");
-		assertThat(MAPPER.readValue(fixture("fixtures/product.json"), Product.class)).isEqualTo(product);
+		assertThat(MAPPER.readValue(fixture("fixtures/product.json"), Product.class)).isEqualToComparingFieldByField(product);
 	}
 	
 	@Test
@@ -40,10 +40,13 @@ public class TestProductDeserialization {
 				"/winter/2015");
 		Category category = new Category(14L, "1001", "Sub Girls Clothing");
 		product.setCategory(category);
+
 		PricingProduct pricingProduct = new PricingProduct(50.98);
 		product.setPricingProduct(pricingProduct);
 		
-		assertThat(MAPPER.readValue(fixture("fixtures/productPricing.json"), Product.class)).isEqualTo(product);
+		Product prod = MAPPER.readValue(fixture("fixtures/productCategoryPricing.json"), Product.class);
+//		assertThat(MAPPER.readValue(fixture("fixtures/productPricing.json"), Product.class)).isEqualTo(product);
+		assertThat(prod).isEqualTo(product);
 	}
 
 

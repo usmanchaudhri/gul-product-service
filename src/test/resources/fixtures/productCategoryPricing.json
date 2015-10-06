@@ -1,0 +1,15 @@
+{
+   "sku":"Cloth_1001",
+   "name":"Embroided Skirt",
+   "shortDesc":"Handmade embroidreded skirt",
+   "longDesc":"Pakistani cultural Skirt, hand embroidery",
+   "imagePath":"/winter/2015",
+   "category":{
+      "id":14,
+      "code":"1001",
+      "name":"Sub Girls Clothing"
+   },
+   "pricingProduct":{
+   	"storedValue": 50.98
+   }
+}

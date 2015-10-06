@@ -52,9 +52,12 @@ public class Product {
     @Column(name = "image_path", nullable = false) private String imagePath;
     @Column(name = "quantity", nullable = false) private Long quantity;
     
-    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name="pricing_product_id", unique=true)
-    private PricingProduct pricingProduct;
+//    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
+//    @JoinColumn(name="pricing_product_id", unique=true)
+//    private PricingProduct pricingProduct;
+
+	@OneToOne(mappedBy="product") 
+	private PricingProduct pricingProduct;
     
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)

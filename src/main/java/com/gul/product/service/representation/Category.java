@@ -1,6 +1,7 @@
 package com.gul.product.service.representation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,8 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,20 +33,25 @@ public class Category {
     @SequenceGenerator(name = "categorySeq", sequenceName="category_category_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorySeq")
 	@Column(name = "category_id", nullable = false) private Long id;
-	@Column(name = "parent_id", nullable = false) private Long parentCategoryId;
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
 	@OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Product> products;
+	private List<Product> products = new ArrayList<Product>();
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "CATEGORY", joinColumns = { @JoinColumn(name = "parent_id")}, 
-		inverseJoinColumns = { @JoinColumn(name="category_id")})
-	public List<Category> subCategories = new ArrayList<Category>();
+	@ManyToOne
+	private Category parentCategory;
+	
+	@OneToMany(mappedBy="parentCategory")
+	private Collection<Category> subCategories;
 	
 	public Category() {}
 
+	public Category(String code, String name) {
+		this.code = code;
+		this.name = name;
+	}
+	
 	public Category(Long id, String code, String name) {
 		this.id = id;
 		this.code = code;
@@ -57,7 +62,6 @@ public class Category {
 		this.id = id;
 		this.code = code;
 		this.name = name;
-		this.parentCategoryId = parentCategoryId;
 	}
 
 	@Override
@@ -104,36 +108,36 @@ public class Category {
 		this.name = name;
 	}
 
-	public Long getParentCategory() {
-		return parentCategoryId;
+	public Category getParentCategory() {
+		return parentCategory;
 	}
-
-	public void setParentCategory(Long parentCategory) {
-		this.parentCategoryId = parentCategory;
-	}
-
-	public List<Category> getSubCategories() {
-		return subCategories;
-	}
-
-	public void setSubCategories(List<Category> subCategories) {
-		this.subCategories = subCategories;
+	
+	public void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
 	}
 
 	public List<Product> getProducts() {
-		return products;
+		return new ArrayList<Product>(products);
 	}
 
+	public Collection<Category> getSubCategories() {
+		return subCategories;
+	}
+
+	public void setSubCategories(Collection<Category> subCategories) {
+		this.subCategories = subCategories;
+	}
+
+	public void addProducts(Product product) {
+		if(products.contains(product)) {
+			return;
+		}
+		products.add(product);
+		product.setCategory(this);
+	}
+	
 	public void setProducts(List<Product> products) {
 		this.products = products;
-	}
-
-	public Long getParentCategoryId() {
-		return parentCategoryId;
-	}
-
-	public void setParentCategoryId(Long parentCategoryId) {
-		this.parentCategoryId = parentCategoryId;
 	}
 
 }

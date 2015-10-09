@@ -28,13 +28,16 @@ import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
+import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.Shipping;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.PricingProductResource;
 import com.gul.product.service.resources.ProductResource;
+import com.gul.product.service.resources.ShippingResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceConfiguration.class);
@@ -44,7 +47,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     }
 
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
-            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class) {
+            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class, Shipping.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -86,6 +89,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
 		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
+		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
@@ -95,6 +99,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ProductResource(productDao));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new PricingProductResource(pricingProductDao));
+        environment.jersey().register(new ShippingResource(shippingDao));
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

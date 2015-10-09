@@ -1,12 +1,9 @@
 package com.gul.product.service.persistance;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.gul.product.service.representation.Shipping;
@@ -30,16 +27,17 @@ public class ShippingMappingTest {
 		
 		shippingFrom.setShippingTo(shippingTo);
 		
-
 		persistedClassDao.saveInNewTransaction(shippingFrom);					
 
-		Shipping shippingInfo = persistedClassDao.getEntityManager().find(Shipping.class, shippingFrom.getId());
-		Assert.assertNotNull(shippingInfo.getId());
+		Shipping retrievedShipping = persistedClassDao.getEntityManager().find(Shipping.class, shippingFrom.getId());
+		Assert.assertNotNull(retrievedShipping.getId());
 		
-		Shipping shippingsFrom = shippingInfo.getShippingFrom();
-		Collection<Shipping> shippings = shippingInfo.getShippingTo();
+		List<Shipping> shippingsFrom = (List<Shipping>) retrievedShipping.getShippingTo();
 
-		System.out.println("");
+		Assert.assertNotNull(shippingsFrom.get(0).getId());
+		Assert.assertNotNull(shippingsFrom.get(1).getId());
+		Assert.assertNotNull(shippingsFrom.get(2).getId());
+		
 	}
 
 }

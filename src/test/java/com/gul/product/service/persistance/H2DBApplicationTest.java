@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gul.product.service.representation.Product;
 
+// TODO - delete this
 public class H2DBApplicationTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2DBApplicationTest.class);
 	
@@ -31,7 +32,7 @@ public class H2DBApplicationTest {
     	return properties;
     }
     
-	@Before
+//	@Before
     public void setupHibernate() {
 		LOGGER.info("Trying to create a test connection with the database.");
         Configuration configuration = new Configuration().addProperties(getDbProperties()).addAnnotatedClass(Product.class);
@@ -41,7 +42,7 @@ public class H2DBApplicationTest {
         LOGGER.info("Test connection with the database created successfuly.");    
     }
     
-	@Test
+//	@Test
 	public void testDataSourceFactory() {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction transaction = session.beginTransaction();

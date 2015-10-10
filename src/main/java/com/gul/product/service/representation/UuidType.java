@@ -1,4 +1,4 @@
-package com.gul.product.service.persistance;
+package com.gul.product.service.representation;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -11,6 +11,7 @@ import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
+//this is a custom type for UUID since hibertnate 4.3.5 does not UUID type
 public class UuidType implements UserType {
 
 	@Override

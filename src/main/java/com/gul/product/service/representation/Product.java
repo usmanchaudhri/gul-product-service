@@ -1,7 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.UUID;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,10 +17,10 @@ import javax.persistence.NamedQuery;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import com.gul.product.service.persistance.UuidType;
+
 
 @Entity
-//@TypeDef(name = "uuid", defaultForType = UUID.class, typeClass = UuidType.class)
+@TypeDef(name = "uuid", typeClass = UuidType.class)
 @Table(name = "PRODUCT")
 @NamedQueries({
     @NamedQuery(
@@ -32,11 +31,19 @@ import com.gul.product.service.persistance.UuidType;
 public class Product {
 
 	@Id
-	@GeneratedValue(generator = "uuid-gen")
-	@GenericGenerator(name = "uuid-gen", strategy = "uuid2")
-	@Column(name = "product_id", columnDefinition="uuid", nullable = false) 
+	@SequenceGenerator(name = "productseq", sequenceName = "product_product_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productseq")
+	@Column(name = "product_id", nullable = false)
+	private Long id;
+
+//	@Id
+//	@GeneratedValue(generator = "uuid-gen")
+//	@GenericGenerator(name = "uuid-gen", strategy = "uuid")
+//	@Column(name = "product_id", columnDefinition="uuid", nullable = false) 
 //	@Type(type="org.hibernate.type.PostgresUUIDType") private UUID id;				// uncomment this for it work with postgresql
-	@Type(type="org.hibernate.type.UUIDCharType") private UUID id;
+//	@Type(type="org.hibernate.type.UUIDCharType") private UUID id;
+//	@Type(type="uuid") private UUID id;
+
 	
 	@Column(name = "sku", nullable = false) private String sku;	
     @Column(name = "name", nullable = false) private String name;
@@ -132,11 +139,11 @@ public class Product {
 		this.imagePath = imagePath;
 	}
 
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -146,12 +153,12 @@ public class Product {
 
 	public void setCategory(Category category) {
 		this.category = category;
-		category.addProducts(this);
+		// category.addProducts(this);
 	}
 
 	public void setPricingProduct(PricingProduct pricingProduct) {
 		this.pricingProduct = pricingProduct;
-		pricingProduct.setProduct(this);
+	//	pricingProduct.setProduct(this);
 	}
 
 	public PricingProduct getPricingProduct() {

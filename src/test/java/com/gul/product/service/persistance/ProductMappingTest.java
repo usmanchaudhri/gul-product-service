@@ -57,7 +57,7 @@ public class ProductMappingTest {
 		product.setCategory(category);
 
 		PricingProduct pricingProduct = new PricingProduct(99.95);
-		
+		pricingProduct.setProduct(product);
 		product.setPricingProduct(pricingProduct);
 		
 		persistedClassDao.getEntityManager().getTransaction().begin();

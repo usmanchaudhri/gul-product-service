@@ -34,27 +34,18 @@ public class TestProductSerialization {
 
 	// test creating product with category
 	@Test
-	public void testProductCategoryAssociation() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
-		final Product product = new Product("Cloth_1001", "Embroided Skirt",
-				"Handmade embroidreded skirt", "Pakistani cultural Skirt, hand embroidery",
-				"/winter/2015");
+	public void serialCategoryToJson() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		Category category = new Category(14L, "1001", "Sub Girls Clothing");
-		product.setCategory(category);
-		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/productCategory.json"), Product.class));
-		assertThat(MAPPER.writeValueAsString(product)).isEqualTo(expected);
+		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/productCategory.json"), Category.class));
+		assertThat(MAPPER.writeValueAsString(category)).isEqualTo(expected);
 	}
 	
 	// test creating product with price
 	@Test
-	public void testProductPricing() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
-		final Product product = new Product("Cloth_1001", "Embroided Skirt",
-				"Handmade embroidreded skirt", "Pakistani cultural Skirt, hand embroidery",
-				"/winter/2015");
+	public void serialPricingProductToJson() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		PricingProduct pricingProduct = new PricingProduct(50.98);
-		product.setPricingProduct(pricingProduct);
-		
-		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/productPricing.json"), Product.class));
-		assertThat(MAPPER.writeValueAsString(product)).isEqualTo(expected);
+		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/productPricing.json"), PricingProduct.class));
+		assertThat(MAPPER.writeValueAsString(pricingProduct)).isEqualTo(expected);
 		
 	}
 	

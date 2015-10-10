@@ -28,7 +28,7 @@ public class H2dbTest1 {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2dbTest1.class);
 
     
-	@Test
+//	@Test
 	public void testEntityManager() throws Throwable, RuntimeException, Exception {
 		LOGGER.info("*********************** starting H2DB test");
 		

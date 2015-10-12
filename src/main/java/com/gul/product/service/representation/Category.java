@@ -3,6 +3,7 @@ package com.gul.product.service.representation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 // holds the category for clothes
 // recursive relationship with the sub-category as child categories
@@ -38,6 +40,7 @@ public class Category {
 	@Column(name = "name", nullable = false) private String name;
 
 	@OneToMany(mappedBy="category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Set<Product> products = new HashSet<Product>();
 	
 	@ManyToOne

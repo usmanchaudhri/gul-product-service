@@ -1,6 +1,9 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
+import java.util.Collection;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,7 +13,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.representation.Shipping;
@@ -31,6 +36,12 @@ public class ShippingResource {
 	@Timed
 	public Response add(@Valid Shipping shipping) {
 		Shipping shippingInfo = shippingDao.create(shipping);
+		Collection<Shipping> shippingTo = shipping.getShippingTo();
+		
+		for(Shipping shipsTo : shippingTo) {
+			shipsTo.setShippingFrom(shippingInfo);
+			shippingDao.create(shipsTo);
+		}
 		return Response.status(Response.Status.CREATED).entity(shippingInfo).build();
 	}
 	

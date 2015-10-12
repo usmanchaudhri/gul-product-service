@@ -14,11 +14,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -60,6 +63,7 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
+	@JsonBackReference
 	private Category category;
 
 	// TODO - audit fields
@@ -149,7 +153,7 @@ public class Product {
 		this.id = id;
 	}
 
-	@JsonIgnore
+//	@JsonIgnore
 	public Category getCategory() {
 		return category;
 	}

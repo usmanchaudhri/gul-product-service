@@ -1,6 +1,8 @@
 package com.gul.product.service.representation;
 
 import java.util.Collection;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Shipping services - where does gul provides shipping services to.
@@ -34,8 +38,8 @@ public class Shipping {
 	@ManyToOne
 	private Shipping shippingFrom;
 	
-	@OneToMany(mappedBy="shippingFrom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Collection<Shipping> shippingTo;
+	@OneToMany(mappedBy="shippingFrom", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Shipping> shippingTo;
 
 	public Shipping() {}
 
@@ -57,6 +61,14 @@ public class Shipping {
 		this.id = id;
 	}
 
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
 	public Long getProcessingDays() {
 		return processingDays;
 	}
@@ -73,6 +85,8 @@ public class Shipping {
 		this.shippingCost = shippingCost;
 	}
 
+	// prevents the JsonMapping infinite recursion exception
+	@JsonIgnore
 	public Shipping getShippingFrom() {
 		return shippingFrom;
 	}
@@ -85,7 +99,7 @@ public class Shipping {
 		return shippingTo;
 	}
 
-	public void setShippingTo(Collection<Shipping> shippingTo) {
+	public void setShippingTo(Set<Shipping> shippingTo) {
 		this.shippingTo = shippingTo;
 	}
 		

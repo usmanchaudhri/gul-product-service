@@ -2,9 +2,14 @@ package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.internal.util.collections.Sets;
+
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -79,17 +84,20 @@ public class CategoryMappingTest {
 		productTop.setQuantity(34L);
 		productTop.setCategory(category);
 
-		category.setProducts(Arrays.asList(productSkirt, productTop));
+		category.setProducts(Sets.newSet(productSkirt, productTop));
 		
 		persistedClassDao.saveInNewTransaction(category);					
 		persistedClassDao.saveInNewTransaction(productSkirt);					
 		persistedClassDao.saveInNewTransaction(productTop);	
 		
 		Category retrievedCategory = persistedClassDao.getEntityManager().find(Category.class, category.getId());
-		List<Product> products = retrievedCategory.getProducts();
-		
-		Assert.assertNotNull(products.get(0).getId());
-		Assert.assertNotNull(products.get(1).getId());
+		Set<Product> products = retrievedCategory.getProducts();
+
+		Iterator<Product> ite = products.iterator();
+		while(ite.hasNext()) {
+			Product product = ite.next();
+			Assert.assertNotNull(product.getId());
+		}
 	}
 
 	

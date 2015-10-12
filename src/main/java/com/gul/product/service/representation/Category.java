@@ -1,8 +1,8 @@
 package com.gul.product.service.representation;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 // holds the category for clothes
 // recursive relationship with the sub-category as child categories
@@ -36,13 +37,13 @@ public class Category {
 	@Column(name = "code", nullable = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
-	@OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Product> products = new ArrayList<Product>();
+	@OneToMany(mappedBy="category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Product> products = new HashSet<Product>();
 	
 	@ManyToOne
 	private Category parentCategory;
 	
-	@OneToMany(mappedBy="parentCategory")
+	@OneToMany(mappedBy="parentCategory", fetch = FetchType.EAGER)
 	private Collection<Category> subCategories;
 	
 	public Category() {}
@@ -53,12 +54,6 @@ public class Category {
 	}
 	
 	public Category(Long id, String code, String name) {
-		this.id = id;
-		this.code = code;
-		this.name = name;
-	}
-	
-	public Category(Long id, String code, String name, Long parentCategoryId) {
 		this.id = id;
 		this.code = code;
 		this.name = name;
@@ -108,6 +103,7 @@ public class Category {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Category getParentCategory() {
 		return parentCategory;
 	}
@@ -116,8 +112,8 @@ public class Category {
 		this.parentCategory = parentCategory;
 	}
 
-	public List<Product> getProducts() {
-		return new ArrayList<Product>(products);
+	public Set<Product> getProducts() {
+		return new HashSet<Product>(products);
 	}
 
 	public Collection<Category> getSubCategories() {
@@ -136,7 +132,7 @@ public class Category {
 		product.setCategory(this);
 	}
 	
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 

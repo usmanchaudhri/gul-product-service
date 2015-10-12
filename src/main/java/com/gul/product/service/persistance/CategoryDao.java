@@ -19,6 +19,13 @@ public class CategoryDao extends AbstractDAO<Category> {
 		return get(id);
 	}
 	
+	// laods product lazily
+	public Category findByIdLoadProducts(Long id) {
+		Category category = get(id);
+		initialize(category.getProducts());
+		return category;
+	}
+	
 	public List<Category> findAll() {
 		return list(namedQuery("com.gul.product.service.representation.Category.findAll"));
 	}

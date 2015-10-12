@@ -1,6 +1,6 @@
 package com.gul.product.service.representation;
 
-import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +17,8 @@ import javax.persistence.NamedQuery;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -52,7 +54,7 @@ public class Product {
     @Column(name = "image_path", nullable = false) private String imagePath;
     @Column(name = "quantity", nullable = false) private Long quantity;
     
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")
 	private PricingProduct pricingProduct;
 	
@@ -147,18 +149,17 @@ public class Product {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-		// category.addProducts(this);
 	}
 
 	public void setPricingProduct(PricingProduct pricingProduct) {
 		this.pricingProduct = pricingProduct;
-	//	pricingProduct.setProduct(this);
 	}
 
 	public PricingProduct getPricingProduct() {

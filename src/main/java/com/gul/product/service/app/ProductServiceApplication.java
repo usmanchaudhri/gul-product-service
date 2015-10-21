@@ -1,24 +1,22 @@
 package com.gul.product.service.app;
 
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.dropwizard.views.ViewBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.ext.ExceptionMapper;
 
-import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.jdbi.DBIFactory;
-import io.dropwizard.migrations.MigrationsBundle;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
-import io.dropwizard.views.ViewBundle;
-
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
-import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +27,12 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
+import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
-import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Shipping;
+import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.PricingProductResource;
@@ -47,7 +47,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     }
 
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
-            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class, Shipping.class) {
+            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class, Shipping.class, Shop.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -90,6 +90,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
 		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
 		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
+		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);

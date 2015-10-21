@@ -63,6 +63,21 @@ public class ProductResourceTest {
 		assertThat(resources.client().target("/product").request().post(Entity.json(product), Product.class)).isEqualTo(product);
 		verify(dao).create(product);
 	}
+	
+	// TODO - write a test to fetch Category without products
+	public void testGetCategoryWithoutProducts() {
+		Product product = new Product(
+				"Cloth_1001", 
+				"Embroided Skirt",
+				"Handmade embroidreded skirt", 
+				"Pakistani cultural Skirt, hand embroidery",
+				"/winter/2015");
+		Category category = new Category("1001", "Sub Girls Clothing");
+		product.setCategory(category);
+		PricingProduct pricingProduct = new PricingProduct(50.98);
+		product.setPricingProduct(pricingProduct);
+
+	}
 
 	
 }

@@ -43,7 +43,7 @@ public class Category {
 	@Column(name = "code", nullable = true, unique = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
-	@OneToMany(mappedBy="category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<Product> products = new HashSet<Product>();
 	

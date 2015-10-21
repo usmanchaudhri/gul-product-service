@@ -14,16 +14,19 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
+/**
+ *	TODO - incase if we need to generate UUID's for products
+ *	@Id
+ *	@GeneratedValue(generator = "uuid-gen")
+ *	@GenericGenerator(name = "uuid-gen", strategy = "uuid")
+ *	@Column(name = "product_id", columnDefinition="uuid", nullable = false) 
+ *	@Type(type="org.hibernate.type.PostgresUUIDType") private UUID id;				// uncomment this for it work with postgresql
+ *	@Type(type="org.hibernate.type.UUIDCharType") private UUID id;
+ *	@Type(type="uuid") private UUID id;
+ **/
 @Entity
 @TypeDef(name = "uuid", typeClass = UuidType.class)
 @Table(name = "PRODUCT")
@@ -40,22 +43,16 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productseq")
 	@Column(name = "product_id", nullable = false)
 	private Long id;
-
-//	@Id
-//	@GeneratedValue(generator = "uuid-gen")
-//	@GenericGenerator(name = "uuid-gen", strategy = "uuid")
-//	@Column(name = "product_id", columnDefinition="uuid", nullable = false) 
-//	@Type(type="org.hibernate.type.PostgresUUIDType") private UUID id;				// uncomment this for it work with postgresql
-//	@Type(type="org.hibernate.type.UUIDCharType") private UUID id;
-//	@Type(type="uuid") private UUID id;
-
-	
-	@Column(name = "sku", nullable = false) private String sku;	
+	@Column(name = "sku", nullable = false, unique = true) private String sku;	
     @Column(name = "name", nullable = false) private String name;
     @Column(name = "short_desc", nullable = false) private String shortDesc;
     @Column(name = "long_desc", nullable = true) private String longDesc;
     @Column(name = "image_path", nullable = false) private String imagePath;
     @Column(name = "quantity", nullable = false) private Long quantity;
+    
+    // MAPPINGS
+	@ManyToOne
+	private Shop shop;
     
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")
@@ -66,7 +63,6 @@ public class Product {
 	@JsonBackReference
 	private Category category;
 
-	// TODO - audit fields
 
 	public Product() {}
 	

@@ -17,9 +17,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+/**
+ *	TODO - Fetch products lazily since their could be a lot of products - getting exception while doing this. 
+ **/
 // holds the category for clothes
 // recursive relationship with the sub-category as child categories
 @Entity
@@ -36,7 +40,7 @@ public class Category {
     @SequenceGenerator(name = "categorySeq", sequenceName="category_category_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorySeq")
 	@Column(name = "category_id", nullable = false) private Long id;
-	@Column(name = "code", nullable = true) private String code;
+	@Column(name = "code", nullable = true, unique = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
 	@OneToMany(mappedBy="category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -46,7 +50,7 @@ public class Category {
 	@ManyToOne
 	private Category parentCategory;
 	
-	@OneToMany(mappedBy="parentCategory", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="parentCategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<Category> subCategories;
 	
 	public Category() {}
@@ -115,10 +119,6 @@ public class Category {
 		this.parentCategory = parentCategory;
 	}
 
-	public Set<Product> getProducts() {
-		return new HashSet<Product>(products);
-	}
-
 	public Collection<Category> getSubCategories() {
 		return subCategories;
 	}
@@ -138,5 +138,10 @@ public class Category {
 	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
+
+	public Set<Product> getProducts() {
+		return new HashSet<Product>(products);
+	}
+
 
 }

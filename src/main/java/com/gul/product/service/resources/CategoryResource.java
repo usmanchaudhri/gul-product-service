@@ -64,13 +64,13 @@ public class CategoryResource {
 		return Response.status(Response.Status.OK).entity(category).build();
 	}
 	
-	@GET
-	@UnitOfWork
-	@Path("/{id}/products")
-	public Response getCategoryProducts(@PathParam("id") Long id) {
-		Category category = categoryDao.findByIdLoadProducts(id);
-		return Response.status(Response.Status.OK).entity(category).build();		
-	}
+//	@GET
+//	@UnitOfWork
+//	@Path("/{id}/products")
+//	public Response getCategoryProducts(@PathParam("id") Long id) {
+//		Category category = categoryDao.findByIdLoadProducts(id);
+//		return Response.status(Response.Status.OK).entity(category).build();		
+//	}
 	
 	@GET
 	@UnitOfWork

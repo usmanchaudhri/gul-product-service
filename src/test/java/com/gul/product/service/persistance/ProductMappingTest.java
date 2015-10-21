@@ -76,8 +76,13 @@ public class ProductMappingTest {
 		Assert.assertNotNull(pricingProductId);
 		Assert.assertTrue(storedValue.equals(99.95));
 		Assert.assertTrue(pricing.getProduct().getSku().equals("SKU101"));
+	}
+	
+	// retrieved products via categoryId
+	@Test
+	public void testQueryProductByCategory() {
 		
 	}
 	
-
+	
 }

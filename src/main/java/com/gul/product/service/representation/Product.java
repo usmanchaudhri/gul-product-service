@@ -51,8 +51,8 @@ public class Product {
     @Column(name = "quantity", nullable = false) private Long quantity;
     
     // MAPPINGS
-	@ManyToOne
-	private Shop shop;
+//	@ManyToOne
+//	private Shop shop;
     
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")

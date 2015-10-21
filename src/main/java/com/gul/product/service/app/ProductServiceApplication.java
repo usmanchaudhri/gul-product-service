@@ -47,7 +47,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     }
 
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
-            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class, Shipping.class, Shop.class) {
+            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class, Shipping.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -90,7 +90,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
 		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
 		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
-		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
+//		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);

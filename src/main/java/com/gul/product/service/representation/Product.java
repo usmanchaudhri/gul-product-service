@@ -34,8 +34,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
     @NamedQuery(
             name = "com.gul.product.service.representation.Product.findAll",
             query = "SELECT p FROM Product p"
+    ),
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Product.findProductsByCategory",
+            query = "SELECT p FROM Product p WHERE p.category.id = :categoryId"
     )
 })
+
+
+//queryString="SELECT OBJECT(emp) FROM Employee emp WHERE emp.firstName = 'John'"
+
 public class Product {
 
 	@Id

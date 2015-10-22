@@ -1,9 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  *	TODO - Fetch products lazily since their could be a lot of products - getting exception while doing this. 
@@ -43,9 +38,9 @@ public class Category {
 	@Column(name = "code", nullable = true, unique = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 
-	@OneToMany(mappedBy="category", fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private Set<Product> products = new HashSet<Product>();
+//	@OneToMany(mappedBy="category", fetch = FetchType.EAGER)
+//	@JsonManagedReference
+//	private Set<Product> products = new HashSet<Product>();
 	
 	@ManyToOne
 	private Category parentCategory;
@@ -127,21 +122,21 @@ public class Category {
 		this.subCategories = subCategories;
 	}
 
-	public void addProducts(Product product) {
-		if(products.contains(product)) {
-			return;
-		}
-		products.add(product);
-		product.setCategory(this);
-	}
-	
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-
-	public Set<Product> getProducts() {
-		return new HashSet<Product>(products);
-	}
+//	public void addProducts(Product product) {
+//		if(products.contains(product)) {
+//			return;
+//		}
+//		products.add(product);
+//		product.setCategory(this);
+//	}
+//	
+//	public void setProducts(Set<Product> products) {
+//		this.products = products;
+//	}
+//
+//	public Set<Product> getProducts() {
+//		return new HashSet<Product>(products);
+//	}
 
 
 }

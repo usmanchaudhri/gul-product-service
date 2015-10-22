@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
@@ -18,6 +19,7 @@ import com.gul.product.service.representation.Shop;
 
 public class ShopMappingTest {
 
+	@Ignore
 	@Test
 	public void newShopWithProductsTest() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());

@@ -25,7 +25,7 @@ public class ProductDao extends AbstractDAO<Product> {
 	}
 
 	public List<Product> findProductsByCategory(String categoryId) {
-		return list(namedQuery("com.gul.product.service.representation.Product.findProductsByCategory").setParameter("categoryId", categoryId));
+		return list(namedQuery("com.gul.product.service.representation.Product.findProductsByCategory").setParameter("categoryId", Long.valueOf(categoryId)));
 	}
 
 	

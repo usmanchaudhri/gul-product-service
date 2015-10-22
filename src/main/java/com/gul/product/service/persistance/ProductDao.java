@@ -2,6 +2,8 @@ package com.gul.product.service.persistance;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import java.util.List;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import org.hibernate.SessionFactory;
 import com.gul.product.service.representation.Product;
 

@@ -75,7 +75,7 @@ public class CategoryResource {
 	@GET
 	@UnitOfWork
 	@Timed
-	public Response listProducts() {
+	public Response listCategories() {
 		List<Category> category = categoryDao.findAll();
 		return Response.status(Response.Status.OK).entity(category).build();
 	}	

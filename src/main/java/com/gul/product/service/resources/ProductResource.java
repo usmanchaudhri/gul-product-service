@@ -54,17 +54,18 @@ public class ProductResource {
 
 	@GET
 	@UnitOfWork
+	@Timed
 	public Response getProductByCategoryId(@QueryParam("categoryId") String categoryId) {
 		List<Product> products = productDao.findProductsByCategory(categoryId);
 		return Response.status(Response.Status.OK).entity(products).build();
 	}
 
-	@GET
-	@UnitOfWork
-	@Timed
-	public Response listProducts() {
-		List<Product> products = productDao.findAll();
-		return Response.status(Response.Status.OK).entity(products).build();
-	}	
+//	@GET
+//	@UnitOfWork
+//	@Timed
+//	public Response listProducts() {
+//		List<Product> products = productDao.findAll();
+//		return Response.status(Response.Status.OK).entity(products).build();
+//	}	
 	
 }

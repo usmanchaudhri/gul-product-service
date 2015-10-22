@@ -7,11 +7,8 @@
 		<class>com.gul.product.service.representation.Category</class>
 		<class>com.gul.product.service.representation.PricingProduct</class>
 		<class>com.gul.product.service.representation.Shipping</class>
-		<class>com.gul.product.service.representation.Shop</class>
+<!-- 		<class>com.gul.product.service.representation.Shop</class> -->
 		<class>com.gul.product.service.order.representation.CustomerOrder</class>
-
-		<class>com.gul.product.service.representation.Category1</class>
-		<class>com.gul.product.service.representation.Product1</class>
 				
 		<properties>
 			<!-- Disable the second-level cache -->

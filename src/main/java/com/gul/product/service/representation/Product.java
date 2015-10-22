@@ -40,10 +40,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
             query = "SELECT p FROM Product p WHERE p.category.id = :categoryId"
     )
 })
-
-
-//queryString="SELECT OBJECT(emp) FROM Employee emp WHERE emp.firstName = 'John'"
-
 public class Product {
 
 	@Id

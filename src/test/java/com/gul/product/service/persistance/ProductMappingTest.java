@@ -81,7 +81,26 @@ public class ProductMappingTest {
 	// retrieved products via categoryId
 	@Test
 	public void testQueryProductByCategory() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+
+		Category category = new Category("1001", "Women");
+		Product product = new Product("SKU101", "Embroided Skirt", "Embroided Women Skirt", "Handmade embroided Women Skirt made from the finest silk", "/winter/2015/women/skirt"); 
+		product.setQuantity(10L);
+		product.setCategory(category);
 		
+		persistedClassDao.saveInNewTransaction(category);
+		persistedClassDao.saveInNewTransaction(product);
+		
+		Product productQuery = (Product) persistedClassDao.getEntityManager().
+		createNamedQuery("com.gul.product.service.representation.Product.findProductsByCategory").
+		setParameter("categoryId", 1L).
+		getSingleResult();
+
+		Assert.assertNotNull(productQuery.getId());
+		Assert.assertTrue(productQuery.getName().equals("Embroided Skirt"));
+		Assert.assertTrue(productQuery.getSku().equals("SKU101"));
+		Assert.assertTrue(productQuery.getCategory().getName().equals("Women"));
 	}
 	
 	

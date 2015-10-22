@@ -47,6 +47,11 @@ public class HerokuDatabaseConfiguration implements DatabaseConfiguration {
                     dsf.setPassword(password);
                     dsf.setUrl(url);
                     dsf.setDriverClass("org.postgresql.Driver");
+                    dsf.setMinSize(5);
+                    dsf.setMaxSize(20);
+                    dsf.setLogAbandonedConnections(true);
+                    // dsf.setMaxConnectionAge(age);		// 
+                    // dsf.setAbandonWhenPercentageFull(0 - 100);
                     dataSourceFactory = dsf;
                     return dsf;
                 }

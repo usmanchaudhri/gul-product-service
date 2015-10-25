@@ -12,9 +12,13 @@ import io.dropwizard.views.ViewBundle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.EnumSet;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.ws.rs.ext.ExceptionMapper;
 
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
@@ -27,12 +31,10 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
-import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shipping;
-import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.PricingProductResource;
@@ -76,6 +78,18 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 	@Override
 	public void run(ProductServiceConfiguration configuration, Environment environment) throws Exception {
         LOGGER.info("Starting the Product data service");
+        
+        // Allows Cross-origin resource sharing (CORS)
+        // Enable CORS headers
+        final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+        
+        // Configure CORS parameters
+        cors.setInitParameter("allowedOrigins", "*");
+        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        // Enable CORS headers
+        
         removeDefaultExceptionMappers(Boolean.TRUE, environment);
 //        if(configuration.getLocaldev().equalsIgnoreCase(Boolean.TRUE.toString())) {
 //    		final DBIFactory factory = new DBIFactory();

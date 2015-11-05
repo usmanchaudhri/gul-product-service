@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "SHOP")
@@ -24,16 +25,16 @@ public class Shop {
 	
 	@Column(name = "shop_name", nullable = false) private String name;
 	
-	// TODO - each shop would have a designer
-	private String designer;
-	
 	@OneToMany(mappedBy="shop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Collection<Product> products;
-
+	
+	public Shop() {}
+	
 	public Shop(String name) {
 		this.name = name;
-	}
-	
+	}	
+
 	public Long getId() {
 		return id;
 	}

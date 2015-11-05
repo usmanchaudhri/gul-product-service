@@ -1,6 +1,7 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,8 +11,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
+import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Shop;
 
@@ -21,6 +25,7 @@ import com.gul.product.service.representation.Shop;
 public class ShopResource {
 
 	private ShopDao shopDao;
+	private ProductDao productDao;
 	
 	public ShopResource(ShopDao shopDao) {
 		this.shopDao = shopDao;
@@ -34,8 +39,12 @@ public class ShopResource {
 		return Response.status(Response.Status.CREATED).entity(s).build();
 	}
 	
-	// creating Products from with-in the shop
-	public Response addProducts() {
+	// create products with-in the shop
+	@POST
+	@Path("/listing/create")
+	public Response createProduct(Shop shop) {
+//		customers will create shop listings
+//		shop.getProducts();
 		return null;
 	}
 	
@@ -46,6 +55,8 @@ public class ShopResource {
 		Shop shop = shopDao.findById(id);
 		return Response.status(Response.Status.OK).entity(shop).build();
 	}
+	
+	
 	
 
 }

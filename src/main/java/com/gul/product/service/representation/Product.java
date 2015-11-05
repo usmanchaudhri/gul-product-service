@@ -40,6 +40,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
             query = "SELECT p FROM Product p WHERE p.category.id = :categoryId"
     )
 })
+//@JsonPropertyOrder(value = {"code", "name"})
+
 public class Product {
 
 	@Id
@@ -54,19 +56,19 @@ public class Product {
     @Column(name = "image_path", nullable = false) private String imagePath;
     @Column(name = "quantity", nullable = false) private Long quantity;
     
-    // MAPPINGS
-//	@ManyToOne
-//	private Shop shop;
-    
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")
 	private PricingProduct pricingProduct;
 	
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
-//	@JsonBackReference
+	@JsonBackReference
 	private Category category;
 
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="shop_id", referencedColumnName="shop_id", nullable=false)
+	@JsonBackReference
+	private Shop shop;
 
 	public Product() {}
 	
@@ -176,6 +178,14 @@ public class Product {
 
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 }

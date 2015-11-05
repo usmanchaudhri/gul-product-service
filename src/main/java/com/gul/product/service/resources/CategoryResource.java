@@ -1,7 +1,10 @@
 package com.gul.product.service.resources;
 
-import java.util.List;
 import io.dropwizard.hibernate.UnitOfWork;
+
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,9 +15,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.Product;
 
 @Path("/category")
 @Produces(MediaType.APPLICATION_JSON)
@@ -64,13 +69,14 @@ public class CategoryResource {
 		return Response.status(Response.Status.OK).entity(category).build();
 	}
 	
-//	@GET
-//	@UnitOfWork
-//	@Path("/{id}/products")
-//	public Response getCategoryProducts(@PathParam("id") Long id) {
-//		Category category = categoryDao.findByIdLoadProducts(id);
-//		return Response.status(Response.Status.OK).entity(category).build();		
-//	}
+	@GET
+	@UnitOfWork
+	@Path("/{id}/products")
+	public Response getCategoryProducts(@PathParam("id") Long id) {
+		Category category = categoryDao.findByIdLoadProducts(id);
+		Set<Product> products = category.getProducts();
+		return Response.status(Response.Status.OK).entity(products).build();		
+	}
 	
 	@GET
 	@UnitOfWork

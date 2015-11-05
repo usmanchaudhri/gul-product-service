@@ -47,25 +47,25 @@ public class ProductResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-	public Response getProduct(@PathParam("id") @NotEmpty Long id) {
-		Product product = productDao.findById(id);
+	public Response getProduct(@PathParam("id") @NotEmpty Long productId) {
+		Product product = productDao.findById(productId);
 		return Response.status(Response.Status.OK).entity(product).build();
-	}
-
-	@GET
-	@UnitOfWork
-	@Timed
-	public Response getProductByCategoryId(@QueryParam("categoryId") String categoryId) {
-		List<Product> products = productDao.findProductsByCategory(categoryId);
-		return Response.status(Response.Status.OK).entity(products).build();
 	}
 
 //	@GET
 //	@UnitOfWork
 //	@Timed
-//	public Response listProducts() {
-//		List<Product> products = productDao.findAll();
+//	public Response getProductByCategoryId(@QueryParam("categoryId") String categoryId) {
+//		List<Product> products = productDao.findProductsByCategory(categoryId);
 //		return Response.status(Response.Status.OK).entity(products).build();
-//	}	
+//	}
+
+	@GET
+	@UnitOfWork
+	@Timed
+	public Response listProducts() {
+		List<Product> products = productDao.findAll();
+		return Response.status(Response.Status.OK).entity(products).build();
+	}	
 	
 }

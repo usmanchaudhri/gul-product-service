@@ -14,7 +14,7 @@ database:
 # HEROKU NOTE - the port gets be overridden with the Heroku $PORT in the Procfile
 server:
   type: simple
-  applicationContextPath: /
+  applicationContextPath: /gul-product-service
   #adminContextPath: /admin # If you plan to use an admin path, you'll need to also use non-root app path
   connector:
     type: http

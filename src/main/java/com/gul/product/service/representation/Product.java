@@ -10,12 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.NamedQuery;
+
 import org.hibernate.annotations.TypeDef;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  *	TODO - incase if we need to generate UUID's for products
@@ -40,10 +45,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
             query = "SELECT p FROM Product p WHERE p.category.id = :categoryId"
     )
 })
-//@JsonPropertyOrder(value = {"code", "name"})
 
+//@JsonPropertyOrder(value = {"id", "name", "sku", "shortDesc", "longDesc", "imagePath", "quantity", "pricingProduct", "category", "shop"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
 public class Product {
-
+	
 	@Id
 	@SequenceGenerator(name = "productseq", sequenceName = "product_product_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productseq")
@@ -62,12 +68,11 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
-	@JsonBackReference
+//	@JsonBackReference(value="productCategory")
 	private Category category;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id", referencedColumnName="shop_id", nullable=false)
-	@JsonBackReference
 	private Shop shop;
 
 	public Product() {}

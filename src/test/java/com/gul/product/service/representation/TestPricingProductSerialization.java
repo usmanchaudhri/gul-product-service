@@ -14,13 +14,10 @@ public class TestPricingProductSerialization {
 
 	private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 
-
 	@Test
 	public void serializesToJson() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		final PricingProduct pricingProduct = new PricingProduct(50.98);
 		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/pricingProduct.json"), PricingProduct.class));
 		assertThat(MAPPER.writeValueAsString(pricingProduct)).isEqualTo(expected);
 	}
-
-
 }

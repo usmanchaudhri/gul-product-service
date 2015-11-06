@@ -5,15 +5,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import io.dropwizard.testing.junit.ResourceTestRule;
-import java.util.HashMap;
-import java.util.Map;
 import javax.ws.rs.client.Entity;
+import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
+import static org.mockito.Mockito.*;
 
 /**
  * these tests are at the REST level
@@ -33,6 +33,7 @@ public class ProductResourceTest {
 				"this is a test product", 
 				"test product long description",
 				"/2015/winter/fall/sep/15/scarf");
+		
 		when(dao.findById(10L)).thenReturn(product);
 		assertThat(resources.client().target("/product/10").request().get(Product.class)).isEqualTo(product);
 		verify(dao).findById(10L);
@@ -50,21 +51,13 @@ public class ProductResourceTest {
 		product.setCategory(category);
 		PricingProduct pricingProduct = new PricingProduct(50.98);
 		product.setPricingProduct(pricingProduct);
-		when(dao.create(product)).thenReturn(product);
-		
-		Map<String, String> data = new HashMap<String, String>();
-		data.put("sku", "Cloth_1001");
-		data.put("name", "Embroided Skirt");
-		data.put("shortDesc", "Handmade embroidreded skirt");
-		data.put("longDesc", "Pakistani cultural Skirt, hand embroidery");
-		data.put("imagePath", "/winter/2015");
-		data.put("quantity", "10");
-				
+
+		when(dao.create(product)).thenReturn(product);		
 		assertThat(resources.client().target("/product").request().post(Entity.json(product), Product.class)).isEqualTo(product);
 		verify(dao).create(product);
 	}
 	
-	// TODO - write a test to fetch Category without products
+	@Test
 	public void testGetCategoryWithoutProducts() {
 		Product product = new Product(
 				"Cloth_1001", 
@@ -76,8 +69,18 @@ public class ProductResourceTest {
 		product.setCategory(category);
 		PricingProduct pricingProduct = new PricingProduct(50.98);
 		product.setPricingProduct(pricingProduct);
-
+		
+		when(dao.create(product)).thenReturn(product);
+		assertThat(resources.client().target("/product").request().post(Entity.json(product), Product.class)).isEqualTo(product);
+		verify(dao).create(product);
 	}
+	
+	@After
+    public void tearDown() {
+        // we have to reset the mock after each test because of the
+        // @ClassRule, or use a @Rule as mentioned below.
+        reset(dao);
+    }
 
 	
 }

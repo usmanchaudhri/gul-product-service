@@ -1,5 +1,6 @@
 package com.gul.product.service.representation;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
             query = "SELECT c FROM Category c"
     )
 })
-public class Category {
+public class Category implements Serializable {
 	
 	@Id 
     @SequenceGenerator(name = "categorySeq", sequenceName="category_category_id_seq", allocationSize=1)
@@ -45,7 +46,7 @@ public class Category {
 	@Column(name = "name", nullable = false) private String name;
 
 	@OneToMany(mappedBy="category", fetch = FetchType.LAZY)
-	@JsonManagedReference
+//	@JsonManagedReference(value="productCategory")
 	private Set<Product> products; 
 	
 	@ManyToOne

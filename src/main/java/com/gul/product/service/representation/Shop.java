@@ -1,6 +1,8 @@
 package com.gul.product.service.representation;
 
+import java.io.Serializable;
 import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.gul.product.service.representation.serializer.ProductShopSerializer;
 
 @Entity
 @Table(name = "SHOP")
-public class Shop {
+public class Shop implements Serializable {
 
 	@Id
 	@SequenceGenerator(name = "shopseq", sequenceName = "shop_shop_id_seq", allocationSize = 1)
@@ -26,7 +31,6 @@ public class Shop {
 	@Column(name = "shop_name", nullable = false) private String name;
 	
 	@OneToMany(mappedBy="shop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JsonManagedReference
 	private Collection<Product> products;
 	
 	public Shop() {}

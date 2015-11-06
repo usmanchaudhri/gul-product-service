@@ -16,6 +16,7 @@ import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.Shop;
 
 public class CategoryMappingTest {
 
@@ -76,14 +77,18 @@ public class CategoryMappingTest {
 
 		Category category = new Category("1001", "Women");
 
+		Shop shop = new Shop("MyShop");
+		
 		Product productSkirt = new Product("SKU101", "Embroided Skirt", "Embroided Women Skirt", "Handmade embroided Women Skirt made from the finest silk", "/winter/2015/women/skirt"); 
 		productSkirt.setQuantity(10L);
 		productSkirt.setCategory(category);
+		productSkirt.setShop(shop);
 
 		Product productTop = new Product("SKU102", "Wolen Tunic Top", "Embroided Wolen Tunic Top", "Handmade embroided Women Tunic Top made from the finest silk", "/winter/2015/women/top"); 
 		productTop.setQuantity(34L);
 		productTop.setCategory(category);
-
+		productTop.setShop(shop);
+		
 		category.setProducts(Sets.newSet(productSkirt, productTop));
 		
 		persistedClassDao.saveInNewTransaction(category);					

@@ -1,10 +1,7 @@
 package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -15,7 +12,9 @@ import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
 
-// Entity Product test against H2 DB
+/**
+ * Entity Product test against H2 DB 
+ **/
 public class ProductMappingTest {
 
 	/**
@@ -37,7 +36,7 @@ public class ProductMappingTest {
 		
 		Category category = new Category("1001", "Women");
 		product.setCategory(category);
-//		product.setShop(shop);
+		product.setShop(shop);
 
 		persistedClassDao.saveInNewTransaction(category);					// save category first since it will be needed for the product association
 		persistedClassDao.saveInNewTransaction(product);
@@ -57,7 +56,7 @@ public class ProductMappingTest {
 		newProduct.setLongDesc("Long Description Laptop Bag");
 		newProduct.setImagePath("/winter/2015/laptop");
 		newProduct.setQuantity(10L);
-//		newProduct.setShop(retrievedShop);
+		newProduct.setShop(retrievedShop);
 		newProduct.setCategory(category);
 	
 		persistedClassDao.saveInNewTransaction(newProduct);
@@ -67,7 +66,6 @@ public class ProductMappingTest {
 		
 	}
 	
-	@Ignore
 	@Test
 	public void testProductCategoryMappingAssociationTest() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());
@@ -86,7 +84,7 @@ public class ProductMappingTest {
 		Category category = new Category("1001", "Women");
 		product.setCategory(category);
 		
-//		product.setShop(shop);
+		product.setShop(shop);
 
 		persistedClassDao.saveInNewTransaction(category);					// save category first since it will be needed for the product association
 		persistedClassDao.saveInNewTransaction(product);
@@ -98,7 +96,6 @@ public class ProductMappingTest {
 		Assert.assertTrue(retrievedProduct.getQuantity().equals(10L));
 	}
 	
-	@Ignore
 	@Test
 	public void testCreatingProductPricing() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());
@@ -121,7 +118,7 @@ public class ProductMappingTest {
 		Category category = new Category("1001", "Women");
 		product.setCategory(category);
 
-//		product.setShop(shop);
+		product.setShop(shop);
 		
 		persistedClassDao.getEntityManager().getTransaction().begin();
 		persistedClassDao.save(category);
@@ -141,7 +138,6 @@ public class ProductMappingTest {
 		Assert.assertTrue(pricing.getProduct().getSku().equals("SKU101"));
 	}
 	
-	@Ignore
 	@Test
 	public void testQueryProductByCategory() {
 		Injector injector = Guice.createInjector(new DbModule());
@@ -154,7 +150,7 @@ public class ProductMappingTest {
 		product.setQuantity(10L);
 		product.setCategory(category);
 		
-//		product.setShop(shop);
+		product.setShop(shop);
 		
 		persistedClassDao.saveInNewTransaction(category);
 		persistedClassDao.saveInNewTransaction(product);

@@ -1,18 +1,20 @@
 package com.gul.product.service.representation;
 
-import static io.dropwizard.testing.FixtureHelpers.*;
+import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.assertj.core.api.Assertions.assertThat;
-
+import io.dropwizard.jackson.Jackson;
 import java.io.IOException;
 
 import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.dropwizard.jackson.Jackson;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.SerializerFactory;
+import com.gul.product.service.representation.serializer.ProductShopSerializer;
 
 /**
  * Representation classes testing
@@ -28,6 +30,9 @@ public class TestProductSerialization {
 		final Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
 				"/2015/winter/fall/sep/15/scarf");
+		Shop shop = new Shop("gulgs");
+		product.setShop(shop);
+		
 		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/product.json"), Product.class));
 		assertThat(MAPPER.writeValueAsString(product)).isEqualTo(expected);
 	}

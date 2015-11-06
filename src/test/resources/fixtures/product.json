@@ -3,5 +3,6 @@
    "name":"test product",
    "shortDesc":"this is a test product",
    "longDesc":"test product long description",
-   "imagePath":"/2015/winter/fall/sep/15/scarf"
+   "imagePath":"/2015/winter/fall/sep/15/scarf",
+   "shop":"gulgs"
 }

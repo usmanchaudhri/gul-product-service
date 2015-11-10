@@ -74,6 +74,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
                 return configuration.getDatabase();
             }
         });
+        
 		bootstrap.addBundle(hibernateBundle);
         bootstrap.addBundle(new ViewBundle());
 	}

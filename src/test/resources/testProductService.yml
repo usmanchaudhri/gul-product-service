@@ -1,16 +1,22 @@
+
 template: Hello, %s!
 defaultName: Stranger
+
+# database:
+#   driverClass: org.postgresql.Driver
+#   user: test
+#   password: test
+#   url: jdbc:postgresql://localhost:5432/testdropwizard
 
 database:
   driverClass: org.h2.Driver
   user: test
   password: test
-  url: jdbc:h2:./target/test-product-service
+  url: jdbc:h2:./target/testdropwizard
 
 server:
-  applicationConnectors:
-    - type: http
-      port: 0
-  adminConnectors:
-    - type: http
-      port: 0
+  type: simple
+  applicationContextPath: /gul-product-service
+  connector:
+    type: http
+    port: 0

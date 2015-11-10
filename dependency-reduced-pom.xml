@@ -227,6 +227,66 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.dropwizard.modules</groupId>
+      <artifactId>dropwizard-flyway</artifactId>
+      <version>0.9.0-1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>dropwizard-db</artifactId>
+          <groupId>io.dropwizard</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flyway-core</artifactId>
+          <groupId>org.flywaydb</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>2.7.0</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>groovy</artifactId>
+          <groupId>org.codehaus.groovy</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>groovy-xml</artifactId>
+          <groupId>org.codehaus.groovy</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>httpclient</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>httpmime</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hamcrest-library</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>tagsoup</artifactId>
+          <groupId>org.ccil.cowan.tagsoup</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-path</artifactId>
+          <groupId>com.jayway.restassured</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xml-path</artifactId>
+          <groupId>com.jayway.restassured</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <version>4.3.5.Final</version>
@@ -246,8 +306,10 @@
   <properties>
     <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    <version.restassured>2.7.0</version.restassured>
     <glassfish.javax.version>2.2.3</glassfish.javax.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
+    <dropwizard.flyway.db>0.9.0-1</dropwizard.flyway.db>
     <dropwizard.version>0.8.2</dropwizard.version>
     <h2.version>1.4.187</h2.version>
     <dropwizard.version.db>0.8.2</dropwizard.version.db>

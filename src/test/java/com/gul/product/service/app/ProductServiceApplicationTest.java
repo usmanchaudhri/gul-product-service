@@ -1,5 +1,16 @@
 package com.gul.product.service.app;
 
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.flyway.FlywayBundle;
+import io.dropwizard.flyway.FlywayFactory;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.dropwizard.views.ViewBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,22 +28,19 @@ import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
+import com.gul.product.service.persistance.ShippingDao;
+import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.Shipping;
+import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.PricingProductResource;
 import com.gul.product.service.resources.ProductResource;
-
-import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.migrations.MigrationsBundle;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
-import io.dropwizard.views.ViewBundle;
+import com.gul.product.service.resources.ShippingResource;
+import com.gul.product.service.resources.ShopResource;
 
 public class ProductServiceApplicationTest extends Application<ProductServiceConfigurationTest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceApplicationTest.class);
@@ -42,26 +50,34 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
     }
 
     private final HibernateBundle<ProductServiceConfigurationTest> hibernateBundle =
-            new HibernateBundle<ProductServiceConfigurationTest>(Product.class, Category.class, PricingProduct.class) {
+            new HibernateBundle<ProductServiceConfigurationTest>(Product.class, Category.class, PricingProduct.class, Shipping.class, Shop.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();
                 }
             };
+            
+    public String getName() {
+    	return "test-gul-product-service";
+    }
+            
 
 	@Override
 	public void initialize(Bootstrap<ProductServiceConfigurationTest> bootstrap) {
 		LOGGER.info("Initializing configuration");
 		bootstrap.addCommand(new RenderCommand()); // custom class
-		bootstrap.addBundle(new AssetsBundle());
-		bootstrap
-				.addBundle(new MigrationsBundle<ProductServiceConfiguration>() {
-					@Override
-					public DataSourceFactory getDataSourceFactory(
-							ProductServiceConfiguration configuration) {
-						return configuration.getDatabase();
-					}
-				});
+		bootstrap.addBundle(new AssetsBundle());		
+		bootstrap.addBundle(new FlywayBundle<ProductServiceConfigurationTest>() {
+			@Override
+			public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
+				return configuration.getDatabase();
+			}
+			
+			@Override
+			public FlywayFactory getFlywayFactory(ProductServiceConfigurationTest configuration) {
+				return configuration.getFlyway();
+			}
+		});
 		bootstrap.addBundle(hibernateBundle);
 		bootstrap.addBundle(new ViewBundle());
 	}
@@ -71,9 +87,12 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 			Environment environment) throws Exception {
         LOGGER.info("Starting the Product data service");
         removeDefaultExceptionMappers(Boolean.TRUE, environment);
-		final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
+
+        final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
 		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
+		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
+		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
@@ -83,6 +102,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new ProductResource(productDao));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new PricingProductResource(pricingProductDao));
+        environment.jersey().register(new ShippingResource(shippingDao));
+        environment.jersey().register(new ShopResource(shopDao));
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

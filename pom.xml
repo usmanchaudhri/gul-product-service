@@ -17,10 +17,12 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<dropwizard.version>0.8.2</dropwizard.version>
 		<dropwizard.version.db>0.8.2</dropwizard.version.db>
+		<dropwizard.flyway.db>0.9.0-1</dropwizard.flyway.db>
 		<h2.version>1.4.187</h2.version>
 		<targetJdk>1.7</targetJdk>		
         <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 		<jetty.version>9.2.9.v20150224</jetty.version>
+		<version.restassured>2.7.0</version.restassured>
 
         <!-- For JSP jars -->
         <glassfish.javax.version>2.2.3</glassfish.javax.version>
@@ -203,6 +205,26 @@
 			<version>1.4.189</version>
 			<scope>test</scope>			
 		</dependency>
+		<dependency>
+		  <groupId>io.dropwizard.modules</groupId>
+		  <artifactId>dropwizard-flyway</artifactId>
+		  <version>${dropwizard.flyway.db}</version>
+		  <scope>test</scope>
+		  <exclusions>
+			 <exclusion>
+				<groupId>io.dropwizard</groupId>
+				<artifactId>dropwizard-db</artifactId>
+			 </exclusion>
+		  </exclusions>
+		</dependency>		
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${version.restassured}</version>
+		  	<scope>test</scope>			
+		</dependency>
+
+
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.hibernate</groupId> -->
 <!-- 			<artifactId>hibernate-core</artifactId> -->

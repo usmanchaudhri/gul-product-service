@@ -2,14 +2,18 @@ package com.gul.product.service.app;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.db.DatabaseConfiguration;
+import io.dropwizard.flyway.FlywayFactory;
+
 import java.util.Collections;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gul.product.service.core.Template;
 
@@ -20,6 +24,9 @@ public class ProductServiceConfigurationTest extends Configuration {
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
+    
+    @Valid
+    private FlywayFactory flyway = new FlywayFactory();
 
     @NotNull
     private Map<String, Map<String, String>> viewRendererConfiguration = Collections.emptyMap();
@@ -50,10 +57,6 @@ public class ProductServiceConfigurationTest extends Configuration {
 
     @JsonProperty("database")
 	public DataSourceFactory getDatabase() {
-        LOGGER.info("Using H2 database");
-        DatabaseConfiguration databaseConfiguration = H2DataBaseConfiguration.create();
-        database = databaseConfiguration.getDataSourceFactory(null);
-        LOGGER.info("H2 database");
         return database;
 	}
 
@@ -85,6 +88,14 @@ public class ProductServiceConfigurationTest extends Configuration {
 
 	public void setLocaldev(String localdev) {
 		this.localdev = localdev;
+	}
+
+	public FlywayFactory getFlyway() {
+		return flyway;
+	}
+
+	public void setFlyway(FlywayFactory flyway) {
+		this.flyway = flyway;
 	}
 
 }

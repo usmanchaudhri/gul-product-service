@@ -39,10 +39,13 @@ public class CategoryResource {
 		Category c = categoryDao.create(category);
 		
 		List<Category> subCategories = (List<Category>) category.getSubCategories();
-		for(Category subCategory : subCategories) {
-			subCategory.setParentCategory(category);
-			categoryDao.create(subCategory);
+		if(subCategories != null) {
+			for(Category subCategory : subCategories) {
+				subCategory.setParentCategory(category);
+				categoryDao.create(subCategory);
+			}
 		}
+		
 		return Response.status(Response.Status.CREATED).entity(c).build();
 	}
 	

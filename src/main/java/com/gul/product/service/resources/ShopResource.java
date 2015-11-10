@@ -1,5 +1,7 @@
 package com.gul.product.service.resources;
 
+import java.util.List;
+
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.validation.Valid;
@@ -17,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
 
 @Path("/shop")
@@ -56,7 +59,12 @@ public class ShopResource {
 		return Response.status(Response.Status.OK).entity(shop).build();
 	}
 	
-	
-	
+	@GET
+	@UnitOfWork
+	@Timed
+	public Response listShops() {
+		List<Shop> shops = shopDao.findAll();
+		return Response.status(Response.Status.OK).entity(shops).build();
+	}	
 
 }

@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -20,6 +22,12 @@ import com.gul.product.service.representation.serializer.ProductShopSerializer;
 
 @Entity
 @Table(name = "SHOP")
+@NamedQueries({
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Shop.findAll",
+            query = "SELECT s FROM Shop s"
+    )
+})
 public class Shop implements Serializable {
 
 	@Id

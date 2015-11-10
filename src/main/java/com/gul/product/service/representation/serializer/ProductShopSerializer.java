@@ -8,6 +8,10 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.gul.product.service.representation.Product;
 
+/**
+ * NOTE: not currently used. this is a custom serializer incase of infinite
+ * cyclic expcetion when creating entity relation.
+ **/
 public class ProductShopSerializer extends JsonSerializer<Product> {
 
 	@Override

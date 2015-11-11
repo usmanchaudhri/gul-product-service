@@ -1,4 +1,4 @@
-package com.gul.product.service.client;
+package com.gul.product.service.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

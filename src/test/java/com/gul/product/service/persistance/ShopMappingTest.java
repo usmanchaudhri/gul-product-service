@@ -2,13 +2,10 @@ package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.persistence.Query;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -51,7 +48,6 @@ public class ShopMappingTest {
 		for(Shop shop : shops) {
 			Assert.assertNotNull(shop.getId());
 		}
-		
 	}
 	
 //	@Test

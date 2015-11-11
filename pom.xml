@@ -305,18 +305,41 @@
             </testResource>
             <testResource>
                 <filtering>false</filtering>
+                <directory>src/inttest/resources</directory>
+            </testResource>
+            <testResource>
+                <filtering>false</filtering>
                 <directory>src/test/java</directory>
                 <includes>
                     <include>**</include>
                 </includes>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
+<!--                 <excludes> -->
+<!--                     <exclude>**/*.java</exclude> -->
+<!--                 </excludes> -->
             </testResource>
         </testResources>
 
         <!-- Build plugins -->
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>add-inittest-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/inttest/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>        
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>

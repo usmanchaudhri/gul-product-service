@@ -20,7 +20,7 @@ import com.gul.product.service.representation.serializer.ProductShopSerializer;
  * Representation classes testing
  * Test if Product serializes correctly.
  **/
-public class TestProductSerialization {
+public class ProductSerializationTest {
 
 	private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
 	

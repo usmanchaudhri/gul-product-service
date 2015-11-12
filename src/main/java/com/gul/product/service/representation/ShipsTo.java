@@ -18,13 +18,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Shipping services - where does gul provides shipping services to.
- * this will be part of when the product will be created.
+ * represents where shipping service is provided world wide.
  * ships from USA to USA, Pakistan, Dubai, London etc.
  **/
 @Entity
 @Table(name = "SHIPPING")
-public class Shipping {
+public class ShipsTo {
 	
 	@Id 
     @SequenceGenerator(name = "shippingSeq", sequenceName="shipping_shipping_id_seq", allocationSize=1)
@@ -36,18 +35,18 @@ public class Shipping {
 	@Column(name="shipping_cost", nullable=true) private Double shippingCost;
 
 	@ManyToOne
-	private Shipping shippingFrom;
+	private ShipsTo shippingFrom;
 	
 	@OneToMany(mappedBy="shippingFrom", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Shipping> shippingTo;
+	private Set<ShipsTo> shippingTo;
 
-	public Shipping() {}
+	public ShipsTo() {}
 
-	public Shipping(String countryName) {
+	public ShipsTo(String countryName) {
 		this.countryName = countryName;
 	}
 	
-	public Shipping(String countryName, Long processingDays, Double shippingCost) {
+	public ShipsTo(String countryName, Long processingDays, Double shippingCost) {
 		this.countryName = countryName;
 		this.processingDays = processingDays;
 		this.shippingCost = shippingCost;
@@ -87,19 +86,19 @@ public class Shipping {
 
 	// prevents the JsonMapping infinite recursion exception
 	@JsonIgnore
-	public Shipping getShippingFrom() {
+	public ShipsTo getShippingFrom() {
 		return shippingFrom;
 	}
 
-	public void setShippingFrom(Shipping shippingFrom) {
+	public void setShippingFrom(ShipsTo shippingFrom) {
 		this.shippingFrom = shippingFrom;
 	}
 
-	public Collection<Shipping> getShippingTo() {
+	public Collection<ShipsTo> getShippingTo() {
 		return shippingTo;
 	}
 
-	public void setShippingTo(Set<Shipping> shippingTo) {
+	public void setShippingTo(Set<ShipsTo> shippingTo) {
 		this.shippingTo = shippingTo;
 	}
 		

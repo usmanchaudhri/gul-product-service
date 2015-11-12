@@ -20,6 +20,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gul.product.service.representation.serializer.ProductShopSerializer;
 
+/**
+ * represents a Shop which contains list of products. 
+ * - A shop can exits without a product.
+ * - A shop needs to have a return address in case if customer wants to return items.
+ **/
+
 @Entity
 @Table(name = "SHOP")
 @NamedQueries({
@@ -40,6 +46,8 @@ public class Shop implements Serializable {
 	
 	@OneToMany(mappedBy="shop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<Product> products;
+	
+	private String returnAddress;
 	
 	public Shop() {}
 	

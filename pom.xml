@@ -22,6 +22,8 @@
 		<postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 		<jetty.version>9.2.9.v20150224</jetty.version>
 		<version.restassured>2.7.0</version.restassured>
+		<version.swagger>0.7.0</version.swagger>
+		
 
 		<!-- For JSP jars -->
 		<glassfish.javax.version>2.2.3</glassfish.javax.version>
@@ -183,6 +185,34 @@
 			<artifactId>lombok</artifactId>
 			<version>1.14.4</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.federecio</groupId>
+		    <artifactId>dropwizard-swagger</artifactId>
+		    <version>${version.swagger}</version>
+		    <exclusions>
+				<exclusion>
+					<groupId>io.dropwizard</groupId>
+					<artifactId>dropwizard-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.dropwizard</groupId>
+					<artifactId>dropwizard-views-freemarker</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.dropwizard</groupId>
+					<artifactId>dropwizard-views</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.dropwizard</groupId>
+					<artifactId>dropwizard-assets</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- TEST DEPENDENCIES -->

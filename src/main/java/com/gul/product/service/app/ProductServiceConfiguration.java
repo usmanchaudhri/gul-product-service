@@ -3,14 +3,20 @@ package com.gul.product.service.app;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.DatabaseConfiguration;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+
 import java.util.Collections;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.heroku.db.HerokuDatabaseConfiguration;
@@ -38,6 +44,9 @@ public class ProductServiceConfiguration extends Configuration {
 	@NotEmpty
 	@JsonProperty
 	private String localdev = "yes";
+	
+	@JsonProperty("swagger")
+	public SwaggerBundleConfiguration swaggerBundleConfiguration;
 	
 	public Template buildTemplate() {
 		return new Template(template, defaultName);

@@ -11,7 +11,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -20,7 +19,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Product;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
+@Api("/product")
 @Path("/product")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -35,7 +38,11 @@ public class ProductResource {
 	@POST
 	@UnitOfWork
 	@Timed
-	public Response add(@Valid Product product) {
+	@ApiOperation(
+            value = "add product",
+            notes = "Add a new product and associated with it with a category, make sure to provide Category with product body",
+            response = Product.class
+    )	public Response add(@Valid Product product) {
 		Product p = productDao.create(product);
 		return Response.status(Response.Status.CREATED).entity(p).build();
 	}
@@ -47,6 +54,7 @@ public class ProductResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
+    @ApiOperation("Get all products with product id")
 	public Response getProduct(@PathParam("id") @NotEmpty Long productId) {
 		Product product = productDao.findById(productId);
 		return Response.status(Response.Status.OK).entity(product).build();
@@ -63,6 +71,7 @@ public class ProductResource {
 	@GET
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Get all products")
 	public Response listProducts() {
 		List<Product> products = productDao.findAll();
 		return Response.status(Response.Status.OK).entity(products).build();

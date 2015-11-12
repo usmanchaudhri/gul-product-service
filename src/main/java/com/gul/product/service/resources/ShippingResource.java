@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ShippingDao;
-import com.gul.product.service.representation.Shipping;
+import com.gul.product.service.representation.ShipsTo;
 
 @Path("/shipping")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,11 +34,11 @@ public class ShippingResource {
 	@POST
 	@UnitOfWork
 	@Timed
-	public Response add(@Valid Shipping shipping) {
-		Shipping shippingInfo = shippingDao.create(shipping);
-		Collection<Shipping> shippingTo = shipping.getShippingTo();
+	public Response add(@Valid ShipsTo shipping) {
+		ShipsTo shippingInfo = shippingDao.create(shipping);
+		Collection<ShipsTo> shippingTo = shipping.getShippingTo();
 		
-		for(Shipping shipsTo : shippingTo) {
+		for(ShipsTo shipsTo : shippingTo) {
 			shipsTo.setShippingFrom(shippingInfo);
 			shippingDao.create(shipsTo);
 		}
@@ -49,7 +49,7 @@ public class ShippingResource {
 	@UnitOfWork
 	@Path("/{id}")
 	public Response getProduct(@PathParam("id") @NotEmpty Long id) {
-		Shipping shipping = shippingDao.findById(id);
+		ShipsTo shipping = shippingDao.findById(id);
 		return Response.status(Response.Status.OK).entity(shipping).build();
 	}
 

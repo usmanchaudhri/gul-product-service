@@ -165,19 +165,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>2.7</version>
         <configuration>
@@ -368,6 +355,7 @@
     <h2.version>1.4.187</h2.version>
     <dropwizard.version.db>0.8.2</dropwizard.version.db>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <version.swagger>0.7.0</version.swagger>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <targetJdk>1.7</targetJdk>
   </properties>

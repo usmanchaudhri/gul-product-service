@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.gul.product.service.representation.Shipping;
+import com.gul.product.service.representation.ShipsTo;
 
 public class ShippingMappingTest {
 	
@@ -19,12 +19,12 @@ public class ShippingMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 
-		Shipping shippingFrom = new Shipping("USA");
-		Shipping shippingToPak = new Shipping("Pakistan", 5L, 35.00);
-		Shipping shippingToEngland = new Shipping("England", 2L, 20.00);
-		Shipping shippingToGermany = new Shipping("Germany", 1L, 15.00);
+		ShipsTo shippingFrom = new ShipsTo("USA");
+		ShipsTo shippingToPak = new ShipsTo("Pakistan", 5L, 35.00);
+		ShipsTo shippingToEngland = new ShipsTo("England", 2L, 20.00);
+		ShipsTo shippingToGermany = new ShipsTo("Germany", 1L, 15.00);
 
-		Set<Shipping> shippingTo = new HashSet<Shipping>();
+		Set<ShipsTo> shippingTo = new HashSet<ShipsTo>();
 		shippingTo.add(shippingToPak);
 		shippingTo.add(shippingToEngland);
 		shippingTo.add(shippingToGermany);
@@ -33,13 +33,13 @@ public class ShippingMappingTest {
 		
 		persistedClassDao.saveInNewTransaction(shippingFrom);					
 
-		Shipping retrievedShipping = persistedClassDao.getEntityManager().find(Shipping.class, shippingFrom.getId());
+		ShipsTo retrievedShipping = persistedClassDao.getEntityManager().find(ShipsTo.class, shippingFrom.getId());
 		Assert.assertNotNull(retrievedShipping.getId());
 		
-		Set<Shipping> shippingsFrom = (Set<Shipping>) retrievedShipping.getShippingTo();
-		Iterator<Shipping> ite = shippingsFrom.iterator();
+		Set<ShipsTo> shippingsFrom = (Set<ShipsTo>) retrievedShipping.getShippingTo();
+		Iterator<ShipsTo> ite = shippingsFrom.iterator();
 		while(ite.hasNext()) {
-			Shipping shipping = ite.next();
+			ShipsTo shipping = ite.next();
 			Assert.assertNotNull(shipping.getId());
 		}
 	}

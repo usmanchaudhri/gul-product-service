@@ -21,7 +21,7 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
 
-@Path("/category")
+@Path("/category") // could change the name to listings
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CategoryResource {

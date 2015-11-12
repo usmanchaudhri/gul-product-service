@@ -8,8 +8,10 @@
 		<class>com.gul.product.service.representation.PricingProduct</class>
 		<class>com.gul.product.service.representation.Shipping</class>
 		<class>com.gul.product.service.representation.Shop</class>
-		<class>com.gul.product.service.order.representation.CustomerOrder</class>
-				
+		<class>com.gul.product.service.representation.Customer</class>
+		<class>com.gul.product.service.representation.CustomerShipping</class>
+		<class>com.gul.product.service.representation.ShipsTo</class>
+								
 		<properties>
 			<!-- Disable the second-level cache -->
 			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />

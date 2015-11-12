@@ -67,6 +67,14 @@ logging:
 
 localdev: yes
 
+# REST api documentation
+swagger:
+  resourcePackage: com.gul.product.service
+
+# when registering other exception mappers, we need to set it false.
+# registerDefaultExceptionMappers: false
+
+
 # the key needs to match the suffix of the renderer
 #viewRendererConfiguration:
 #    .ftl:

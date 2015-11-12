@@ -33,7 +33,7 @@ import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
-import com.gul.product.service.representation.Shipping;
+import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
@@ -50,7 +50,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
     }
 
     private final HibernateBundle<ProductServiceConfigurationTest> hibernateBundle =
-            new HibernateBundle<ProductServiceConfigurationTest>(Product.class, Category.class, PricingProduct.class, Shipping.class, Shop.class) {
+            new HibernateBundle<ProductServiceConfigurationTest>(Product.class, Category.class, PricingProduct.class, ShipsTo.class, Shop.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();

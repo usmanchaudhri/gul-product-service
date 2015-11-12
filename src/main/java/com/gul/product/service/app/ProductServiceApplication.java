@@ -8,6 +8,8 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -28,16 +30,22 @@ import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
+import com.gul.product.service.persistance.CustomerDao;
+import com.gul.product.service.persistance.CustomerShippingDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.Customer;
+import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
-import com.gul.product.service.representation.Shipping;
+import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
+import com.gul.product.service.resources.CustomerResource;
+import com.gul.product.service.resources.CustomerShippingResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.PricingProductResource;
 import com.gul.product.service.resources.ProductResource;
@@ -52,7 +60,14 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     }
 
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
-            new HibernateBundle<ProductServiceConfiguration>(Product.class, Category.class, PricingProduct.class, Shipping.class, Shop.class) {
+            new HibernateBundle<ProductServiceConfiguration>(
+            		Product.class, 
+            		Category.class, 
+            		PricingProduct.class, 
+            		ShipsTo.class, 
+            		Shop.class,
+            		Customer.class,
+            		CustomerShipping.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -75,6 +90,13 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             }
         });
         
+        bootstrap.addBundle(new SwaggerBundle<ProductServiceConfiguration>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(ProductServiceConfiguration configuration) {
+                // this would be the preferred way to set up swagger, you can also construct the object here programtically if you want
+                return configuration.swaggerBundleConfiguration;
+            }
+        });
 		bootstrap.addBundle(hibernateBundle);
         bootstrap.addBundle(new ViewBundle());
 	}
@@ -109,6 +131,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
 		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
 		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
+		final CustomerDao customerDao = new CustomerDao(hibernateBundle.getSessionFactory());
+		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
@@ -120,6 +144,10 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new PricingProductResource(pricingProductDao));
         environment.jersey().register(new ShippingResource(shippingDao));
         environment.jersey().register(new ShopResource(shopDao));
+        environment.jersey().register(new CustomerResource(customerDao));
+        environment.jersey().register(new CustomerShippingResource(customerShippingDao));
+        
+        // add health check for service here.
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

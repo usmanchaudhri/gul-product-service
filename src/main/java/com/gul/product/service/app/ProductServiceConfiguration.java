@@ -62,10 +62,10 @@ public class ProductServiceConfiguration extends Configuration {
 
     @JsonProperty("database")
 	public DataSourceFactory getDatabase() {
-        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
-        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
-        database = databaseConfiguration.getDataSourceFactory(null);
-        LOGGER.info("Heroku DB URL=" + database.getUrl());
+//        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
+//        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+//        database = databaseConfiguration.getDataSourceFactory(null);
+//        LOGGER.info("Heroku DB URL=" + database.getUrl());
         return database;
 	}
 
@@ -97,6 +97,15 @@ public class ProductServiceConfiguration extends Configuration {
 
 	public void setLocaldev(String localdev) {
 		this.localdev = localdev;
+	}
+
+	public SwaggerBundleConfiguration getSwaggerBundleConfiguration() {
+		return swaggerBundleConfiguration;
+	}
+
+	public void setSwaggerBundleConfiguration(
+			SwaggerBundleConfiguration swaggerBundleConfiguration) {
+		this.swaggerBundleConfiguration = swaggerBundleConfiguration;
 	}
 
 }

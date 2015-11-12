@@ -37,7 +37,6 @@ import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.HelloProductResource;
-import com.gul.product.service.resources.PricingProductResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
@@ -101,7 +100,6 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(productDao));
         environment.jersey().register(new CategoryResource(categoryDao));
-        environment.jersey().register(new PricingProductResource(pricingProductDao));
         environment.jersey().register(new ShippingResource(shippingDao));
         environment.jersey().register(new ShopResource(shopDao));
 	}

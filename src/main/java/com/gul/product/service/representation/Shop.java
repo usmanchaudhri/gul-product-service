@@ -47,7 +47,7 @@ public class Shop implements Serializable {
 	@OneToMany(mappedBy="shop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<Product> products;
 	
-	private String returnAddress;
+//	private String returnAddress;
 	
 	public Shop() {}
 	

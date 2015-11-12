@@ -21,7 +21,10 @@ import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
+@Api("/shop")
 @Path("/shop")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -37,12 +40,15 @@ public class ShopResource {
 	@POST
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Adding a new shop.")
 	public Response add(@Valid Shop shop) {
 		Shop s = shopDao.create(shop);
 		return Response.status(Response.Status.CREATED).entity(s).build();
 	}
 	
-	// create products with-in the shop
+	/**
+	 * TODO - creating products with-in shops.
+	 **/
 	@POST
 	@Path("/listing/create")
 	public Response createProduct(Shop shop) {
@@ -54,6 +60,7 @@ public class ShopResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
+    @ApiOperation("Get shop for passed-in id.")
 	public Response getShop(@PathParam("id") @NotEmpty Long id) {
 		Shop shop = shopDao.findById(id);
 		return Response.status(Response.Status.OK).entity(shop).build();
@@ -62,6 +69,7 @@ public class ShopResource {
 	@GET
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Get all available shops.")
 	public Response listShops() {
 		List<Shop> shops = shopDao.findAll();
 		return Response.status(Response.Status.OK).entity(shops).build();

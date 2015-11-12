@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.wordnik.swagger.annotations.Api;
 
 /**
  *	TODO - Fetch products lazily since their could be a lot of products - getting exception while doing this. 

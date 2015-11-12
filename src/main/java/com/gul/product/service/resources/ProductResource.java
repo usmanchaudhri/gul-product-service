@@ -39,8 +39,8 @@ public class ProductResource {
 	@UnitOfWork
 	@Timed
 	@ApiOperation(
-            value = "add product",
-            notes = "Add a new product and associated with it with a category, make sure to provide Category with product body",
+            value = "Adding a new product",
+            notes = "When adding a new product make sure to provide the category id when specifying the associated category",
             response = Product.class
     )	public Response add(@Valid Product product) {
 		Product p = productDao.create(product);
@@ -54,7 +54,7 @@ public class ProductResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-    @ApiOperation("Get all products with product id")
+    @ApiOperation("Get individual product for passed-in id")
 	public Response getProduct(@PathParam("id") @NotEmpty Long productId) {
 		Product product = productDao.findById(productId);
 		return Response.status(Response.Status.OK).entity(product).build();
@@ -71,7 +71,7 @@ public class ProductResource {
 	@GET
 	@UnitOfWork
 	@Timed
-    @ApiOperation("Get all products")
+    @ApiOperation("Get list of existing products")
 	public Response listProducts() {
 		List<Product> products = productDao.findAll();
 		return Response.status(Response.Status.OK).entity(products).build();

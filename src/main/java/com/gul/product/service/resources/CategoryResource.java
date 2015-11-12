@@ -20,7 +20,10 @@ import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
+@Api("/category")
 @Path("/category") // could change the name to listings
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -35,6 +38,7 @@ public class CategoryResource {
 	@POST
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Adding a new category and its subcategories.")
 	public Response add(@Valid Category category) {
 		Category c = categoryDao.create(category);
 		
@@ -45,7 +49,6 @@ public class CategoryResource {
 				categoryDao.create(subCategory);
 			}
 		}
-		
 		return Response.status(Response.Status.CREATED).entity(c).build();
 	}
 	
@@ -67,6 +70,7 @@ public class CategoryResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
+    @ApiOperation("Get individual catgory for passed-in id.")
 	public Response getCategory(@PathParam("id") Long id) {
 		Category category = categoryDao.findById(id);
 		return Response.status(Response.Status.OK).entity(category).build();
@@ -75,6 +79,7 @@ public class CategoryResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}/products")
+    @ApiOperation("Get products for a given category id. This is a lazily loaded operation.")
 	public Response getCategoryProducts(@PathParam("id") Long id) {
 		Category category = categoryDao.findByIdLoadProducts(id);
 		Set<Product> products = category.getProducts();
@@ -84,6 +89,7 @@ public class CategoryResource {
 	@GET
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Get the list of all available categories.")
 	public Response listCategories() {
 		List<Category> category = categoryDao.findAll();
 		return Response.status(Response.Status.OK).entity(category).build();

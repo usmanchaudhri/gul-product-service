@@ -14,11 +14,22 @@ CREATE TABLE product (
     pricing_product_id bigint,
     shop_id bigint NOT NULL
 );
-
 CREATE SEQUENCE product_product_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
+    
+CREATE TABLE pricing_product (
+    pricing_product_id bigint NOT NULL,
+    stored_value numeric(4,2) NOT NULL
+);
+CREATE SEQUENCE pricing_product_pricing_product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 

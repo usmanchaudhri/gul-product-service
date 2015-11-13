@@ -136,7 +136,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ProductJsonExceptionMapper());
 
         environment.jersey().register(new HelloProductResource(template));
-        environment.jersey().register(new ProductResource(productDao));
+        environment.jersey().register(new ProductResource(productDao, categoryDao));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new ShippingResource(shippingDao));
         environment.jersey().register(new ShopResource(shopDao));

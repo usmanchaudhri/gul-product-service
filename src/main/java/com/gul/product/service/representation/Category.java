@@ -58,6 +58,10 @@ public class Category implements Serializable {
 	
 	public Category() {}
 
+	public Category(Long id) {
+		this.id = id;
+	}
+	
 	public Category(String code, String name) {
 		this.code = code;
 		this.name = name;

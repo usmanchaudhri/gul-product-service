@@ -15,6 +15,10 @@ public class ProductDao extends AbstractDAO<Product> {
 	public Product create(Product product) {
 		return persist(product);
 	}
+
+	public Product update(Product product) {
+		return persist(product);
+	}
 	
 	public Product findById(Long id) {
 		return get(id);

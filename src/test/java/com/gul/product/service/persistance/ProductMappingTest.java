@@ -11,17 +11,15 @@ import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
+import org.hamcrest.Matchers;
 
 /**
  * Entity Product test against H2 DB 
  **/
 public class ProductMappingTest {
 
-	/**
-	 * create shop and product, update the shop with additional products.
-	 **/
 	@Test
-	public void testUpdateShopWithProductsTest() throws SQLException, ConfigurationException, ProvisionException {
+	public void test_updating_an_existing_shop_with_addotional_products() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
@@ -67,7 +65,7 @@ public class ProductMappingTest {
 	}
 	
 	@Test
-	public void testProductCategoryMappingAssociationTest() throws SQLException, ConfigurationException, ProvisionException {
+	public void test_product_and_category_association_when_passing_category_name_and_code() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
@@ -97,7 +95,7 @@ public class ProductMappingTest {
 	}
 	
 	@Test
-	public void testCreatingProductPricing() throws SQLException, ConfigurationException, ProvisionException {
+	public void test_creating_product_pricing() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 
@@ -139,7 +137,7 @@ public class ProductMappingTest {
 	}
 	
 	@Test
-	public void testQueryProductByCategory() {
+	public void test_named_query_fetech_product_by_category() {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 

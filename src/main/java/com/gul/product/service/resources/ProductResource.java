@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,11 +18,12 @@ import javax.ws.rs.core.Response;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.codahale.metrics.annotation.Timed;
+import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
+import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
 
 @Api("/product")
 @Path("/product")
@@ -30,9 +32,11 @@ import com.wordnik.swagger.annotations.ApiParam;
 public class ProductResource {
 
 	private ProductDao productDao;
+	private CategoryDao categoryDao;
 	
-	public ProductResource(ProductDao productDao) {
+	public ProductResource(ProductDao productDao, CategoryDao categoryDao) {
 		this.productDao = productDao;
+		this.categoryDao = categoryDao;
 	}
 	
 	@POST
@@ -41,14 +45,46 @@ public class ProductResource {
 	@ApiOperation(
             value = "Adding a new product",
             notes = "When adding a new product make sure to provide the category id when specifying the associated category",
-            response = Product.class
-    )	public Response add(@Valid Product product) {
-		Product p = productDao.create(product);
+            response = Product.class)	
+	public Response add(@Valid Product product) {
+		Product p = null;
+		Long catgeoryId = product.getCategory().getId();
+		Category category = categoryDao.findById(catgeoryId);
+		if(category != null && category.getId() != null && category.getId() > 0) {
+			product.setCategory(category);
+			p = productDao.create(product);
+		}
 		return Response.status(Response.Status.CREATED).entity(p).build();
 	}
 	
-	public Product findProduct(@PathParam("id") Long id) {
-		return productDao.findById(id);
+	@PUT
+    @Path("/{productId}")
+	@UnitOfWork
+	@Timed
+	@ApiOperation(
+            value = "Update an existing product",
+            notes = "Currently supports updatig for the following fields i.e. name, sku, shortDesc, longDesc, imagePath",
+            response = Product.class)	
+	public Response update(@PathParam("productId") Long productId, @Valid Product product) {
+		Product p = null;
+		Product persistedProduct = productDao.findById(productId);
+		if(persistedProduct != null) {
+			updateProduct(persistedProduct, product);
+			p = productDao.update(persistedProduct);
+		} else {
+			// the product was not updated successfully
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(p).build();
+		}
+		
+		return Response.status(Response.Status.OK).entity(p).build();
+	}
+	
+	private void updateProduct(Product persistedProduct, Product requestProduct) {
+		persistedProduct.setName(requestProduct.getName());
+		persistedProduct.setSku(requestProduct.getSku());
+		persistedProduct.setShortDesc(requestProduct.getShortDesc());
+		persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
+		persistedProduct.setImagePath(requestProduct.getImagePath());
 	}
 	
 	@GET
@@ -60,14 +96,6 @@ public class ProductResource {
 		return Response.status(Response.Status.OK).entity(product).build();
 	}
 
-//	@GET
-//	@UnitOfWork
-//	@Timed
-//	public Response getProductByCategoryId(@QueryParam("categoryId") String categoryId) {
-//		List<Product> products = productDao.findProductsByCategory(categoryId);
-//		return Response.status(Response.Status.OK).entity(products).build();
-//	}
-
 	@GET
 	@UnitOfWork
 	@Timed
@@ -76,5 +104,9 @@ public class ProductResource {
 		List<Product> products = productDao.findAll();
 		return Response.status(Response.Status.OK).entity(products).build();
 	}	
+	
+	public Product findProduct(@PathParam("id") Long id) {
+		return productDao.findById(id);
+	}
 	
 }

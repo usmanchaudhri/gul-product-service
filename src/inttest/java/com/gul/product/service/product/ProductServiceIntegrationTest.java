@@ -69,7 +69,6 @@ public class ProductServiceIntegrationTest {
 	public void test_creating_new_product() throws JsonProcessingException {
 		Client client = JerseyClientBuilder.createClient();
 
-		Shop shop = new Shop("GULGS");
 		Product productRequest = new Product(); 
 		productRequest.setName("Test Women Skirt");
 		productRequest.setSku("SKU101");
@@ -77,10 +76,11 @@ public class ProductServiceIntegrationTest {
 		productRequest.setLongDesc("Long Description Women Skirt");
 		productRequest.setImagePath("/winter/2015/women");
 		productRequest.setQuantity(10L);
-		
-		Category categoryRequest = new Category("1000", "Women");
+
+		Shop shop = new Shop("GULGS");
 		productRequest.setShop(shop);
 		
+		Category categoryRequest = new Category("1000", "Women");
 		Category categoryPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
 				.request(MediaType.APPLICATION_JSON)
@@ -88,7 +88,10 @@ public class ProductServiceIntegrationTest {
 
 		Long categoryId = categoryPersisted.getId();
 		assertThat(categoryId).isNotNull();
-		productRequest.setCategory(categoryPersisted);
+		
+		Category newCategoryRequest = new Category(categoryId);
+
+		productRequest.setCategory(newCategoryRequest);
         
 		Product productPersisted = client
 			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
@@ -107,6 +110,51 @@ public class ProductServiceIntegrationTest {
 		assertThat(productPersisted.getShop().getName()).isEqualTo("GULGS");
 	} 
 	
+	@Test
+	public void test_updating_product() {
+		Client client = JerseyClientBuilder.createClient();
+
+		Product productRequest = new Product(); 
+		productRequest.setName("Test Women Skirt");
+		productRequest.setSku("SKU101");
+		productRequest.setShortDesc("Short Description Women Skirt");
+		productRequest.setLongDesc("Long Description Women Skirt");
+		productRequest.setImagePath("/winter/2015/women");
+		productRequest.setQuantity(10L);
+
+		Shop shop = new Shop("GULGS");
+		productRequest.setShop(shop);
+		
+		Category categoryRequest = new Category("1000", "Women");
+
+		Category categoryPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(categoryRequest), Category.class);
+		assertThat(categoryPersisted).isNotNull();
+
+		productRequest.setCategory(categoryPersisted);
+		Product persistedProduct = client
+			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
+			.request(MediaType.APPLICATION_JSON)
+			.post(Entity.json(productRequest), Product.class);
+		assertThat(persistedProduct).isNotNull();
+
+		persistedProduct.setName("Updated Test Women Skirt");
+		persistedProduct.setImagePath("/2015/gul/products/clothes/women/tunic");
+		
+
+		Product updatedPersistedProduct = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product/"+ persistedProduct.getId())
+				.request(MediaType.APPLICATION_JSON)
+				.put(Entity.json(persistedProduct), Product.class);
+
+		assertThat(updatedPersistedProduct.getId()).isNotNull();
+		assertThat(updatedPersistedProduct.getName()).isEqualTo("Updated Test Women Skirt");
+		assertThat(updatedPersistedProduct.getSku()).isEqualTo("SKU101");
+		assertThat(updatedPersistedProduct.getImagePath()).isEqualTo("/2015/gul/products/clothes/women/tunic");
+
+	}
 
 	@AfterClass
 	public static void teardownClass() throws IOException {

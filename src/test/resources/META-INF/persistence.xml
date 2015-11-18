@@ -11,7 +11,8 @@
 		<class>com.gul.product.service.representation.Customer</class>
 		<class>com.gul.product.service.representation.CustomerShipping</class>
 		<class>com.gul.product.service.representation.ShipsTo</class>
-								
+		<class>com.gul.product.service.representation.Order</class>
+										
 		<properties>
 			<!-- Disable the second-level cache -->
 			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />

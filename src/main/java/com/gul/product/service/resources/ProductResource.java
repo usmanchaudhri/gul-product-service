@@ -44,7 +44,7 @@ public class ProductResource {
 	@Timed
 	@ApiOperation(
             value = "Adding a new product",
-            notes = "When adding a new product make sure to provide the category id when specifying the associated category",
+            notes = "When adding a new product just provide the category id, when specifying the associated category",
             response = Product.class)	
 	public Response add(@Valid Product product) {
 		Product p = null;

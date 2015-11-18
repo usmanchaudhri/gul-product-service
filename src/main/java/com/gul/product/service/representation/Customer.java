@@ -2,6 +2,7 @@ package com.gul.product.service.representation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -46,7 +47,10 @@ public class Customer {
 	@JoinColumn(name="shop_id")
 	private Shop shop;
 
-	public Customer(String firstName, String lastName, String email,
+	@OneToMany(mappedBy="customer")
+	private List<Order> order;
+	
+ 	public Customer(String firstName, String lastName, String email,
 			String mobileNumber, Collection<CustomerShipping> customerShipping) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -111,4 +115,13 @@ public class Customer {
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
+
+	public List<Order> getOrder() {
+		return order;
+	}
+
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
+	
 }

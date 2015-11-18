@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -53,14 +54,15 @@ public class Product {
 	@Id
 	@SequenceGenerator(name = "productseq", sequenceName = "product_product_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productseq")
-	@Column(name = "product_id", nullable = false)
+	@Column(name = "product_id", nullable = false, unique = true)
 	private Long id;
-	@Column(name = "sku", nullable = false, unique = true) private String sku;	
-    @Column(name = "name", nullable = false) private String name;
-    @Column(name = "short_desc", nullable = false) private String shortDesc;
-    @Column(name = "long_desc", nullable = true) private String longDesc;
-    @Column(name = "image_path", nullable = false) private String imagePath;
-    @Column(name = "quantity", nullable = false) private Long quantity;
+	
+	@NotEmpty @Column(name = "sku", nullable = false, unique = true) private String sku;	
+	@NotEmpty @Column(name = "name", nullable = false) private String name;
+	@NotEmpty @Column(name = "short_desc", nullable = false) private String shortDesc;
+	@Column(name = "long_desc", nullable = true) private String longDesc;
+	@NotEmpty @Column(name = "image_path", nullable = false) private String imagePath;
+	@NotEmpty @Column(name = "quantity", nullable = false) private Long quantity;
     
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")

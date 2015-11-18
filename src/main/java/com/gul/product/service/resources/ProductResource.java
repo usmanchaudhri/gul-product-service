@@ -53,6 +53,10 @@ public class ProductResource {
 		if(category != null && category.getId() != null && category.getId() > 0) {
 			product.setCategory(category);
 			p = productDao.create(product);
+		} else {
+			Response.status(Response.Status.BAD_REQUEST)
+					.entity("Unable to add product without a Category, please make sure the associated Category exists or create one")
+					.build();
 		}
 		return Response.status(Response.Status.CREATED).entity(p).build();
 	}

@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
+import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
@@ -126,6 +127,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 //        	dao = new ProductDao(hibernateBundle.getSessionFactory());
 //
 //        }
+        
 	
 		final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
@@ -137,7 +139,10 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
+
+        // register exception mappers 
         environment.jersey().register(new ProductJsonExceptionMapper());
+        environment.jersey().register(new ProductConstraintViolationException());
 
         environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(productDao, categoryDao));

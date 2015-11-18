@@ -144,7 +144,10 @@ public class ProductMappingTest {
 		Shop shop = new Shop("Usman Chaudhri");
 		
 		Category category = new Category("1001", "Women");
-		Product product = new Product("SKU101", "Embroided Skirt", "Embroided Women Skirt", "Handmade embroided Women Skirt made from the finest silk", "/winter/2015/women/skirt"); 
+		Product product = new Product("SKU101", "Embroided Skirt",
+				"Embroided Women Skirt",
+				"Handmade embroided Women Skirt made from the finest silk",
+				"/winter/2015/women/skirt", 10L);
 		product.setQuantity(10L);
 		product.setCategory(category);
 		

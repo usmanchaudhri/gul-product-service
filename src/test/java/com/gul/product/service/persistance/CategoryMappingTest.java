@@ -79,12 +79,18 @@ public class CategoryMappingTest {
 
 		Shop shop = new Shop("MyShop");
 		
-		Product productSkirt = new Product("SKU101", "Embroided Skirt", "Embroided Women Skirt", "Handmade embroided Women Skirt made from the finest silk", "/winter/2015/women/skirt"); 
+		Product productSkirt = new Product("SKU101", "Embroided Skirt",
+				"Embroided Women Skirt",
+				"Handmade embroided Women Skirt made from the finest silk",
+				"/winter/2015/women/skirt", 10L);
 		productSkirt.setQuantity(10L);
 		productSkirt.setCategory(category);
 		productSkirt.setShop(shop);
 
-		Product productTop = new Product("SKU102", "Wolen Tunic Top", "Embroided Wolen Tunic Top", "Handmade embroided Women Tunic Top made from the finest silk", "/winter/2015/women/top"); 
+		Product productTop = new Product("SKU102", "Wolen Tunic Top",
+				"Embroided Wolen Tunic Top",
+				"Handmade embroided Women Tunic Top made from the finest silk",
+				"/winter/2015/women/top", 10L);
 		productTop.setQuantity(34L);
 		productTop.setCategory(category);
 		productTop.setShop(shop);

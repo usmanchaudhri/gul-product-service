@@ -14,13 +14,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
@@ -57,12 +53,12 @@ public class Product {
 	@Column(name = "product_id", nullable = false, unique = true)
 	private Long id;
 	
-	@NotEmpty @Column(name = "sku", nullable = false, unique = true) private String sku;	
-	@NotEmpty @Column(name = "name", nullable = false) private String name;
-	@NotEmpty @Column(name = "short_desc", nullable = false) private String shortDesc;
+	@NotNull @Column(name = "sku", nullable = false, unique = true) private String sku;	
+	@NotNull @Column(name = "name", nullable = false) private String name;
+	@NotNull @Column(name = "short_desc", nullable = false) private String shortDesc;
 	@Column(name = "long_desc", nullable = true) private String longDesc;
-	@NotEmpty @Column(name = "image_path", nullable = false) private String imagePath;
-	@NotEmpty @Column(name = "quantity", nullable = false) private Long quantity;
+	@NotNull @Column(name = "image_path", nullable = false) private String imagePath;
+	@NotNull @Column(name = "quantity", nullable = false) private Long quantity;
     
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")
@@ -79,12 +75,13 @@ public class Product {
 
 	public Product() {}
 	
-	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath) {
+	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath, Long quantity) {
 		this.sku = sku;
 		this.name = name;
 		this.shortDesc = shortDesc;
 		this.longDesc = longDesc;
 		this.imagePath = imagePath;
+		this.quantity = quantity;
 	}
 	
 	@Override
@@ -99,6 +96,7 @@ public class Product {
 		if(shortDesc != null ? !shortDesc.equals(product.shortDesc) : product.shortDesc != null) return false;
 		if(longDesc != null ? !longDesc.equals(product.longDesc) : product.longDesc != null) return false;
 		if(imagePath != null ? !imagePath.equals(product.imagePath) : product.imagePath != null) return false;
+		if(quantity != null ? !quantity.equals(product.quantity) : product.quantity != null) return false;
 		
 		return true;
 	}
@@ -111,6 +109,7 @@ public class Product {
 		result = 31 * result + (shortDesc != null ? shortDesc.hashCode() : 0);
 		result = 31 * result + (longDesc != null ? longDesc.hashCode() : 0);
 		result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
+		result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
 		return result;
 	}
 

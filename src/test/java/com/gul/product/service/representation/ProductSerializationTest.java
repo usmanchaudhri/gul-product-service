@@ -29,7 +29,7 @@ public class ProductSerializationTest {
 	public void serializesToJson() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		final Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
-				"/2015/winter/fall/sep/15/scarf");
+				"/2015/winter/fall/sep/15/scarf", 10L);
 		Shop shop = new Shop("gulgs");
 		product.setShop(shop);
 		

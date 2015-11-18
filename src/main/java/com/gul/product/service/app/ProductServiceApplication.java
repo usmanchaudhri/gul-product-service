@@ -128,7 +128,6 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 //
 //        }
         
-	
 		final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
 		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
@@ -142,7 +141,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 
         // register exception mappers 
         environment.jersey().register(new ProductJsonExceptionMapper());
-        environment.jersey().register(new ProductConstraintViolationException());
+//        environment.jersey().register(new ProductConstraintViolationException());
 
         environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(productDao, categoryDao));

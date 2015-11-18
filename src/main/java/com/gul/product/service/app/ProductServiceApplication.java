@@ -32,12 +32,14 @@ import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
+import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ShipsTo;
@@ -65,7 +67,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             		ShipsTo.class, 
             		Shop.class,
             		Customer.class,
-            		CustomerShipping.class) {
+            		CustomerShipping.class,
+            		Order.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -130,6 +133,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
 		final CustomerDao customerDao = new CustomerDao(hibernateBundle.getSessionFactory());
 		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
+		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);

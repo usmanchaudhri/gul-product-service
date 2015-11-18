@@ -30,6 +30,7 @@ import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
+import com.gul.product.service.exception.mappers.RuntimeExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
@@ -118,16 +119,6 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
         // Enable CORS headers
         
-        removeDefaultExceptionMappers(Boolean.TRUE, environment);
-//        if(configuration.getLocaldev().equalsIgnoreCase(Boolean.TRUE.toString())) {
-//    		final DBIFactory factory = new DBIFactory();
-//    		final DBI jdbi = factory.build(environment, configuration.getDatabase(), "postgresql");
-//    		dao = jdbi.onDemand(ProductDao.class);
-//        } else {
-//        	dao = new ProductDao(hibernateBundle.getSessionFactory());
-//
-//        }
-        
 		final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
 		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
@@ -138,10 +129,12 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
-
+        
         // register exception mappers 
+        removeDefaultExceptionMappers(Boolean.TRUE, environment);				// removes any default exeption mappers
         environment.jersey().register(new ProductJsonExceptionMapper());
-//        environment.jersey().register(new ProductConstraintViolationException());
+        environment.jersey().register(new ProductConstraintViolationException());
+        environment.jersey().register(new RuntimeExceptionMapper());
 
         environment.jersey().register(new HelloProductResource(template));
         environment.jersey().register(new ProductResource(productDao, categoryDao));
@@ -152,6 +145,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         
         // add health check for service here.
+        
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

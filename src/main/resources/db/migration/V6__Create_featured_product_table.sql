@@ -2,7 +2,6 @@
 -- Name: shop; Type: TABLE; Schema: public; Owner: test; Tablespace: 
 --
 
-
 create table FEATURED_PRODUCT (
     featured_product_id bigint not null,
     primary key (featured_product_id)

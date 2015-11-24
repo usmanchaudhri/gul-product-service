@@ -31,7 +31,7 @@ public class FeaturedProductMappingTest {
 
 		FeaturedProduct featuredProduct = new FeaturedProduct();
 		
-		product.setFeaturedProduct(featuredProduct);
+//		product.setFeaturedProduct(featuredProduct);
 		
 		persistedClassDao.saveInNewTransaction(category);					// save category first since it will be needed for the product association
 		persistedClassDao.saveInNewTransaction(product);

@@ -2,14 +2,14 @@
 -- Name: category; Type: TABLE; Schema: public; Owner: test; Tablespace: 
 --
 
-CREATE TABLE category (
-    category_id bigint NOT NULL,
-    code character varying(255),
-    name character varying(255) NOT NULL,
-    parentcategory_category_id bigint,
-    created_on date,
-    updated_on date
-
+create table CATEGORY (
+    category_id bigint not null,
+    code varchar(255),
+    created_on timestamp,
+    name varchar(255) not null,
+    updated_on timestamp,
+    parentCategory_category_id bigint,
+    primary key (category_id)
 );
 
 CREATE SEQUENCE category_category_id_seq

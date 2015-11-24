@@ -2,19 +2,21 @@
 -- Name: category; Type: TABLE; Schema: public; Owner: test; Tablespace: 
 --
 
-CREATE TABLE product (
-    product_id bigint NOT NULL,
-    image_path character varying(255) NOT NULL,
-    long_desc character varying(255),
-    name character varying(255) NOT NULL,
-    quantity bigint NOT NULL,
-    short_desc character varying(255) NOT NULL,
-    sku character varying(255) NOT NULL,
-    category_id bigint NOT NULL,
+create table PRODUCT (
+    product_id bigint not null,
+    created_on timestamp,
+    image_path varchar(255) not null,
+    long_desc varchar(255),
+    name varchar(255) not null,
+    quantity bigint not null,
+    short_desc varchar(255) not null,
+    sku varchar(255) not null,
+    updated_on timestamp,
+    category_id bigint not null,
+    featured_product_id bigint,
     pricing_product_id bigint,
-    shop_id bigint NOT NULL,
-    created_on date,
-    updated_on date
+    shop_id bigint not null,
+    primary key (product_id)
 );
 
 CREATE SEQUENCE product_product_id_seq
@@ -28,6 +30,7 @@ CREATE TABLE pricing_product (
     pricing_product_id bigint NOT NULL,
     stored_value numeric(4,2) NOT NULL
 );
+
 CREATE SEQUENCE pricing_product_pricing_product_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -35,4 +38,8 @@ CREATE SEQUENCE pricing_product_pricing_product_id_seq
     NO MAXVALUE
     CACHE 1;
 
+create table FEATURED_PRODUCT (
+    featured_product_id bigint not null,
+    primary key (featured_product_id)
+);
 

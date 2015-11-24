@@ -20,7 +20,7 @@ public class FeaturedProduct {
 	@SequenceGenerator(name = "featuredproductsseq", sequenceName = "featuredproducts_featuredproducts_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "featuredproductsseq")
 	@Column(name = "featured_product_id", nullable = false, unique = true) private Long id;
-	@OneToOne(mappedBy = "featuredProduct") private Product product;
+//	@OneToOne(mappedBy = "featuredProduct") private Product product;
 
 	public Long getId() {
 		return id;
@@ -30,12 +30,12 @@ public class FeaturedProduct {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+//	public Product getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 	
 }

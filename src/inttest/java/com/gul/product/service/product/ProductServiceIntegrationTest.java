@@ -62,7 +62,7 @@ public class ProductServiceIntegrationTest {
 		flyway.migrate();		// migrate shop
 		flyway.migrate();		// migrate customer
 		flyway.migrate();		// migrate productVariation
-		flyway.migrate();		// migrate featureProducts
+	//	flyway.migrate();		// migrate featureProducts
 	}
 	
 	@Test

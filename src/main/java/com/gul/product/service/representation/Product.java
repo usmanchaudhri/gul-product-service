@@ -87,9 +87,9 @@ public class Product implements TimeStamped {
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 	
 	// optional feature for now.
-//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
-//	@JoinColumn(name="featured_product_id", nullable=true)
-//	private FeaturedProduct featuredProduct;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name="featured_product_id", nullable=true)
+	private FeaturedProduct featuredProduct;
 
 	public Product() {}
 	
@@ -239,12 +239,12 @@ public class Product implements TimeStamped {
 		this.updatedOn = updatedOn;
 	}
 
-//	public FeaturedProduct getFeaturedProduct() {
-//		return featuredProduct;
-//	}
-//
-//	public void setFeaturedProduct(FeaturedProduct featuredProduct) {
-//		this.featuredProduct = featuredProduct;
-//	}
+	public FeaturedProduct getFeaturedProduct() {
+		return featuredProduct;
+	}
+
+	public void setFeaturedProduct(FeaturedProduct featuredProduct) {
+		this.featuredProduct = featuredProduct;
+	}
 
 }

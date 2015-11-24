@@ -27,7 +27,6 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.eventbus.EventBus;
 import com.gul.product.service.authenticate.SimpleAuthenticator;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
@@ -44,9 +43,11 @@ import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.FeaturedProduct;
 import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.representation.User;
@@ -74,7 +75,9 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             		Shop.class,
             		Customer.class,
             		CustomerShipping.class,
-            		Order.class) {
+            		Order.class,
+            		FeaturedProduct.class,
+            		ProductVariation.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();

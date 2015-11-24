@@ -34,6 +34,7 @@ import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.FeaturedProduct;
 import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
@@ -62,7 +63,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
             		Shop.class,
             		Customer.class,
             		CustomerShipping.class,
-            		Order.class,            		
+            		Order.class,    
+            		FeaturedProduct.class,
             		ProductVariation.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {

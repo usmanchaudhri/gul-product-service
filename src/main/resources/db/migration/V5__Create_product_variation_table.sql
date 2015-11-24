@@ -13,7 +13,7 @@ create table PRODUCT_VARIATION (
     size varchar(255),
     product_id bigint not null,
     primary key (productvariation_id)
-)
+);
     
 CREATE SEQUENCE productvariation_productvariation_id_seq 
 	START WITH 1 

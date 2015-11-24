@@ -37,9 +37,3 @@ CREATE SEQUENCE pricing_product_pricing_product_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-create table FEATURED_PRODUCT (
-    featured_product_id bigint not null,
-    primary key (featured_product_id)
-);
-

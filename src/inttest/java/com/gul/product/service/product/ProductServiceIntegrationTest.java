@@ -4,14 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import io.dropwizard.flyway.FlywayFactory;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
 import org.apache.commons.lang3.StringUtils;
 import org.flywaydb.core.Flyway;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -21,6 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gul.product.service.app.ProductServiceApplicationTest;
 import com.gul.product.service.app.ProductServiceConfigurationTest;
@@ -62,7 +66,7 @@ public class ProductServiceIntegrationTest {
 		flyway.migrate();		// migrate shop
 		flyway.migrate();		// migrate customer
 		flyway.migrate();		// migrate productVariation
-	//	flyway.migrate();		// migrate featureProducts
+		flyway.migrate();		// migrate featureProducts
 	}
 	
 	@Test
@@ -148,6 +152,14 @@ public class ProductServiceIntegrationTest {
 		assertThat(categoryPersisted).isNotNull();
 
 		productRequest.setCategory(categoryPersisted);
+		
+		// testing passing empty variation
+		ProductVariation variation = new ProductVariation();
+		variation.setProduct(productRequest);
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation);
+		productRequest.setProductVariation(variations);
+		
 		Product persistedProduct = client
 			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
 			.request(MediaType.APPLICATION_JSON)

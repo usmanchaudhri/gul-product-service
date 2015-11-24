@@ -149,8 +149,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
 
-        EventBus eventBus = new EventBus();
-        environment.jersey().register(eventBus);
+//        EventBus eventBus = new EventBus();
+//        environment.jersey().register(eventBus);
         
 //        environment.jersey().register(new OAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
         

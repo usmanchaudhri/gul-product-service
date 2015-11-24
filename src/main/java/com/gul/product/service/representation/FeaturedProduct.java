@@ -20,7 +20,7 @@ public class FeaturedProduct {
 	@SequenceGenerator(name = "featuredproductsseq", sequenceName = "featuredproducts_featuredproducts_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "featuredproductsseq")
 	@Column(name = "featured_product_id", nullable = false, unique = true) private Long id;
-	@OneToOne(mappedBy="pricingProduct") private Product product;
+	@OneToOne(mappedBy = "featuredProduct") private Product product;
 
 	public Long getId() {
 		return id;

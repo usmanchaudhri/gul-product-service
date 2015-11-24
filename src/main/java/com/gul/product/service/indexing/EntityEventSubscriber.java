@@ -7,10 +7,9 @@ import com.google.common.eventbus.EventBus;
 
 public class EntityEventSubscriber {
 
-	// wire this in via
 	private EventBus eventBus;
 	
-	@PostConstruct
+//	@PostConstruct
 	public void init() {
 		eventBus.register(this);
 	}

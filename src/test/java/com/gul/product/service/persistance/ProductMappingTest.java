@@ -1,8 +1,12 @@
 package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
+import java.util.List;
+
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -10,8 +14,8 @@ import com.google.inject.ProvisionException;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.Shop;
-import org.hamcrest.Matchers;
 
 /**
  * Entity Product test against H2 DB 
@@ -165,6 +169,34 @@ public class ProductMappingTest {
 		Assert.assertTrue(productQuery.getName().equals("Embroided Skirt"));
 		Assert.assertTrue(productQuery.getSku().equals("SKU101"));
 		Assert.assertTrue(productQuery.getCategory().getName().equals("Women"));
+	}
+	
+	@Ignore
+	@Test
+	public void test_add_variation_size_to_product() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+
+		Shop shop = new Shop("Gulgs");
+		Category category = new Category("1001", "Women");
+		Product product = new Product("SKU101", "Embroided Skirt",
+				"Embroided Women Skirt",
+				"Handmade embroided Women Skirt made from the finest silk",
+				"/winter/2015/women/skirt", 10L);
+		product.setQuantity(10L);
+		product.setCategory(category);
+		product.setShop(shop);
+	
+		persistedClassDao.saveInNewTransaction(category);
+		persistedClassDao.saveInNewTransaction(product);
+		
+		Product persistedProduct = persistedClassDao.getEntityManager().find(Product.class, product.getId());
+		Assert.assertNotNull(persistedProduct.getId());
+		List<ProductVariation> persistedVariations = persistedProduct.getProductVariation();
+		for(ProductVariation persistedVariation : persistedVariations) {
+			Assert.assertNotNull(persistedVariation.getId());
+		}
+		
 	}
 	
 	

@@ -12,8 +12,11 @@ CREATE TABLE product (
     sku character varying(255) NOT NULL,
     category_id bigint NOT NULL,
     pricing_product_id bigint,
-    shop_id bigint NOT NULL
+    shop_id bigint NOT NULL,
+    created_on date,
+    updated_on date
 );
+
 CREATE SEQUENCE product_product_id_seq
     START WITH 1
     INCREMENT BY 1

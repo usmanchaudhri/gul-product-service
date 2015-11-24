@@ -2,6 +2,7 @@ package com.gul.product.service.app;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -26,6 +27,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gul.product.service.authenticate.SimpleAuthenticator;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
@@ -46,6 +48,7 @@ import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
+import com.gul.product.service.representation.User;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
@@ -143,9 +146,11 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ShopResource(shopDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
+        environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
+        
+//        environment.jersey().register(new OAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
         
         // add health check for service here.
-        
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

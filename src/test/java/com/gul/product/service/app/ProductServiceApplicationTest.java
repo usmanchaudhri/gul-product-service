@@ -6,7 +6,6 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.flyway.FlywayBundle;
 import io.dropwizard.flyway.FlywayFactory;
 import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -26,13 +25,19 @@ import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.CategoryDao;
+import com.gul.product.service.persistance.CustomerDao;
+import com.gul.product.service.persistance.CustomerShippingDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.Customer;
+import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
@@ -49,7 +54,16 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
     }
 
     private final HibernateBundle<ProductServiceConfigurationTest> hibernateBundle =
-            new HibernateBundle<ProductServiceConfigurationTest>(Product.class, Category.class, PricingProduct.class, ShipsTo.class, Shop.class) {
+            new HibernateBundle<ProductServiceConfigurationTest>(
+            		Product.class, 
+            		Category.class, 
+            		PricingProduct.class, 
+            		ShipsTo.class, 
+            		Shop.class,
+            		Customer.class,
+            		CustomerShipping.class,
+            		Order.class,            		
+            		ProductVariation.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();
@@ -92,6 +106,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 		final PricingProductDao pricingProductDao = new PricingProductDao(hibernateBundle.getSessionFactory());
 		final ShippingDao shippingDao = new ShippingDao(hibernateBundle.getSessionFactory());
 		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
+		final CustomerDao customerDao = new CustomerDao(hibernateBundle.getSessionFactory());
+		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);

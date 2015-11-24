@@ -4,6 +4,7 @@
 	version="2.0">
 	<persistence-unit name="db-manager">
 		<class>com.gul.product.service.representation.Product</class>
+		<class>com.gul.product.service.representation.ProductVariation</class>
 		<class>com.gul.product.service.representation.Category</class>
 		<class>com.gul.product.service.representation.PricingProduct</class>
 		<class>com.gul.product.service.representation.Shipping</class>
@@ -12,7 +13,8 @@
 		<class>com.gul.product.service.representation.CustomerShipping</class>
 		<class>com.gul.product.service.representation.ShipsTo</class>
 		<class>com.gul.product.service.representation.Order</class>
-										
+		<class>com.gul.product.service.representation.FeaturedProduct</class>
+												
 		<properties>
 			<!-- Disable the second-level cache -->
 			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />

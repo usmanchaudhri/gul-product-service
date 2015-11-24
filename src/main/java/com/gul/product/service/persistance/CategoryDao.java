@@ -1,8 +1,12 @@
 package com.gul.product.service.persistance;
 
+import java.util.Date;
 import java.util.List;
+
 import org.hibernate.SessionFactory;
+
 import com.gul.product.service.representation.Category;
+
 import io.dropwizard.hibernate.AbstractDAO;
 
 public class CategoryDao extends AbstractDAO<Category> {
@@ -12,6 +16,7 @@ public class CategoryDao extends AbstractDAO<Category> {
 	}
 
 	public Category create(Category category) {
+		category.setCreatedOn(new Date());
 		return persist(category);
 	}
 	

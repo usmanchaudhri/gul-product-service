@@ -1,11 +1,8 @@
 package com.gul.product.service.representation;
 
-import java.io.Serializable;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,10 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.wordnik.swagger.annotations.Api;
+import com.gul.product.service.audit.TimeStamped;
 
 /**
  *	TODO - Fetch products lazily since their could be a lot of products - getting exception while doing this. 
@@ -37,7 +32,7 @@ import com.wordnik.swagger.annotations.Api;
             query = "SELECT c FROM Category c"
     )
 })
-public class Category implements Serializable {
+public class Category implements TimeStamped {
 	
 	@Id 
     @SequenceGenerator(name = "categorySeq", sequenceName="category_category_id_seq", allocationSize=1)
@@ -47,7 +42,6 @@ public class Category implements Serializable {
 	@Column(name = "name", nullable = false) private String name;
 
 	@OneToMany(mappedBy="category", fetch = FetchType.LAZY)
-//	@JsonManagedReference(value="productCategory")
 	private Set<Product> products; 
 	
 	@ManyToOne
@@ -56,6 +50,9 @@ public class Category implements Serializable {
 	@OneToMany(mappedBy="parentCategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<Category> subCategories;
 	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+
 	public Category() {}
 
 	public Category(Long id) {
@@ -140,6 +137,26 @@ public class Category implements Serializable {
 
 	public Set<Product> getProducts() {
 		return products;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 

@@ -1,22 +1,25 @@
 package com.gul.product.service.persistance;
 
 import io.dropwizard.hibernate.AbstractDAO;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import com.gul.product.service.representation.Product;
 
-// dao class
+
 public class ProductDao extends AbstractDAO<Product> {
 
 	public ProductDao(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
-
+	
 	public Product create(Product product) {
+		product.setCreatedOn(new Date());
 		return persist(product);
 	}
 
 	public Product update(Product product) {
+		product.setUpdatedOn(new Date());
 		return persist(product);
 	}
 	

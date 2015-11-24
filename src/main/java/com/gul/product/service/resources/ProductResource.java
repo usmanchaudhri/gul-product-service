@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,6 +23,7 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.ProductVariation;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -52,13 +54,10 @@ public class ProductResource {
 		Category category = categoryDao.findById(catgeoryId);
 		if(category != null && category.getId() != null && category.getId() > 0) {
 			product.setCategory(category);
+			setProductVariation(product);
 			p = productDao.create(product);
 		} else {
-			return Response
-					.serverError()
-					.status(Response.Status.BAD_REQUEST)
-					.entity("Cannot add product without Category, add Category first")
-					.build();
+			throw new WebApplicationException("cannot add product without category");
 		}
 		return Response.status(Response.Status.CREATED).entity(p).build();
 	}
@@ -85,14 +84,6 @@ public class ProductResource {
 		return Response.status(Response.Status.OK).entity(p).build();
 	}
 	
-	private void updateProduct(Product persistedProduct, Product requestProduct) {
-		persistedProduct.setName(requestProduct.getName());
-		persistedProduct.setSku(requestProduct.getSku());
-		persistedProduct.setShortDesc(requestProduct.getShortDesc());
-		persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
-		persistedProduct.setImagePath(requestProduct.getImagePath());
-	}
-	
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
@@ -111,6 +102,22 @@ public class ProductResource {
 		return Response.status(Response.Status.OK).entity(products).build();
 	}	
 	
+	// sets product in ProductVariation since it is a bi-relation.
+	private void setProductVariation(Product request) {
+		List<ProductVariation> variations = request.getProductVariation();
+		for(ProductVariation variation : variations) {
+			variation.setProduct(request);
+		}
+	}
+	
+	private void updateProduct(Product persistedProduct, Product requestProduct) {
+		persistedProduct.setName(requestProduct.getName());
+		persistedProduct.setSku(requestProduct.getSku());
+		persistedProduct.setShortDesc(requestProduct.getShortDesc());
+		persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
+		persistedProduct.setImagePath(requestProduct.getImagePath());
+	}
+
 	public Product findProduct(@PathParam("id") Long id) {
 		return productDao.findById(id);
 	}

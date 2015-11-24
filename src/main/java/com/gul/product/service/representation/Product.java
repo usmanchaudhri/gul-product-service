@@ -1,5 +1,8 @@
 package com.gul.product.service.representation;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,13 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.TypeDef;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.gul.product.service.audit.TimeStamped;
 
 /**
  *	TODO - incase if we need to generate UUID's for products
@@ -45,7 +52,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 //@JsonPropertyOrder(value = {"id", "name", "sku", "shortDesc", "longDesc", "imagePath", "quantity", "pricingProduct", "category", "shop"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
-public class Product {
+public class Product implements TimeStamped {
 	
 	@Id
 	@SequenceGenerator(name = "productseq", sequenceName = "product_product_id_seq", allocationSize = 1)
@@ -66,12 +73,23 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
-//	@JsonBackReference(value="productCategory")
 	private Category category;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id", referencedColumnName="shop_id", nullable=false)
 	private Shop shop;
+	
+	// Optional - we may or may not add variations
+	@OneToMany(mappedBy="product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<ProductVariation> productVariation;
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+	
+	// optional feature for now.
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name="featured_product_id", nullable=true)
+	private FeaturedProduct featuredProduct;
 
 	public Product() {}
 	
@@ -161,7 +179,6 @@ public class Product {
 		this.id = id;
 	}
 
-//	@JsonIgnore
 	public Category getCategory() {
 		return category;
 	}
@@ -192,6 +209,42 @@ public class Product {
 
 	public void setShop(Shop shop) {
 		this.shop = shop;
+	}
+
+	public List<ProductVariation> getProductVariation() {
+		return productVariation;
+	}
+
+	public void setProductVariation(List<ProductVariation> productVariation) {
+		this.productVariation = productVariation;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
+	public FeaturedProduct getFeaturedProduct() {
+		return featuredProduct;
+	}
+
+	public void setFeaturedProduct(FeaturedProduct featuredProduct) {
+		this.featuredProduct = featuredProduct;
 	}
 
 }

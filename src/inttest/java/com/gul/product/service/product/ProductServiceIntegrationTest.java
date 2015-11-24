@@ -1,13 +1,14 @@
 package com.gul.product.service.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import io.dropwizard.flyway.FlywayFactory;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -18,18 +19,20 @@ import org.h2.jdbcx.JdbcDataSource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gul.product.service.app.ProductServiceApplicationTest;
 import com.gul.product.service.app.ProductServiceConfigurationTest;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.Shop;
 
 /**
- * End to end testing for product service. 
- * This class uses Flyway (db utility)
- * which loads the DB migrations for initial database setup. Rest resources are called using HTTP client and response are than verified.
+ * End to end testing for product service. This class uses Flyway (db utility)
+ * which loads the DB migrations for initial database setup. Rest resources are
+ * called using HTTP client and response are than verified.
  **/
 public class ProductServiceIntegrationTest {
 	
@@ -54,15 +57,12 @@ public class ProductServiceIntegrationTest {
 		ds.setPassword(password);		
 
 		flyway = flywayFactory.build(ds);
-
-		// migrate category
-		flyway.migrate();		
-		
-		// migrate product
-		flyway.migrate();
-		
-		// migrate shop
-		flyway.migrate();
+		flyway.migrate();		// migrate category
+		flyway.migrate();		// migrate product
+		flyway.migrate();		// migrate shop
+		flyway.migrate();		// migrate customer
+		flyway.migrate();		// migrate productVariation
+		flyway.migrate();		// migrate featureProducts
 	}
 	
 	@Test
@@ -90,9 +90,24 @@ public class ProductServiceIntegrationTest {
 		assertThat(categoryId).isNotNull();
 		
 		Category newCategoryRequest = new Category(categoryId);
-
 		productRequest.setCategory(newCategoryRequest);
-        
+		
+		ProductVariation variation1 = new ProductVariation();
+		variation1.setColor("blue");
+		variation1.setQuantity("5");
+		variation1.setSize("x");
+		variation1.setProduct(productRequest);
+		ProductVariation variation2 = new ProductVariation();
+		variation2.setColor("blue");
+		variation2.setQuantity("2");
+		variation2.setSize("m");
+		variation2.setProduct(productRequest);
+
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation1);
+		variations.add(variation2);
+		productRequest.setProductVariation(variations);
+		
 		Product productPersisted = client
 			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
 			.request(MediaType.APPLICATION_JSON)
@@ -105,7 +120,6 @@ public class ProductServiceIntegrationTest {
 		assertThat(productPersisted.getShortDesc()).isEqualTo("Short Description Women Skirt");
 		assertThat(productPersisted.getLongDesc()).isEqualTo("Long Description Women Skirt");
 		assertThat(productPersisted.getImagePath()).isEqualTo("/winter/2015/women");
-		
 		assertThat(productPersisted.getShop().getId()).isNotNull();
 		assertThat(productPersisted.getShop().getName()).isEqualTo("GULGS");
 	} 
@@ -153,8 +167,60 @@ public class ProductServiceIntegrationTest {
 		assertThat(updatedPersistedProduct.getName()).isEqualTo("Updated Test Women Skirt");
 		assertThat(updatedPersistedProduct.getSku()).isEqualTo("SKU101");
 		assertThat(updatedPersistedProduct.getImagePath()).isEqualTo("/2015/gul/products/clothes/women/tunic");
-
 	}
+	
+	@Test
+	public void test_add_variation_size_when_creating_a_new_product() {
+		Client client = JerseyClientBuilder.createClient();
+
+		Product productRequest = new Product(); 
+		productRequest.setName("Test Women Skirt");
+		productRequest.setSku("SKU101");
+		productRequest.setShortDesc("Short Description Women Skirt");
+		productRequest.setLongDesc("Long Description Women Skirt");
+		productRequest.setImagePath("/winter/2015/women");
+		productRequest.setQuantity(10L);
+
+		Shop shop = new Shop("Gulgs");
+		productRequest.setShop(shop);
+		
+		ProductVariation variation1 = new ProductVariation();
+		variation1.setColor("blue");
+		variation1.setQuantity("5");
+		variation1.setSize("x");
+		variation1.setProduct(productRequest);
+		ProductVariation variation2 = new ProductVariation();
+		variation2.setColor("blue");
+		variation2.setQuantity("2");
+		variation2.setSize("m");
+		variation2.setProduct(productRequest);
+
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation1);
+		variations.add(variation2);
+		productRequest.setProductVariation(variations);
+		
+		Category categoryRequest = new Category("1000", "Women");
+		Category categoryPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(categoryRequest), Category.class);
+		assertThat(categoryPersisted).isNotNull();
+	
+		productRequest.setCategory(categoryPersisted);
+		Product persistedProduct = client
+			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
+			.request(MediaType.APPLICATION_JSON)
+			.post(Entity.json(productRequest), Product.class);
+		assertThat(persistedProduct).isNotNull();
+
+		assertThat(persistedProduct.getId()).isNotNull();
+		List<ProductVariation> persistedVariations =  persistedProduct.getProductVariation();
+		for(ProductVariation persisterVariation : persistedVariations) {
+			assertThat(persisterVariation.getId()).isNotNull();
+		}
+	}
+	
 
 	@AfterClass
 	public static void teardownClass() throws IOException {

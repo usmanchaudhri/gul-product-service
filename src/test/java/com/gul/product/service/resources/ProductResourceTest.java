@@ -6,18 +6,19 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import io.dropwizard.testing.junit.ResourceTestRule;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.client.Entity;
-
 import org.junit.After;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
-
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.ProductVariation;
 
 /**
  * these tests are at the REST level
@@ -31,7 +32,7 @@ public class ProductResourceTest {
 	public static final ResourceTestRule resources = ResourceTestRule.builder().addResource(new ProductResource(productDao, categoryDao)).build();
 	
 	@Test
-	public void testGetProduct() {
+	public void test_get_product() {
 		Product product = new Product(
 				"abc131", 
 				"test product",
@@ -45,7 +46,7 @@ public class ProductResourceTest {
 	}
 	
 	@Test
-	public void testProductCreation() {
+	public void test_product_creation() {
 		Product product = new Product(
 				"Cloth_1001", 
 				"Embroided Skirt",
@@ -57,7 +58,23 @@ public class ProductResourceTest {
 		product.setCategory(category);
 		PricingProduct pricingProduct = new PricingProduct(50.98);
 		product.setPricingProduct(pricingProduct);
+		
+		ProductVariation variation1 = new ProductVariation();
+		variation1.setColor("blue");
+		variation1.setQuantity("5");
+		variation1.setSize("x");
+		variation1.setProduct(product);
+		ProductVariation variation2 = new ProductVariation();
+		variation2.setColor("blue");
+		variation2.setQuantity("2");
+		variation2.setSize("m");
+		variation2.setProduct(product);
 
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation1);
+		variations.add(variation2);
+		product.setProductVariation(variations);
+		
 		when(productDao.create(product)).thenReturn(product);		
 		when(categoryDao.findById(category.getId())).thenReturn(category);
 		
@@ -66,7 +83,7 @@ public class ProductResourceTest {
 	}
 	
 	@Test
-	public void testGetCategoryWithoutProducts() {
+	public void test_get_category_without_products() {
 		Product product = new Product(
 				"Cloth_1001", 
 				"Embroided Skirt",
@@ -79,11 +96,64 @@ public class ProductResourceTest {
 		PricingProduct pricingProduct = new PricingProduct(50.98);
 		product.setPricingProduct(pricingProduct);
 		
+		ProductVariation variation1 = new ProductVariation();
+		variation1.setColor("blue");
+		variation1.setQuantity("5");
+		variation1.setSize("x");
+		variation1.setProduct(product);
+		ProductVariation variation2 = new ProductVariation();
+		variation2.setColor("blue");
+		variation2.setQuantity("2");
+		variation2.setSize("m");
+		variation2.setProduct(product);
+
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation1);
+		variations.add(variation2);
+		product.setProductVariation(variations);
+
 		when(productDao.create(product)).thenReturn(product);
 		when(categoryDao.findById(category.getId())).thenReturn(category);
 		assertThat(resources.client().target("/product").request().post(Entity.json(product), Product.class)).isEqualTo(product);
 		verify(productDao).create(product);
 	}
+	
+	@Test
+	public void test_add_variation_size_when_saving_product() {
+		Product product = new Product(
+				"Cloth_1001", 
+				"Embroided Skirt",
+				"Handmade embroidreded skirt", 
+				"Pakistani cultural Skirt, hand embroidery",
+				"/winter/2015", 10L);
+		Category category = new Category("1001", "Sub Girls Clothing");
+		category.setId(10L);
+		product.setCategory(category);
+		PricingProduct pricingProduct = new PricingProduct(50.98);
+		product.setPricingProduct(pricingProduct);
+	
+		ProductVariation variation1 = new ProductVariation();
+		variation1.setColor("blue");
+		variation1.setQuantity("5");
+		variation1.setSize("x");
+		variation1.setProduct(product);
+		ProductVariation variation2 = new ProductVariation();
+		variation2.setColor("blue");
+		variation2.setQuantity("2");
+		variation2.setSize("m");
+		variation2.setProduct(product);
+
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation1);
+		variations.add(variation2);
+		product.setProductVariation(variations);
+		
+		when(productDao.create(product)).thenReturn(product);
+		when(categoryDao.findById(category.getId())).thenReturn(category);
+		assertThat(resources.client().target("/product").request().post(Entity.json(product), Product.class)).isEqualTo(product);
+		verify(productDao).create(product);
+	}
+	
 	
 	@After
     public void tearDown() {

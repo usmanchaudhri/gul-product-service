@@ -27,6 +27,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.eventbus.EventBus;
 import com.gul.product.service.authenticate.SimpleAuthenticator;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
@@ -147,6 +148,9 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
+
+        EventBus eventBus = new EventBus();
+        environment.jersey().register(eventBus);
         
 //        environment.jersey().register(new OAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
         

@@ -56,6 +56,8 @@ public class ProductResource {
 			product.setCategory(category);
 			setProductVariation(product);
 			p = productDao.create(product);
+			
+			// send data to Solr
 		} else {
 			throw new WebApplicationException("cannot add product without category");
 		}

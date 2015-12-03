@@ -88,6 +88,12 @@
 
 		<dependency>
 			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-client</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-assets</artifactId>
 			<version>${dropwizard.version}</version>
 		</dependency>
@@ -214,13 +220,36 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>3.6.0</version>
+		    <exclusions>
+				<exclusion>
+					<groupId>commons-httpclient</groupId>
+					<artifactId>commons-httpclient</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>				
+				</exclusion>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>				
+				</exclusion>
+		    </exclusions>
+		</dependency>
 
 		<!-- TEST DEPENDENCIES -->
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>4.0</version>
-			<scope>test</scope>
+<!-- 			<scope>test</scope> -->
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -253,6 +282,17 @@
 			<scope>test</scope>
 		</dependency>
 
+<!-- 		<dependency> -->
+<!--             <groupId>com.hubspot.dropwizard</groupId> -->
+<!--             <artifactId>dropwizard-guice</artifactId> -->
+<!--             <version>0.8.4.0</version> -->
+<!--         </dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.glassfish.hk2</groupId> -->
+<!-- 			<artifactId>guice-bridge</artifactId> -->
+<!-- 			<version>2.3.0</version> -->
+<!-- 		</dependency> -->
 
 		<!-- <dependency> -->
 		<!-- <groupId>org.hibernate</groupId> -->
@@ -282,6 +322,32 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jukito</groupId>
+			<artifactId>jukito</artifactId>
+			<version>1.4.1</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.inject.extensions</groupId>
+					<artifactId>guice-assistedinject</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 		<!-- <dependency> -->
 		<!-- <groupId>javax</groupId> -->
 		<!-- <artifactId>javaee-web-api</artifactId> -->

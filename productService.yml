@@ -71,6 +71,15 @@ localdev: yes
 swagger:
   resourcePackage: com.gul.product.service.resources
 
+# Jersey client properties
+jerseyClient:
+  minThreads: 1
+  maxThreads: 128
+  workQueueSize: 8
+  gzipEnabled: true
+  gzipEnabledForRequests: true
+  chunkedEncodingEnabled: true
+
 # when registering other exception mappers, we need to set it false.
 # registerDefaultExceptionMappers: false
 

@@ -3,7 +3,7 @@ package com.gul.product.service.resources;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.List;
-
+import java.util.Map;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,17 +13,23 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
+import javax.ws.rs.core.UriBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
+import com.gul.product.service.representation.SolrDoc;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -35,12 +41,19 @@ public class ProductResource {
 
 	private ProductDao productDao;
 	private CategoryDao categoryDao;
+	private Client client;
 	
 	public ProductResource(ProductDao productDao, CategoryDao categoryDao) {
 		this.productDao = productDao;
 		this.categoryDao = categoryDao;
 	}
 	
+	public ProductResource(ProductDao productDao, CategoryDao categoryDao, Client client) {
+		this.productDao = productDao;
+		this.categoryDao = categoryDao;
+		this.client = client;
+	}
+
 	@POST
 	@UnitOfWork
 	@Timed
@@ -103,7 +116,7 @@ public class ProductResource {
 		List<Product> products = productDao.findAll();
 		return Response.status(Response.Status.OK).entity(products).build();
 	}	
-	
+
 	// sets product in ProductVariation since it is a bi-relation.
 	private void setProductVariation(Product request) {
 		List<ProductVariation> variations = request.getProductVariation();
@@ -120,8 +133,27 @@ public class ProductResource {
 		persistedProduct.setImagePath(requestProduct.getImagePath());
 	}
 
+	private SolrDoc sendToSolr(Product product) {
+		SolrDoc solrDoc = new SolrDoc();
+		solrDoc.setId(1L);
+		solrDoc.setProductName("Handbag");
+		solrDoc.setProductDesc("Handbag handmade");
+		solrDoc.setProductSku("SKU_HANDBAG_101");
+		solrDoc.setProductShop("gulgs");
+		return solrDoc;
+	}
+	
 	public Product findProduct(@PathParam("id") Long id) {
 		return productDao.findById(id);
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
 	
 }

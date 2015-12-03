@@ -3,6 +3,7 @@ package com.gul.product.service.app;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.auth.basic.BasicAuthFactory;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
+import javax.ws.rs.client.Client;
 import javax.ws.rs.ext.ExceptionMapper;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -65,7 +67,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
     public static void main(String[] args) throws Exception {
         new ProductServiceApplication().run(args);
     }
-
+    
     private final HibernateBundle<ProductServiceConfiguration> hibernateBundle =
             new HibernateBundle<ProductServiceConfiguration>(
             		Product.class, 
@@ -133,34 +135,30 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final CustomerDao customerDao = new CustomerDao(hibernateBundle.getSessionFactory());
 		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
-		
+        final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
+
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         
-        // register exception mappers 
+        // register exception mappers
         removeDefaultExceptionMappers(Boolean.TRUE, environment);				// removes any default exeption mappers
         environment.jersey().register(new ProductJsonExceptionMapper());
         environment.jersey().register(new ProductConstraintViolationException());
         environment.jersey().register(new RuntimeExceptionMapper());
 
         environment.jersey().register(new HelloProductResource(template));
-        environment.jersey().register(new ProductResource(productDao, categoryDao));
+        environment.jersey().register(new ProductResource(productDao, categoryDao, client));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new ShippingResource(shippingDao));
         environment.jersey().register(new ShopResource(shopDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
-
-//        EventBus eventBus = new EventBus();
-//        environment.jersey().register(eventBus);
-        
-//        environment.jersey().register(new OAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
-        
-        // add health check for service here.
+//      TODO - add health check for service here.
+//      environment.lifecycle().manage(TemplateHealthCheck.class);
 	}
 	
-	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {
+	private void removeDefaultExceptionMappers(boolean deleteDefault, Environment environment) {
 	    if(deleteDefault) {
 	        ResourceConfig jrConfig = environment.jersey().getResourceConfig();
 	        Set<Object> dwSingletons = jrConfig.getSingletons();

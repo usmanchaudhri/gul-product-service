@@ -30,8 +30,7 @@ public class FeaturedProductMappingTest {
 		product.setShop(shop);
 
 		FeaturedProduct featuredProduct = new FeaturedProduct();
-		
-//		product.setFeaturedProduct(featuredProduct);
+		product.setFeaturedProduct(featuredProduct);
 		
 		persistedClassDao.saveInNewTransaction(category);					// save category first since it will be needed for the product association
 		persistedClassDao.saveInNewTransaction(product);
@@ -45,20 +44,6 @@ public class FeaturedProductMappingTest {
 		Assert.assertNotNull(retrievedFeaturedProduct.getId());
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

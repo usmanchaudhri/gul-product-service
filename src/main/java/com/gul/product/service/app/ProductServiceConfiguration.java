@@ -1,8 +1,8 @@
 package com.gul.product.service.app;
 
 import io.dropwizard.Configuration;
+import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.db.DatabaseConfiguration;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 import java.util.Collections;
@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gul.product.service.core.Template;
-import com.gul.product.service.heroku.db.HerokuDatabaseConfiguration;
 
 @Slf4j
 public class ProductServiceConfiguration extends Configuration {
@@ -32,7 +31,11 @@ public class ProductServiceConfiguration extends Configuration {
 
     @NotNull
     private Map<String, Map<String, String>> viewRendererConfiguration = Collections.emptyMap();
-	
+
+    @Valid
+    @NotNull
+    private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+    
 	@NotEmpty
 	@JsonProperty
 	private String template;
@@ -62,10 +65,10 @@ public class ProductServiceConfiguration extends Configuration {
 
     @JsonProperty("database")
 	public DataSourceFactory getDatabase() {
-        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
-        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
-        database = databaseConfiguration.getDataSourceFactory(null);
-        LOGGER.info("Heroku DB URL=" + database.getUrl());
+//        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
+//        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+//        database = databaseConfiguration.getDataSourceFactory(null);
+//        LOGGER.info("Heroku DB URL=" + database.getUrl());
         return database;
 	}
 
@@ -106,6 +109,15 @@ public class ProductServiceConfiguration extends Configuration {
 	public void setSwaggerBundleConfiguration(
 			SwaggerBundleConfiguration swaggerBundleConfiguration) {
 		this.swaggerBundleConfiguration = swaggerBundleConfiguration;
+	}
+
+	@JsonProperty("jerseyClient")
+	public JerseyClientConfiguration getJerseyClient() {
+		return jerseyClient;
+	}
+
+	public void setJerseyClient(JerseyClientConfiguration jerseyClient) {
+		this.jerseyClient = jerseyClient;
 	}
 
 }

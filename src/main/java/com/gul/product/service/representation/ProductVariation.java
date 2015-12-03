@@ -20,6 +20,9 @@ import javax.persistence.Table;
  * also include customized Variants.
  * 
  * Currently use to store product size and quantity.
+ * 
+ * TODO: 
+ * This class could be generic to handle mode customization.
  **/
 @Entity
 @Table(name = "PRODUCT_VARIATION")

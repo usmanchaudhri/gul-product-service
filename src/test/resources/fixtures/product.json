@@ -3,7 +3,11 @@
    "name":"test product",
    "shortDesc":"this is a test product",
    "longDesc":"test product long description",
-   "imagePath":"/2015/winter/fall/sep/15/scarf",
+   "imageInfo":{
+		"imagePath":"/winter/2015"
+   },
    "quantity": 10,
-   "shop":"gulgs"
+   "shop":{
+		"name": "gulgs"
+   }   
 }

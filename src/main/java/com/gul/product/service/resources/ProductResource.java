@@ -1,10 +1,7 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,18 +12,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.solr.common.SolrDocument;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
@@ -74,7 +63,6 @@ public class ProductResource {
 			setProductVariation(product);
 			p = productDao.create(product);
 			
-			// send data to Solr
 		} else {
 			throw new WebApplicationException("cannot add product without category");
 		}

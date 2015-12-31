@@ -6,7 +6,6 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import io.dropwizard.testing.junit.ResourceTestRule;
-import io.dropwizard.testing.junit.ResourceTestRule.ResourceTestResourceConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class ProductResourceTest {
 	private static ProductDao productDao = mock(ProductDao.class);
 	private static CategoryDao categoryDao = mock(CategoryDao.class);
 
-	@Inject private ResourceEventSubscriber entityEventSubscriber;
+//	@Inject private ResourceEventSubscriber entityEventSubscriber;
 	
 //	public static class EventBusConfig extends ResourceConfig {
 //		public EventBusConfig() {
@@ -223,13 +222,13 @@ public class ProductResourceTest {
 //		this.eventBus = eventBus;
 //	}
 
-	public ResourceEventSubscriber getEntityEventSubscriber() {
-		return entityEventSubscriber;
-	}
-
-	public void setEntityEventSubscriber(ResourceEventSubscriber entityEventSubscriber) {
-		this.entityEventSubscriber = entityEventSubscriber;
-	}
+//	public ResourceEventSubscriber getEntityEventSubscriber() {
+//		return entityEventSubscriber;
+//	}
+//
+//	public void setEntityEventSubscriber(ResourceEventSubscriber entityEventSubscriber) {
+//		this.entityEventSubscriber = entityEventSubscriber;
+//	}
 
 	
 }

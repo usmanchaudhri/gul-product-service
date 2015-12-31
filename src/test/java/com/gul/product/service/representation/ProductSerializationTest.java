@@ -27,6 +27,10 @@ public class ProductSerializationTest {
 		Shop shop = new Shop("gulgs");
 		product.setShop(shop);
 		
+		ImageInfo imageInfo = new ImageInfo();
+		imageInfo.setImagePath("/winter/2015");
+		product.setImageInfo(imageInfo);
+		
 		final String expected = MAPPER.writeValueAsString(MAPPER.readValue(fixture("fixtures/product.json"), Product.class));
 		assertThat(MAPPER.writeValueAsString(product)).isEqualTo(expected);
 	}

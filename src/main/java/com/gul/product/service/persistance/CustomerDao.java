@@ -23,7 +23,7 @@ public class CustomerDao extends AbstractDAO<Customer>{
 	}
 	
 	public List<Customer> findAll() {
-		return list(namedQuery("com.gul.product.service.representation.Product.findAll"));
+		return list(namedQuery("com.gul.product.service.representation.Customer.findAll"));
 	}
 
 }

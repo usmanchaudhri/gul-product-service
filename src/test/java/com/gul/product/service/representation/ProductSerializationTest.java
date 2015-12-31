@@ -4,17 +4,11 @@ import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.assertj.core.api.Assertions.assertThat;
 import io.dropwizard.jackson.Jackson;
 import java.io.IOException;
-
 import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.SerializerFactory;
-import com.gul.product.service.representation.serializer.ProductShopSerializer;
 
 /**
  * Representation classes testing
@@ -29,7 +23,7 @@ public class ProductSerializationTest {
 	public void serializesToJson() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		final Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
-				"/2015/winter/fall/sep/15/scarf", 10L);
+				10L);
 		Shop shop = new Shop("gulgs");
 		product.setShop(shop);
 		

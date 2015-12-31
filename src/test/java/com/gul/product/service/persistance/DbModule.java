@@ -1,12 +1,19 @@
 package com.gul.product.service.persistance;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -53,4 +60,5 @@ public class DbModule extends AbstractModule {
 		}
 		return entityManager;
 	}
+	
 }

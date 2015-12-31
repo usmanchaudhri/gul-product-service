@@ -1,12 +1,11 @@
 package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -18,7 +17,7 @@ import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.Shop;
 
 /**
- * Entity Product test against H2 DB 
+ * Entity Product test against H2 DB
  **/
 public class ProductMappingTest {
 
@@ -33,7 +32,6 @@ public class ProductMappingTest {
 		product.setSku("SKU101");
 		product.setShortDesc("Short Description Women Skirt");
 		product.setLongDesc("Short Description Women Skirt");
-		product.setImagePath("/winter/2015/women");
 		product.setQuantity(10L);
 		
 		Category category = new Category("1001", "Women");
@@ -47,7 +45,6 @@ public class ProductMappingTest {
 		Shop retrievedShop = persistedClassDao.getEntityManager().find(Shop.class, shop.getId());
 		
 		Assert.assertTrue(retrievedProduct.getSku().equals("SKU101"));
-
 		System.out.println("** first pass **");
 		
 		// updating shop with additional products
@@ -56,7 +53,6 @@ public class ProductMappingTest {
 		newProduct.setSku("SKU102");
 		newProduct.setShortDesc("Short Description Laptop Bag");
 		newProduct.setLongDesc("Long Description Laptop Bag");
-		newProduct.setImagePath("/winter/2015/laptop");
 		newProduct.setQuantity(10L);
 		newProduct.setShop(retrievedShop);
 		newProduct.setCategory(category);
@@ -80,7 +76,6 @@ public class ProductMappingTest {
 		product.setSku("SKU101");
 		product.setShortDesc("Short Description Women Skirt");
 		product.setLongDesc("Short Description Women Skirt");
-		product.setImagePath("/winter/2015/women");
 		product.setQuantity(10L);
 		
 		Category category = new Category("1001", "Women");
@@ -93,7 +88,6 @@ public class ProductMappingTest {
 		
 		Product retrievedProduct = persistedClassDao.getEntityManager().find(Product.class, product.getId());
 		Assert.assertTrue(retrievedProduct.getName().equals("Test Women Skirt"));
-		Assert.assertTrue(retrievedProduct.getImagePath().equals("/winter/2015/women"));
 		Assert.assertTrue(retrievedProduct.getSku().equals("SKU101"));
 		Assert.assertTrue(retrievedProduct.getQuantity().equals(10L));
 	}
@@ -110,7 +104,6 @@ public class ProductMappingTest {
 		product.setSku("SKU101");
 		product.setShortDesc("Short Description Women Skirt");
 		product.setLongDesc("Short Description Women Skirt");
-		product.setImagePath("/winter/2015/women");
 		product.setQuantity(10L);
 
 		PricingProduct pricingProduct = new PricingProduct(99.95);
@@ -151,7 +144,7 @@ public class ProductMappingTest {
 		Product product = new Product("SKU101", "Embroided Skirt",
 				"Embroided Women Skirt",
 				"Handmade embroided Women Skirt made from the finest silk",
-				"/winter/2015/women/skirt", 10L);
+				10L);
 		product.setQuantity(10L);
 		product.setCategory(category);
 		
@@ -171,7 +164,6 @@ public class ProductMappingTest {
 		Assert.assertTrue(productQuery.getCategory().getName().equals("Women"));
 	}
 	
-	@Ignore
 	@Test
 	public void test_add_variation_size_to_product() {
 		Injector injector = Guice.createInjector(new DbModule());
@@ -182,11 +174,21 @@ public class ProductMappingTest {
 		Product product = new Product("SKU101", "Embroided Skirt",
 				"Embroided Women Skirt",
 				"Handmade embroided Women Skirt made from the finest silk",
-				"/winter/2015/women/skirt", 10L);
+				10L);
 		product.setQuantity(10L);
 		product.setCategory(category);
 		product.setShop(shop);
 	
+		ProductVariation productVariation = new ProductVariation();
+		productVariation.setColor("Blue");
+		productVariation.setMaterial("Leather");
+		productVariation.setPrice("99.99");
+		productVariation.setQuantity("5");
+		
+		List<ProductVariation> productVariations = new ArrayList<ProductVariation>();
+		productVariations.add(productVariation);
+		product.setProductVariation(productVariations);
+		
 		persistedClassDao.saveInNewTransaction(category);
 		persistedClassDao.saveInNewTransaction(product);
 		
@@ -196,7 +198,6 @@ public class ProductMappingTest {
 		for(ProductVariation persistedVariation : persistedVariations) {
 			Assert.assertNotNull(persistedVariation.getId());
 		}
-		
 	}
 	
 	

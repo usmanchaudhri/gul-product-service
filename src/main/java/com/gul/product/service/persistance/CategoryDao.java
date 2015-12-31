@@ -20,6 +20,11 @@ public class CategoryDao extends AbstractDAO<Category> {
 		return persist(category);
 	}
 	
+	public Category update(Category category) {
+		category.setUpdatedOn(new Date());
+		return persist(category);
+	}
+	
 	public Category findById(Long id) {
 		return get(id);
 	}

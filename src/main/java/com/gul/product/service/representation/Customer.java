@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -21,12 +23,18 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 /**
- *	represents a customer who could also open a shop 
- *	- A Customer is a buyer.
- *	- A Customer could be a shop owner.
+ * represents a customer who could also be a shop owner.
+ * - A Customer is a buyer. 
+ * - A Customer could be a shop owner.
  **/
 @Entity
 @Table(name = "CUSTOMER")
+@NamedQueries({
+	@NamedQuery(
+	        name = "com.gul.product.service.representation.Customer.findAll",
+	        query = "SELECT c FROM Customer c"
+	)
+})
 public class Customer {
 
 	@Id
@@ -49,6 +57,8 @@ public class Customer {
 
 	@OneToMany(mappedBy="customer")
 	private List<Order> order;
+	
+	public Customer() {}
 	
  	public Customer(String firstName, String lastName, String email,
 			String mobileNumber, Collection<CustomerShipping> customerShipping) {
@@ -123,5 +133,6 @@ public class Customer {
 	public void setOrder(List<Order> order) {
 		this.order = order;
 	}
+
 	
 }

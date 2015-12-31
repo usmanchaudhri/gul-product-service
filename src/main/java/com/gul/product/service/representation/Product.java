@@ -2,6 +2,7 @@ package com.gul.product.service.representation;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,7 +30,6 @@ import com.gul.product.service.audit.TimeStamped;
 /**
  * 
  * 	ProductVariation is optional but an Empty variation is still required to be passed in the JSON object.
- * 
  * 
  *	TODO - incase if we need to generate UUID's for products
  *	@Id
@@ -59,7 +59,7 @@ import com.gul.product.service.audit.TimeStamped;
 public class Product implements TimeStamped {
 	
 	@Id
-	@SequenceGenerator(name = "productseq", sequenceName = "product_product_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "productseq", sequenceName = "product_product_id_seq", initialValue = 9999, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productseq")
 	@Column(name = "product_id", nullable = false, unique = true)
 	private Long id;
@@ -68,7 +68,7 @@ public class Product implements TimeStamped {
 	@NotNull @Column(name = "name", nullable = false) private String name;
 	@NotNull @Column(name = "short_desc", nullable = false) private String shortDesc;
 	@Column(name = "long_desc", nullable = true) private String longDesc;
-	@NotNull @Column(name = "image_path", nullable = false) private String imagePath;
+	// @Column(name = "image_path", nullable = true) private String imagePath;
 	@NotNull @Column(name = "quantity", nullable = false) private Long quantity;
     
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -89,8 +89,8 @@ public class Product implements TimeStamped {
 	@OneToMany(mappedBy="product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<ProductVariation> productVariation;
 	
-	@Column(name = "created_on", nullable = true) private Date createdOn;
-	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+	@OneToMany(mappedBy="product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<AttributeDefinition> attributeDefinitions;
 	
 	/**
 	 * Optional feature for now.
@@ -98,15 +98,21 @@ public class Product implements TimeStamped {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
 	@JoinColumn(name="featured_product_id", nullable=true)
 	private FeaturedProduct featuredProduct;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name="image_info_id", nullable=true)
+	private ImageInfo imageInfo;
+
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
 	public Product() {}
 	
-	public Product(String sku, String name, String shortDesc, String longDesc, String imagePath, Long quantity) {
+	public Product(String sku, String name, String shortDesc, String longDesc, Long quantity) {
 		this.sku = sku;
 		this.name = name;
 		this.shortDesc = shortDesc;
 		this.longDesc = longDesc;
-		this.imagePath = imagePath;
 		this.quantity = quantity;
 	}
 	
@@ -121,7 +127,6 @@ public class Product implements TimeStamped {
 		if(name != null ? !name.equals(product.name) : product.name != null) return false;
 		if(shortDesc != null ? !shortDesc.equals(product.shortDesc) : product.shortDesc != null) return false;
 		if(longDesc != null ? !longDesc.equals(product.longDesc) : product.longDesc != null) return false;
-		if(imagePath != null ? !imagePath.equals(product.imagePath) : product.imagePath != null) return false;
 		if(quantity != null ? !quantity.equals(product.quantity) : product.quantity != null) return false;
 		
 		return true;
@@ -134,7 +139,6 @@ public class Product implements TimeStamped {
 		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (shortDesc != null ? shortDesc.hashCode() : 0);
 		result = 31 * result + (longDesc != null ? longDesc.hashCode() : 0);
-		result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
 		result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
 		return result;
 	}
@@ -169,14 +173,6 @@ public class Product implements TimeStamped {
 
 	public void setLongDesc(String longDesc) {
 		this.longDesc = longDesc;
-	}
-
-	public String getImagePath() {
-		return imagePath;
-	}
-
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
 	}
 
 	public Long getId() {
@@ -253,6 +249,23 @@ public class Product implements TimeStamped {
 
 	public void setFeaturedProduct(FeaturedProduct featuredProduct) {
 		this.featuredProduct = featuredProduct;
+	}
+
+	public Set<AttributeDefinition> getAttributeDefinitions() {
+		return attributeDefinitions;
+	}
+
+	public void setAttributeDefinitions(
+			Set<AttributeDefinition> attributeDefinitions) {
+		this.attributeDefinitions = attributeDefinitions;
+	}
+
+	public ImageInfo getImageInfo() {
+		return imageInfo;
+	}
+
+	public void setImageInfo(ImageInfo imageInfo) {
+		this.imageInfo = imageInfo;
 	}
 
 }

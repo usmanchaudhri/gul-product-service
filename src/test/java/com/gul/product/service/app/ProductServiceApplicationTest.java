@@ -24,17 +24,23 @@ import org.slf4j.LoggerFactory;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
+import com.gul.product.service.persistance.AttributeDefinitionDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
+import com.gul.product.service.persistance.ImageInfoDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.representation.AttributeDefinition;
+import com.gul.product.service.representation.AttributeValue;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.Designer;
 import com.gul.product.service.representation.FeaturedProduct;
+import com.gul.product.service.representation.ImageInfo;
 import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
@@ -42,7 +48,10 @@ import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.CategoryResource;
+import com.gul.product.service.resources.CustomerResource;
+import com.gul.product.service.resources.CustomerShippingResource;
 import com.gul.product.service.resources.HelloProductResource;
+import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
@@ -65,7 +74,12 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
             		CustomerShipping.class,
             		Order.class,    
             		FeaturedProduct.class,
-            		ProductVariation.class) {
+            		ProductVariation.class,
+            		AttributeDefinition.class,
+            		AttributeValue.class,
+            		ImageInfo.class,
+            		Shop.class,
+            		Designer.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();
@@ -110,16 +124,21 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 		final ShopDao shopDao = new ShopDao(hibernateBundle.getSessionFactory());
 		final CustomerDao customerDao = new CustomerDao(hibernateBundle.getSessionFactory());
 		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
+		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
+		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new ProductJsonExceptionMapper());
 
         environment.jersey().register(new HelloProductResource(template));
-        environment.jersey().register(new ProductResource(productDao, categoryDao));
+        environment.jersey().register(new ProductResource(productDao, categoryDao, null));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new ShippingResource(shippingDao));
         environment.jersey().register(new ShopResource(shopDao));
+        environment.jersey().register(new CustomerResource(customerDao));
+        environment.jersey().register(new CustomerShippingResource(customerShippingDao));
+        environment.jersey().register(new ImageInfoResource(imageInfoDao));
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

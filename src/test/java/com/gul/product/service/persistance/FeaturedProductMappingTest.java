@@ -22,7 +22,6 @@ public class FeaturedProductMappingTest {
 		product.setSku("SKU_SKIRT_101");
 		product.setShortDesc("Short Description Women Skirt");
 		product.setLongDesc("Long Description Women Skirt");
-		product.setImagePath("/winter/2015/women/skirt");
 		product.setQuantity(10L);
 		
 		Category category = new Category("1001", "Women");

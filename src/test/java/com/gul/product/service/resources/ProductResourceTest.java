@@ -89,7 +89,7 @@ public class ProductResourceTest {
 				"test product",
 				"this is a test product", 
 				"test product long description",
-				"/2015/winter/fall/sep/15/scarf", 10L);
+				10L);
 		
 		when(productDao.findById(10L)).thenReturn(product);
 		assertThat(resources.client().target("/product/10").request().get(Product.class)).isEqualTo(product);
@@ -104,7 +104,7 @@ public class ProductResourceTest {
 				"Embroided Skirt",
 				"Handmade embroidreded skirt", 
 				"Pakistani cultural Skirt, hand embroidery",
-				"/winter/2015", 10L);
+				10L);
 		Category category = new Category("1001", "Sub Girls Clothing");
 		category.setId(10L);
 		product.setCategory(category);
@@ -142,7 +142,7 @@ public class ProductResourceTest {
 				"Embroided Skirt",
 				"Handmade embroidreded skirt", 
 				"Pakistani cultural Skirt, hand embroidery",
-				"/winter/2015", 10L);
+				10L);
 		Category category = new Category("1001", "Sub Girls Clothing");
 		category.setId(10L);
 		product.setCategory(category);
@@ -179,7 +179,7 @@ public class ProductResourceTest {
 				"Embroided Skirt",
 				"Handmade embroidreded skirt", 
 				"Pakistani cultural Skirt, hand embroidery",
-				"/winter/2015", 10L);
+				10L);
 		Category category = new Category("1001", "Sub Girls Clothing");
 		category.setId(10L);
 		product.setCategory(category);

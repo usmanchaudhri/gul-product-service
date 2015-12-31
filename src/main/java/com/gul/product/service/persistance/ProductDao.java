@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import com.gul.product.service.representation.Product;
 
-
 public class ProductDao extends AbstractDAO<Product> {
 
 	public ProductDao(SessionFactory sessionFactory) {

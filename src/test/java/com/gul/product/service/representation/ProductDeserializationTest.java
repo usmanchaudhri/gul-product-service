@@ -19,7 +19,7 @@ public class ProductDeserializationTest {
 	public void deserializesFromJson() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		final Product product = new Product("abc131", "test product",
 				"this is a test product", "test product long description",
-				"/2015/winter/fall/sep/15/scarf", 10L);
+				10L);
 		Shop shop = new Shop("gulgs");
 		product.setShop(shop);
 		
@@ -37,7 +37,7 @@ public class ProductDeserializationTest {
 	public void testProductCategoryPricingAssociation() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		final Product product = new Product("Cloth_1001", "Embroided Skirt",
 				"Handmade embroidreded skirt", "Pakistani cultural Skirt, hand embroidery",
-				"/winter/2015", 10L);
+				10L);
 		Category category = new Category(14L, "1001", "Sub Girls Clothing");
 		product.setCategory(category);
 

@@ -5,7 +5,6 @@
 create table PRODUCT (
     product_id bigint not null,
     created_on timestamp,
-    image_path varchar(255) not null,
     long_desc varchar(255),
     name varchar(255) not null,
     quantity bigint not null,
@@ -16,6 +15,7 @@ create table PRODUCT (
     featured_product_id bigint,
     pricing_product_id bigint,
     shop_id bigint not null,
+    image_info_id bigint not null,
     primary key (product_id)
 );
 
@@ -37,3 +37,17 @@ CREATE SEQUENCE pricing_product_pricing_product_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
+      
+create table image_info (
+    image_info_id bigint NOT NULL,
+    image_path varchar(255),
+    primary key (image_info_id)
+);    
+    
+CREATE SEQUENCE imageinfo_imageinfo_id_seq 
+	START WITH 1 
+	INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+	

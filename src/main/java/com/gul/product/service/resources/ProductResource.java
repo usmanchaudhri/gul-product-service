@@ -4,6 +4,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -22,7 +23,10 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+
+import org.apache.solr.common.SolrDocument;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
@@ -130,10 +134,18 @@ public class ProductResource {
 		persistedProduct.setSku(requestProduct.getSku());
 		persistedProduct.setShortDesc(requestProduct.getShortDesc());
 		persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
-		persistedProduct.setImagePath(requestProduct.getImagePath());
 	}
 
 	private SolrDoc sendToSolr(Product product) {
+		SolrDocument solrDocument = new SolrDocument();
+		solrDocument.addField("id", "456");
+		solrDocument.addField("productName", "Handbag tote");
+		solrDocument.addField("productDesc", "Handmade handbag tote");
+		solrDocument.addField("productSku", "SKU_HANDMADE_HANDBAG_101");
+		solrDocument.addField("productCategory", "handbags");
+		solrDocument.addField("productShop", "gulgs test");
+		solrDocument.addField("productPrice", "30.99");
+
 		SolrDoc solrDoc = new SolrDoc();
 		solrDoc.setId(1L);
 		solrDoc.setProductName("Handbag");

@@ -35,6 +35,7 @@ import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.exception.mappers.RuntimeExceptionMapper;
+import com.gul.product.service.persistance.AttributeDefinitionDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
@@ -42,9 +43,12 @@ import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.representation.AttributeDefinition;
+import com.gul.product.service.representation.AttributeValue;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.Designer;
 import com.gul.product.service.representation.FeaturedProduct;
 import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
@@ -53,6 +57,7 @@ import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.representation.User;
+import com.gul.product.service.resources.AttributeDefinitionResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
@@ -79,7 +84,10 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             		CustomerShipping.class,
             		Order.class,
             		FeaturedProduct.class,
-            		ProductVariation.class) {
+            		ProductVariation.class,
+            		AttributeDefinition.class,
+            		AttributeValue.class,
+            		Designer.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -135,6 +143,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final CustomerDao customerDao = new CustomerDao(hibernateBundle.getSessionFactory());
 		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
+		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
+		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
 
         final Template template = configuration.buildTemplate();
@@ -153,6 +163,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ShopResource(shopDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
+        environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
+        
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.
 //      environment.lifecycle().manage(TemplateHealthCheck.class);

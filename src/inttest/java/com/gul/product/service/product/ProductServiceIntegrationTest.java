@@ -1,30 +1,20 @@
 package com.gul.product.service.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import io.dropwizard.flyway.FlywayFactory;
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import org.apache.commons.lang3.StringUtils;
-import org.flywaydb.core.Flyway;
+
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.h2.jdbcx.JdbcDataSource;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gul.product.service.app.ProductServiceApplicationTest;
-import com.gul.product.service.app.ProductServiceConfigurationTest;
 import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.ImageInfo;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.Shop;
@@ -34,36 +24,7 @@ import com.gul.product.service.representation.Shop;
  * which loads the DB migrations for initial database setup. Rest resources are
  * called using HTTP client and response are than verified.
  **/
-public class ProductServiceIntegrationTest {
-	
-	private static final String REST_PRODUCT_SERVICE_URL = "http://localhost:%d/gul-product-service";
-	private static Flyway flyway;
-	
-	@ClassRule
-    public static final DropwizardAppRule<ProductServiceConfigurationTest> RULE =
-            new DropwizardAppRule<ProductServiceConfigurationTest>(ProductServiceApplicationTest.class, ResourceHelpers.resourceFilePath("testProductService.yml"));
-
-	@BeforeClass
-	public static void setupClass() {
-		FlywayFactory flywayFactory = RULE.getConfiguration().getFlyway();
-
-		String url = RULE.getConfiguration().getDatabase().getUrl();
-		String user = RULE.getConfiguration().getDatabase().getUser();
-		String password = RULE.getConfiguration().getDatabase().getPassword();
-		
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL(url);
-		ds.setUser(user);
-		ds.setPassword(password);		
-
-		flyway = flywayFactory.build(ds);
-		flyway.migrate();		// migrate category
-		flyway.migrate();		// migrate product
-		flyway.migrate();		// migrate shop
-		flyway.migrate();		// migrate customer
-		flyway.migrate();		// migrate productVariation
-		flyway.migrate();		// migrate featureProducts
-	}
+public class ProductServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 	
 	@Test
 	public void test_creating_new_product() throws JsonProcessingException {
@@ -74,7 +35,6 @@ public class ProductServiceIntegrationTest {
 		productRequest.setSku("SKU101");
 		productRequest.setShortDesc("Short Description Women Skirt");
 		productRequest.setLongDesc("Long Description Women Skirt");
-		productRequest.setImagePath("/winter/2015/women");
 		productRequest.setQuantity(10L);
 
 		Shop shop = new Shop("GULGS");
@@ -108,6 +68,10 @@ public class ProductServiceIntegrationTest {
 		variations.add(variation2);
 		productRequest.setProductVariation(variations);
 		
+		ImageInfo imageInfo = new ImageInfo();
+		imageInfo.setImagePath("/2015/winter");
+		productRequest.setImageInfo(imageInfo);
+		
 		Product productPersisted = client
 			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
 			.request(MediaType.APPLICATION_JSON)
@@ -119,9 +83,9 @@ public class ProductServiceIntegrationTest {
 		assertThat(productPersisted.getName()).isEqualTo("Test Women Skirt");
 		assertThat(productPersisted.getShortDesc()).isEqualTo("Short Description Women Skirt");
 		assertThat(productPersisted.getLongDesc()).isEqualTo("Long Description Women Skirt");
-		assertThat(productPersisted.getImagePath()).isEqualTo("/winter/2015/women");
 		assertThat(productPersisted.getShop().getId()).isNotNull();
 		assertThat(productPersisted.getShop().getName()).isEqualTo("GULGS");
+		assertThat(productPersisted.getImageInfo().getId()).isNotNull();
 	} 
 	
 	@Test
@@ -133,7 +97,6 @@ public class ProductServiceIntegrationTest {
 		productRequest.setSku("SKU101");
 		productRequest.setShortDesc("Short Description Women Skirt");
 		productRequest.setLongDesc("Long Description Women Skirt");
-		productRequest.setImagePath("/winter/2015/women");
 		productRequest.setQuantity(10L);
 
 		Shop shop = new Shop("GULGS");
@@ -156,6 +119,10 @@ public class ProductServiceIntegrationTest {
 		variations.add(variation);
 		productRequest.setProductVariation(variations);
 		
+		ImageInfo imageInfo = new ImageInfo();
+		imageInfo.setImagePath("/2015/winter");
+		productRequest.setImageInfo(imageInfo);
+		
 		Product persistedProduct = client
 			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
 			.request(MediaType.APPLICATION_JSON)
@@ -163,7 +130,6 @@ public class ProductServiceIntegrationTest {
 		assertThat(persistedProduct).isNotNull();
 
 		persistedProduct.setName("Updated Test Women Skirt");
-		persistedProduct.setImagePath("/2015/gul/products/clothes/women/tunic");
 		
 
 		Product updatedPersistedProduct = client
@@ -174,7 +140,6 @@ public class ProductServiceIntegrationTest {
 		assertThat(updatedPersistedProduct.getId()).isNotNull();
 		assertThat(updatedPersistedProduct.getName()).isEqualTo("Updated Test Women Skirt");
 		assertThat(updatedPersistedProduct.getSku()).isEqualTo("SKU101");
-		assertThat(updatedPersistedProduct.getImagePath()).isEqualTo("/2015/gul/products/clothes/women/tunic");
 	}
 	
 	@Test
@@ -186,7 +151,6 @@ public class ProductServiceIntegrationTest {
 		productRequest.setSku("SKU101");
 		productRequest.setShortDesc("Short Description Women Skirt");
 		productRequest.setLongDesc("Long Description Women Skirt");
-		productRequest.setImagePath("/winter/2015/women");
 		productRequest.setQuantity(10L);
 
 		Shop shop = new Shop("Gulgs");
@@ -208,6 +172,10 @@ public class ProductServiceIntegrationTest {
 		variations.add(variation2);
 		productRequest.setProductVariation(variations);
 		
+		ImageInfo imageInfo = new ImageInfo();
+		imageInfo.setImagePath("/2015/winter");
+		productRequest.setImageInfo(imageInfo);
+		
 		Category categoryRequest = new Category("1000", "Women");
 		Category categoryPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
@@ -227,14 +195,6 @@ public class ProductServiceIntegrationTest {
 		for(ProductVariation persisterVariation : persistedVariations) {
 			assertThat(persisterVariation.getId()).isNotNull();
 		}
-	}
-	
-
-	@AfterClass
-	public static void teardownClass() throws IOException {
-		String dblocation = StringUtils.substringAfter(RULE.getConfiguration().getDatabase().getUrl(), ".");
-		Files.deleteIfExists(Paths.get( new StringBuilder(".").append(dblocation).append(".").append("mv").append(".").append("db").toString() ));
-		Files.deleteIfExists(Paths.get( new StringBuilder(".").append(dblocation).append(".").append("trace").append(".").append("db").toString() ));
 	}
 	
 	public void restAssuredTesting() {

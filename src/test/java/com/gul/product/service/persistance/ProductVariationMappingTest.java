@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -95,7 +94,6 @@ public class ProductVariationMappingTest {
 		product.setSku("SKU_100_SKIRT");
 		product.setShortDesc("Short description women skirt");
 		product.setLongDesc("Long description women skirt");
-		product.setImagePath("/winter/2015/women/Skirt");
 		product.setQuantity(10L);
 		
 		Category category = new Category("1001", "Women");

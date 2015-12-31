@@ -24,6 +24,8 @@ public class CustomerShipping {
 	@Column(name = "zipcode", nullable = false) private String zipcode;
 	@Column(name = "country", nullable = false) private String country;
 	
+	public CustomerShipping() {}
+	
 	public CustomerShipping(String address, String city, String state, String zipcode, String country) {
 		this.address = address;
 		this.city = city;

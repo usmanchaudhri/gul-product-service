@@ -10,10 +10,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * contains info about image for a particular product.
- * The ImageInfo object represents a resource which will
+ * contains info about image for a particular product. The ImageInfo object
+ * represents a resource which will
  **/
-
 @Entity
 @Table(name = "IMAGE_INFO")
 public class ImageInfo {

@@ -1,6 +1,7 @@
 package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import org.junit.Assert;
@@ -10,10 +11,93 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
+import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.Designer;
+import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
 
 public class ShopMappingTest {
+	
+	@Test
+	public void test_creating_new_shop_with_designer() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 
+		Shop shop = new Shop("gulgs");
+		Designer designer = new Designer();
+		designer.setImagePath("/winter/2015");
+		designer.setName("Nayyar Chaudhri");
+		List<Designer> designers = new ArrayList<Designer>();
+		designers.add(designer);
+		shop.setDesigners(designers);
+		
+		persistedClassDao.saveInNewTransaction(shop);
+
+		Shop retrievedShop = persistedClassDao.getEntityManager().find(Shop.class, shop.getId());
+		Assert.assertNotNull(retrievedShop.getId());
+	}
+	
+	@Ignore
+	@Test
+	public void test_save_shop_and_designer_profile_when_saving_product() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+
+		Shop shop = new Shop("gulgs");
+		Designer designer = new Designer();
+		designer.setImagePath("/winter/2015");
+		designer.setName("Nayyar Chaudhri");
+		List<Designer> designers = new ArrayList<Designer>();
+		designers.add(designer);
+		shop.setDesigners(designers);
+		
+		Product product = new Product(); 
+		product.setName("women skirt");
+		product.setSku("SKU_SKIRT_101");
+		product.setShortDesc("embroided women skirt");
+		product.setLongDesc("handmade embroided women skirt");
+		product.setQuantity(10L);
+		
+		Category category = new Category("1001", "Women");
+		product.setCategory(category);
+		product.setShop(shop);
+
+		persistedClassDao.saveInNewTransaction(category);
+		persistedClassDao.saveInNewTransaction(product);
+		
+		Product retrievedProduct = persistedClassDao.getEntityManager().find(Product.class, product.getId());
+		Assert.assertNotNull(retrievedProduct.getId());
+		
+		Designer retrievedDesigner = retrievedProduct.getShop().getDesigners().get(0);
+		Assert.assertNotNull(retrievedDesigner.getId());
+	}
+	
+	
+	@Test
+	public void test_create_shop_with_product() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+
+		Shop shop = new Shop("gulgs");
+		Product product = new Product(); 
+		product.setName("women skirt");
+		product.setSku("SKU_SKIRT_101");
+		product.setShortDesc("embroided women skirt");
+		product.setLongDesc("handmade embroided women skirt");
+		product.setQuantity(10L);
+		
+		Category category = new Category("1001", "Women");
+		product.setCategory(category);
+		product.setShop(shop);
+
+		persistedClassDao.saveInNewTransaction(category);
+		persistedClassDao.saveInNewTransaction(product);
+		
+		Product retrievedProduct = persistedClassDao.getEntityManager().find(Product.class, product.getId());
+		Assert.assertNotNull(retrievedProduct.getId());
+		Assert.assertNotNull(retrievedProduct.getShop().getId());
+	}
+	
 	@Test
 	public void test_shop_creation() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());

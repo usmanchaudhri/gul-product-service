@@ -32,5 +32,7 @@ public class DesignerMappingTest {
 		Designer retrievedDesigner = retrievedShop.getDesigners().get(0);
 		Assert.assertNotNull(retrievedDesigner.getId());
 	}
+	
+	
 
 }

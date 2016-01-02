@@ -1,5 +1,6 @@
 package com.gul.product.service.representation;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Designer {
 	@Column(name = "designer_name", nullable = false) private String name;
 	@Column(name = "image_path", nullable = true) private String imagePath;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id", referencedColumnName ="shop_id", nullable=false)
 	private Shop shop;
 

@@ -79,7 +79,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
             		AttributeValue.class,
             		ImageInfo.class,
             		Shop.class,
-            		Designer.class) {
+            		Designer.class,
+            		ImageInfo.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();

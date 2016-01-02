@@ -39,6 +39,7 @@ import com.gul.product.service.persistance.AttributeDefinitionDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
+import com.gul.product.service.persistance.ImageInfoDao;
 import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
@@ -50,6 +51,7 @@ import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Designer;
 import com.gul.product.service.representation.FeaturedProduct;
+import com.gul.product.service.representation.ImageInfo;
 import com.gul.product.service.representation.Order;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
@@ -62,6 +64,7 @@ import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
 import com.gul.product.service.resources.HelloProductResource;
+import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
@@ -87,7 +90,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             		ProductVariation.class,
             		AttributeDefinition.class,
             		AttributeValue.class,
-            		Designer.class) {
+            		Designer.class,
+            		ImageInfo.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -144,6 +148,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
 		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
+		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());		
 		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
 
@@ -164,6 +169,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
+        environment.jersey().register(new ImageInfoResource(imageInfoDao));
         
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.

@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
 
 /**
- * 
  * 	ProductVariation is optional but an Empty variation is still required to be passed in the JSON object.
  * 
  *	TODO - incase if we need to generate UUID's for products
@@ -79,7 +78,8 @@ public class Product implements TimeStamped {
 	@JoinColumn(name="category_id", referencedColumnName ="category_id", nullable=false)
 	private Category category;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	// shop should not be removed when removing the product
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="shop_id", referencedColumnName="shop_id", nullable=false)
 	private Shop shop;
 	

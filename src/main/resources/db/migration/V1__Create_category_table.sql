@@ -9,6 +9,7 @@ create table CATEGORY (
     name varchar(255) not null,
     updated_on timestamp,
     parentCategory_category_id bigint,
+    image_path varchar(255),
     primary key (category_id)
 );
 

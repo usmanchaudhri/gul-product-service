@@ -44,8 +44,8 @@ public class ProductMappingTest {
 		Product retrievedProduct = persistedClassDao.getEntityManager().find(Product.class, product.getId());
 		Shop retrievedShop = persistedClassDao.getEntityManager().find(Shop.class, shop.getId());
 		
+		Assert.assertNotNull(retrievedShop.getId());
 		Assert.assertTrue(retrievedProduct.getSku().equals("SKU101"));
-		System.out.println("** first pass **");
 		
 		// updating shop with additional products
 		Product newProduct = new Product();
@@ -61,7 +61,6 @@ public class ProductMappingTest {
 		Shop retrievedShop1 = persistedClassDao.getEntityManager().find(Shop.class, retrievedShop.getId());
 		
 		Assert.assertTrue(retrievedShop.getId().equals(retrievedShop1.getId()));
-		
 	}
 	
 	@Test

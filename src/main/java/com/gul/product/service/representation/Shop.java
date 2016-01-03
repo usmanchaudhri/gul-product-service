@@ -1,6 +1,8 @@
 package com.gul.product.service.representation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,11 +49,11 @@ public class Shop implements Serializable {
 	
 	@OneToMany(mappedBy="shop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@OrderBy("product_id")
-	private Set<Product> products;
+	private Set<Product> products = new HashSet<Product>();
 	
 	// shop should have a list of designers too.
 	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Designer> designers;
+	private List<Designer> designers = new ArrayList<Designer>();
 	
 	public Shop() {}
 	
@@ -89,6 +91,13 @@ public class Shop implements Serializable {
 
 	public void setDesigners(List<Designer> designers) {
 		this.designers = designers;
+		if(designers == null || designers.isEmpty()) {
+			designers = new ArrayList<Designer>();
+		}
+		
+		for(Designer designer : designers) {
+			designer.setShop(this);
+		}
 	}
 
 }

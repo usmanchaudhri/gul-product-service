@@ -133,7 +133,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new ProductJsonExceptionMapper());
 
         environment.jersey().register(new HelloProductResource(template));
-        environment.jersey().register(new ProductResource(productDao, categoryDao, null));
+        environment.jersey().register(new ProductResource(productDao, categoryDao, shopDao));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new ShippingResource(shippingDao));
         environment.jersey().register(new ShopResource(shopDao));

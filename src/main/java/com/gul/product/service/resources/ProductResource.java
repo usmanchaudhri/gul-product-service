@@ -1,7 +1,9 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,14 +16,18 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.apache.solr.common.SolrDocument;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
+import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
+import com.gul.product.service.representation.Shop;
 import com.gul.product.service.representation.SolrDoc;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -34,11 +40,13 @@ public class ProductResource {
 
 	private ProductDao productDao;
 	private CategoryDao categoryDao;
+	private ShopDao shopDao;
 	private Client client;
 	
-	public ProductResource(ProductDao productDao, CategoryDao categoryDao) {
+	public ProductResource(ProductDao productDao, CategoryDao categoryDao, ShopDao shopDao) {
 		this.productDao = productDao;
 		this.categoryDao = categoryDao;
+		this.shopDao = shopDao;
 	}
 	
 	public ProductResource(ProductDao productDao, CategoryDao categoryDao, Client client) {
@@ -57,15 +65,24 @@ public class ProductResource {
 	public Response add(@Valid Product product) {
 		Product p = null;
 		Long catgeoryId = product.getCategory().getId();
+		Long shopId = product.getShop().getId();
 		Category category = categoryDao.findById(catgeoryId);
+		Shop shop = shopDao.findById(shopId);
+		
 		if(category != null && category.getId() != null && category.getId() > 0) {
 			product.setCategory(category);
-			setProductVariation(product);
-			p = productDao.create(product);
-			
 		} else {
-			throw new WebApplicationException("cannot add product without category");
+			throw new WebApplicationException("Unable to create product without category. Create the category first");
 		}
+		
+		if(shop != null && shop.getId() != null && shop.getId() > 0) {
+			product.setShop(shop);
+		} else {
+			throw new WebApplicationException("Unable to create product without shop. Create the shop first");
+		}
+			
+		setProductVariation(product);
+		p = productDao.create(product);
 		return Response.status(Response.Status.CREATED).entity(p).build();
 	}
 	
@@ -155,5 +172,12 @@ public class ProductResource {
 		this.client = client;
 	}
 
+	public ShopDao getShopDao() {
+		return shopDao;
+	}
+
+	public void setShopDao(ShopDao shopDao) {
+		this.shopDao = shopDao;
+	}
 	
 }

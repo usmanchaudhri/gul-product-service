@@ -10,17 +10,7 @@ import io.dropwizard.testing.junit.ResourceTestRule;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.ws.rs.core.Feature;
-import javax.ws.rs.core.FeatureContext;
-import javax.ws.rs.ext.ContextResolver;
-
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.inmemory.InMemoryTestContainerFactory;
-import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.jukito.JukitoRunner;
 import org.junit.After;
 import org.junit.ClassRule;
@@ -29,9 +19,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.common.eventbus.EventBus;
-import com.gul.product.service.indexing.ResourceEventSubscriber;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.ProductDao;
+import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
@@ -46,6 +36,7 @@ public class ProductResourceTest {
 
 	private static ProductDao productDao = mock(ProductDao.class);
 	private static CategoryDao categoryDao = mock(CategoryDao.class);
+	private static ShopDao shopDao = mock(ShopDao.class);
 
 //	@Inject private ResourceEventSubscriber entityEventSubscriber;
 	
@@ -70,7 +61,7 @@ public class ProductResourceTest {
 	
 	@ClassRule
 	public static final ResourceTestRule resources = ResourceTestRule.builder()
-			.addResource(new ProductResource(productDao, categoryDao))
+			.addResource(new ProductResource(productDao, categoryDao, shopDao))
 			.addProvider(new EventBusBinder())
 //			.addProvider(EntityEventSubscriber.class)
 			.build();

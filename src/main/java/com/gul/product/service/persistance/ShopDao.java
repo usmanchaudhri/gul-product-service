@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 
+import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Shop;
 
 public class ShopDao extends AbstractDAO<Shop> {
@@ -20,6 +21,13 @@ public class ShopDao extends AbstractDAO<Shop> {
 
 	public Shop findById(Long id) {
 		return get(id);
+	}
+	
+	// laods designers lazily
+	public Shop findByIdLoadDesigners(Long id) {
+		Shop shop = get(id);
+		initialize(shop.getDesigners());
+		return shop;
 	}
 	
 	public List<Shop> findAll() {

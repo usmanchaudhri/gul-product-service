@@ -1,7 +1,7 @@
 package com.gul.product.service.resources;
 
-import java.util.List;
 import io.dropwizard.hibernate.UnitOfWork;
+import java.util.List;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,6 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.representation.Designer;
 import com.gul.product.service.representation.Shop;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -26,7 +27,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 public class ShopResource {
 
 	private ShopDao shopDao;
-	private ProductDao productDao;
 	
 	public ShopResource(ShopDao shopDao) {
 		this.shopDao = shopDao;
@@ -41,14 +41,22 @@ public class ShopResource {
 		return Response.status(Response.Status.CREATED).entity(s).build();
 	}
 	
+	@GET
+	@UnitOfWork
+	@Path("/{id}/designers")
+    @ApiOperation("Get designers for a given shop id, loaded lazily.")
+	public Response getShopDesigners(@PathParam("id") Long id) {
+		Shop shop = shopDao.findByIdLoadDesigners(id);
+		List<Designer> designers = shop.getDesigners();
+		return Response.status(Response.Status.OK).entity(designers).build();		
+	}
+
 	/**
 	 * TODO - creating products with-in shops.
 	 **/
 	@POST
 	@Path("/listing/create")
 	public Response createProduct(Shop shop) {
-//		customers will create shop listings
-//		shop.getProducts();
 		return null;
 	}
 	

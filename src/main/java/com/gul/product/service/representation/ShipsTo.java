@@ -1,6 +1,7 @@
 package com.gul.product.service.representation;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gul.product.service.audit.TimeStamped;
 
 /**
  * represents where shipping service is provided world wide.
@@ -23,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  **/
 @Entity
 @Table(name = "SHIPPING")
-public class ShipsTo {
+public class ShipsTo implements TimeStamped {
 	
 	@Id 
     @SequenceGenerator(name = "shippingSeq", sequenceName="shipping_shipping_id_seq", allocationSize=1)
@@ -40,6 +42,9 @@ public class ShipsTo {
 	@OneToMany(mappedBy="shippingFrom", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ShipsTo> shippingTo;
 
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+	
 	public ShipsTo() {}
 
 	public ShipsTo(String countryName) {
@@ -100,6 +105,26 @@ public class ShipsTo {
 
 	public void setShippingTo(Set<ShipsTo> shippingTo) {
 		this.shippingTo = shippingTo;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 		
 	

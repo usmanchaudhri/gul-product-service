@@ -39,7 +39,8 @@ CREATE TABLE category (
     name character varying(255) NOT NULL,
     parentcategory_category_id bigint,
     created_on date,
-    updated_on date
+    updated_on date,
+    image_path character varying(255)
 );
 
 
@@ -155,6 +156,34 @@ CREATE TABLE databasechangeloglock (
 ALTER TABLE databasechangeloglock OWNER TO njcyxzlnmtiyvb;
 
 --
+-- Name: designer; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+CREATE TABLE designer (
+    designer_id bigint NOT NULL,
+    image_path character varying(255),
+    designer_name character varying(255) NOT NULL,
+    shop_id bigint NOT NULL
+);
+
+
+ALTER TABLE designer OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: designer_designer_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+CREATE SEQUENCE designer_designer_id_seq
+    START WITH 9999
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE designer_designer_id_seq OWNER TO njcyxzlnmtiyvb;
+
+--
 -- Name: featured_product; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
@@ -178,6 +207,32 @@ CREATE SEQUENCE featuredproducts_featuredproducts_id_seq
 
 
 ALTER TABLE featuredproducts_featuredproducts_id_seq OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: image_info; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+CREATE TABLE image_info (
+    image_info_id bigint NOT NULL,
+    image_path character varying(255)
+);
+
+
+ALTER TABLE image_info OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: imageinfo_imageinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+CREATE SEQUENCE imageinfo_imageinfo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE imageinfo_imageinfo_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
 -- Name: order_order_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
@@ -246,7 +301,6 @@ ALTER TABLE pricing_product_pricing_product_id_seq OWNER TO njcyxzlnmtiyvb;
 CREATE TABLE product (
     product_id bigint NOT NULL,
     created_on timestamp without time zone,
-    image_path character varying(255) NOT NULL,
     long_desc character varying(255),
     name character varying(255) NOT NULL,
     quantity bigint NOT NULL,
@@ -256,7 +310,8 @@ CREATE TABLE product (
     category_id bigint NOT NULL,
     featured_product_id bigint,
     pricing_product_id bigint,
-    shop_id bigint NOT NULL
+    shop_id bigint NOT NULL,
+    image_info_id bigint
 );
 
 
@@ -367,18 +422,18 @@ ALTER TABLE shop_shop_id_seq OWNER TO njcyxzlnmtiyvb;
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-COPY category (category_id, code, name, parentcategory_category_id, created_on, updated_on) FROM stdin;
-15	1000	Women	\N	\N	\N
-16	1100	Totes and Bag	15	\N	\N
-17	1200	Shirts and Dresses	15	\N	\N
-18	1300	Handbags	15	\N	\N
-19	1000	Women	\N	\N	\N
-20	1100	Totes and Bag	19	\N	\N
-21	1200	Shirts and Dresses	19	\N	\N
-22	1300	Handbags	19	\N	\N
-23	1000	Men	\N	\N	\N
-24	1100	Bags	23	\N	\N
-25	1200	Shirts	23	\N	\N
+COPY category (category_id, code, name, parentcategory_category_id, created_on, updated_on, image_path) FROM stdin;
+15	1000	Women	\N	\N	\N	\N
+16	1100	Totes and Bag	15	\N	\N	\N
+17	1200	Shirts and Dresses	15	\N	\N	\N
+18	1300	Handbags	15	\N	\N	\N
+19	1000	Women	\N	\N	\N	\N
+20	1100	Totes and Bag	19	\N	\N	\N
+21	1200	Shirts and Dresses	19	\N	\N	\N
+22	1300	Handbags	19	\N	\N	\N
+23	1000	Men	\N	\N	\N	\N
+24	1100	Bags	23	\N	\N	\N
+25	1200	Shirts	23	\N	\N	\N
 \.
 
 
@@ -438,6 +493,22 @@ COPY databasechangeloglock (id, locked, lockgranted, lockedby) FROM stdin;
 
 
 --
+-- Data for Name: designer; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+COPY designer (designer_id, image_path, designer_name, shop_id) FROM stdin;
+10005	/2015/winter	Nayyar Chaudhri	37
+\.
+
+
+--
+-- Name: designer_designer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+SELECT pg_catalog.setval('designer_designer_id_seq', 10005, true);
+
+
+--
 -- Data for Name: featured_product; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
@@ -450,6 +521,28 @@ COPY featured_product (featured_product_id) FROM stdin;
 --
 
 SELECT pg_catalog.setval('featuredproducts_featuredproducts_id_seq', 1, false);
+
+
+--
+-- Data for Name: image_info; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+COPY image_info (image_info_id, image_path) FROM stdin;
+12	clothes/women/tops/tunic/img-11.jpg
+13	/listing/wallets
+14	/listing/wallets
+15	/listing/wallets
+16	/listing/wallets
+17	/listing/wallets
+18	/listing/wallets
+\.
+
+
+--
+-- Name: imageinfo_imageinfo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+SELECT pg_catalog.setval('imageinfo_imageinfo_id_seq', 18, true);
 
 
 --
@@ -495,6 +588,13 @@ COPY pricing_product (pricing_product_id, stored_value) FROM stdin;
 27	89.99
 35	89.99
 36	89.99
+48	89.99
+49	89.99
+50	89.99
+51	89.99
+52	89.99
+53	89.99
+54	89.99
 \.
 
 
@@ -502,16 +602,23 @@ COPY pricing_product (pricing_product_id, stored_value) FROM stdin;
 -- Name: pricing_product_pricing_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('pricing_product_pricing_product_id_seq', 36, true);
+SELECT pg_catalog.setval('pricing_product_pricing_product_id_seq', 54, true);
 
 
 --
 -- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-COPY product (product_id, created_on, image_path, long_desc, name, quantity, short_desc, sku, updated_on, category_id, featured_product_id, pricing_product_id, shop_id) FROM stdin;
-37	2015-11-24 23:39:04.205	clothes/women/tops/tunic/img-11.jpg	Hand embroided tunic	tunic	50	Embroided Tunic	SKU_TUNIC_1	\N	17	\N	35	29
-38	2015-11-24 23:47:58.075	clothes/women/tops/tunic/img-02.jpg	Jacket - Multi Colored Patch Work	top	50	Jacket - Multi Colored Patch Work	SKU_Tops_1	\N	17	\N	36	30
+COPY product (product_id, created_on, long_desc, name, quantity, short_desc, sku, updated_on, category_id, featured_product_id, pricing_product_id, shop_id, image_info_id) FROM stdin;
+37	2015-11-24 23:39:04.205	Hand embroided tunic	tunic	50	Embroided Tunic	SKU_TUNIC_1	\N	17	\N	35	29	\N
+38	2015-11-24 23:47:58.075	Jacket - Multi Colored Patch Work	top	50	Jacket - Multi Colored Patch Work	SKU_Tops_1	\N	17	\N	36	30	\N
+50	2016-01-03 03:52:49.727	Handmade women leather tote	Women tote	50	Women leather tote 	SKU_BAG_10	\N	16	\N	48	10	12
+51	2016-01-03 06:10:59.564	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_100	\N	24	\N	49	37	13
+52	2016-01-03 08:40:55.884	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_101	\N	24	\N	50	37	14
+53	2016-01-03 08:50:45.082	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_201	\N	24	\N	51	37	15
+54	2016-01-03 08:53:43.612	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_301	\N	24	\N	52	37	16
+55	2016-01-03 08:57:03.05	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_401	\N	24	\N	53	37	17
+56	2016-01-03 08:58:27.716	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_501	\N	24	\N	54	37	18
 \.
 
 
@@ -519,7 +626,7 @@ COPY product (product_id, created_on, image_path, long_desc, name, quantity, sho
 -- Name: product_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('product_product_id_seq', 38, true);
+SELECT pg_catalog.setval('product_product_id_seq', 56, true);
 
 
 --
@@ -529,6 +636,13 @@ SELECT pg_catalog.setval('product_product_id_seq', 38, true);
 COPY product_variation (productvariation_id, color, material, mics, price, quantity, size, product_id) FROM stdin;
 1	\N	\N	\N	\N	\N	\N	37
 2	\N	\N	\N	\N	\N	\N	38
+14	\N	\N	\N	\N	\N	\N	50
+15	\N	\N	\N	\N	\N	\N	51
+16	\N	\N	\N	\N	\N	\N	52
+17	\N	\N	\N	\N	\N	\N	53
+18	\N	\N	\N	\N	\N	\N	54
+19	\N	\N	\N	\N	\N	\N	55
+20	\N	\N	\N	\N	\N	\N	56
 \.
 
 
@@ -536,7 +650,7 @@ COPY product_variation (productvariation_id, color, material, mics, price, quant
 -- Name: productvariation_productvariation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('productvariation_productvariation_id_seq', 2, true);
+SELECT pg_catalog.setval('productvariation_productvariation_id_seq', 20, true);
 
 
 --
@@ -582,6 +696,7 @@ COPY shop (shop_id, shop_name) FROM stdin;
 21	gulgs
 29	gulgs
 30	gulgs
+37	Leather Heaven
 \.
 
 
@@ -589,7 +704,7 @@ COPY shop (shop_id, shop_name) FROM stdin;
 -- Name: shop_shop_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('shop_shop_id_seq', 30, true);
+SELECT pg_catalog.setval('shop_shop_id_seq', 37, true);
 
 
 --
@@ -617,11 +732,27 @@ ALTER TABLE ONLY customer_shipping
 
 
 --
+-- Name: designer_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+ALTER TABLE ONLY designer
+    ADD CONSTRAINT designer_pkey PRIMARY KEY (designer_id);
+
+
+--
 -- Name: featured_product_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY featured_product
     ADD CONSTRAINT featured_product_pkey PRIMARY KEY (featured_product_id);
+
+
+--
+-- Name: image_info_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+ALTER TABLE ONLY image_info
+    ADD CONSTRAINT image_info_pkey PRIMARY KEY (image_info_id);
 
 
 --
@@ -713,6 +844,14 @@ ALTER TABLE ONLY shipping
 
 
 --
+-- Name: fk_io1ytbi6v66ayv6ksymadh6fn; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+ALTER TABLE ONLY designer
+    ADD CONSTRAINT fk_io1ytbi6v66ayv6ksymadh6fn FOREIGN KEY (shop_id) REFERENCES shop(shop_id);
+
+
+--
 -- Name: fk_irahbcigpcey2v8ucfo9e8i4j; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
@@ -750,6 +889,14 @@ ALTER TABLE ONLY product
 
 ALTER TABLE ONLY product
     ADD CONSTRAINT fk_r0v5c2ajsmfyqwo8il06y4lqu FOREIGN KEY (shop_id) REFERENCES shop(shop_id);
+
+
+--
+-- Name: fk_sql6plkrp72t9j6c65hf78g54; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+ALTER TABLE ONLY product
+    ADD CONSTRAINT fk_sql6plkrp72t9j6c65hf78g54 FOREIGN KEY (image_info_id) REFERENCES image_info(image_info_id);
 
 
 --

@@ -2,6 +2,7 @@ package com.gul.product.service.representation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.gul.product.service.audit.TimeStamped;
 
 /**
  * represents a Shop which contains list of products. 
@@ -37,7 +39,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
     )
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
-public class Shop implements Serializable {
+public class Shop implements Serializable, TimeStamped {
 
 	@Id
 	@SequenceGenerator(name = "shopseq", sequenceName = "shop_shop_id_seq", allocationSize = 1)
@@ -54,6 +56,9 @@ public class Shop implements Serializable {
 	// shop should have a list of designers too.
 	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Designer> designers = new ArrayList<Designer>();
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 	
 	public Shop() {}
 	
@@ -98,6 +103,22 @@ public class Shop implements Serializable {
 		for(Designer designer : designers) {
 			designer.setShop(this);
 		}
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 }

@@ -21,6 +21,8 @@ import com.gul.product.service.representation.Shop;
  **/
 public class ProductMappingTest {
 
+	
+	
 	@Test
 	public void test_updating_an_existing_shop_with_addotional_products() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());

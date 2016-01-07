@@ -5,9 +5,9 @@ defaultName: ${DW_DEFAULT_NAME:-Stranger}
 # Database settings.
 database:
   driverClass: org.postgresql.Driver
-  user: test
-  password: test
-  url: jdbc:postgresql://localhost:5432/testdropwizard
+  user: njcyxzlnmtiyvb
+  password: pXMOBYt7CFf_g9gRYI3_Rs5CvX
+  url: jdbc:postgresql://localhost:5432/ddgv02lm6vdscl
 
 
 # use the simple server factory if you only want to run on a single port
@@ -60,7 +60,7 @@ logging:
     com.gul.product.service: DEBUG
 
     # Redirects SQL logs to a separate file
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: DEBUG  
 
   appenders:
     - type: console

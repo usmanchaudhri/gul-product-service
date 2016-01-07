@@ -2,6 +2,7 @@ package com.gul.product.service.representation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,6 +23,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
+import com.gul.product.service.audit.TimeStamped;
+
 /**
  * represents a customer who could also be a shop owner.
  * - A Customer is a buyer. 
@@ -35,7 +38,7 @@ import org.hibernate.validator.constraints.Length;
 	        query = "SELECT c FROM Customer c"
 	)
 })
-public class Customer {
+public class Customer implements TimeStamped {
 
 	@Id
 	@SequenceGenerator(name = "customerseq", sequenceName = "customer_customer_id_seq", allocationSize = 1)
@@ -58,6 +61,9 @@ public class Customer {
 	@OneToMany(mappedBy="customer")
 	private List<Order> order;
 	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+
 	public Customer() {}
 	
  	public Customer(String firstName, String lastName, String email,
@@ -132,6 +138,26 @@ public class Customer {
 
 	public void setOrder(List<Order> order) {
 		this.order = order;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	

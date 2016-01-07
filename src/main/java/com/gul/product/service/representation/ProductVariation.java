@@ -1,5 +1,7 @@
 package com.gul.product.service.representation;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.gul.product.service.audit.TimeStamped;
 
 /**
  * Variations are optional but each product will most likely will have a
@@ -26,7 +30,7 @@ import javax.persistence.Table;
  **/
 @Entity
 @Table(name = "PRODUCT_VARIATION")
-public class ProductVariation {
+public class ProductVariation implements TimeStamped {
 
 	@Id
 	@SequenceGenerator(name = "productvariationseq", sequenceName = "productvariation_productvariation_id_seq", allocationSize = 1)
@@ -40,6 +44,9 @@ public class ProductVariation {
 	@Column(name = "material", nullable = true) public String material;
 	@Column(name = "price", nullable = true) public String price;
 	@Column(name = "mics", nullable = true) public String mics;
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 	
 	@ManyToOne(cascade = CascadeType.ALL, optional = true)
 	@JoinColumn(name="product_id", referencedColumnName="product_id", nullable = true)
@@ -107,6 +114,22 @@ public class ProductVariation {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	

@@ -1,5 +1,7 @@
 package com.gul.product.service.representation;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.gul.product.service.audit.TimeStamped;
+
 /**
  * holds info for individual designer
  **/
 @Entity
 @Table(name = "DESIGNER")
-public class Designer {
+public class Designer implements TimeStamped {
 	
 	@Id
 	@SequenceGenerator(name = "designerseq", sequenceName = "designer_designer_id_seq", initialValue = 9999, allocationSize = 1)
@@ -30,6 +34,9 @@ public class Designer {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id", referencedColumnName ="shop_id", nullable=false)
 	private Shop shop;
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
 	public Long getId() {
 		return id;
@@ -61,6 +68,26 @@ public class Designer {
 
 	public void setShop(Shop shop) {
 		this.shop = shop;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 	
 

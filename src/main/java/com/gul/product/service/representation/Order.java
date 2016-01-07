@@ -1,5 +1,7 @@
 package com.gul.product.service.representation;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.gul.product.service.audit.TimeStamped;
+
 /**
  * - order is to store product information which could later be re
  **/
 @Entity
 @Table(name = "ORDER_PRODUCT")
-public class Order {
+public class Order implements TimeStamped {
 	
 	@Id
 	@SequenceGenerator(name = "orderseq", sequenceName = "order_order_id_seq", allocationSize = 1)
@@ -33,6 +37,10 @@ public class Order {
 	@Column(name = "product_image_path", nullable = false) private String productImagePath;
 	@Column(name = "product_category_id", nullable = false)  private String productCategoryId;
 	@Column(name = "product_shop_id", nullable = false)  private String productShopId;
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id", nullable=false)
@@ -132,6 +140,22 @@ public class Order {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 	
 	

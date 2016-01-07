@@ -3,6 +3,7 @@ package com.gul.product.service.persistance;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
+import com.gul.product.service.audit.TimeStamped;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Shop;
@@ -25,7 +27,9 @@ public class CustomerMappingTest {
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		Collection<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);		
+		setTimeStamp(customer);
+		
 		persistedClassDao.saveInNewTransaction(customer);
 
 		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
@@ -43,6 +47,8 @@ public class CustomerMappingTest {
 		Collection<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		setTimeStamp(customer);
+
 		persistedClassDao.saveInNewTransaction(customer);
 		
 		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
@@ -50,13 +56,18 @@ public class CustomerMappingTest {
 
 		Shop shop = new Shop("MyFirstShop");
 		retrievedCustomer.setShop(shop);
+		setTimeStamp(shop);
+
 		persistedClassDao.saveInNewTransaction(customer);
 
 		Shop retrievedShop = persistedClassDao.getEntityManager().find(Shop.class, shop.getId());
 
 		Assert.assertNotNull(retrievedShop.getId());
 		Assert.assertTrue(retrievedShop.getName().equals("MyFirstShop"));
-
+	}
+	
+	public void setTimeStamp(TimeStamped timeStamped) {
+		timeStamped.setCreatedOn(new Date());
 	}
 	
 	

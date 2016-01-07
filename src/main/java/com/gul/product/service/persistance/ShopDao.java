@@ -2,6 +2,7 @@ package com.gul.product.service.persistance;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -16,6 +17,7 @@ public class ShopDao extends AbstractDAO<Shop> {
 	}
 
 	public Shop create(Shop shop) {
+		shop.setCreatedOn(new Date());
 		return persist(shop);
 	}
 

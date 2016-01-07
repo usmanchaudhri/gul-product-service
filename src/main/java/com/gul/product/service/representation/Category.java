@@ -41,6 +41,7 @@ public class Category implements TimeStamped {
 	@Column(name = "code", nullable = true, unique = true) private String code;
 	@Column(name = "name", nullable = false) private String name;
 	@Column(name = "image_path", nullable = true) private String imagePath;
+	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 

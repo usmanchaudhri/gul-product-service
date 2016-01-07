@@ -1,5 +1,7 @@
 package com.gul.product.service.representation;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.gul.product.service.audit.TimeStamped;
+
 /**
  * hold the value for a particular customization offered
  **/
 @Entity
 @Table(name = "ATTRIBUTE_VALUE")
-public class AttributeValue {
+public class AttributeValue implements TimeStamped {
 
 	@Id
 	@SequenceGenerator(name = "attributevalueseq", sequenceName = "attributevalue_attributevalue_id_seq", allocationSize = 1)
@@ -29,6 +33,9 @@ public class AttributeValue {
 	@ManyToOne
 	@JoinColumn(name="attribute_definition_id", referencedColumnName ="attribute_definition_id", nullable=false)
 	private AttributeDefinition attributeDefinition;
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
 	public Long getId() {
 		return id;
@@ -68,6 +75,26 @@ public class AttributeValue {
 
 	public void setAttributeDefinition(AttributeDefinition attributeDefinition) {
 		this.attributeDefinition = attributeDefinition;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 	
 }

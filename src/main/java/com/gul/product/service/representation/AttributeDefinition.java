@@ -1,5 +1,6 @@
 package com.gul.product.service.representation;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,12 +16,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.gul.product.service.audit.TimeStamped;
+
 /**
  * this is the class which will hold the customization for particular products
  **/
 @Entity
 @Table(name = "ATTRIBUTE_DEFINITION")
-public class AttributeDefinition {
+public class AttributeDefinition implements TimeStamped {
 	
 	@Id
 	@SequenceGenerator(name = "attributedefinitionseq", sequenceName = "attributedefinition_attributedefinition_id_seq", allocationSize = 1)
@@ -35,6 +38,9 @@ public class AttributeDefinition {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="product_id", referencedColumnName="product_id", nullable=false)
 	private Product product;
+	
+	@Column(name = "created_on", nullable = true) private Date createdOn;
+	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
 	public Long getId() {
 		return id;
@@ -74,6 +80,26 @@ public class AttributeDefinition {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	@Override
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	@Override
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	@Override
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 }

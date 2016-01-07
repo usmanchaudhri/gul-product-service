@@ -30,7 +30,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: category; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: category; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE category (
@@ -39,14 +39,15 @@ CREATE TABLE category (
     name character varying(255) NOT NULL,
     parentcategory_category_id bigint,
     created_on date,
-    updated_on date
+    updated_on date,
+    image_path character varying(255)
 );
 
 
-ALTER TABLE category OWNER TO test;
+ALTER TABLE category OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: category_category_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: category_category_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE category_category_id_seq
@@ -57,10 +58,10 @@ CREATE SEQUENCE category_category_id_seq
     CACHE 1;
 
 
-ALTER TABLE category_category_id_seq OWNER TO test;
+ALTER TABLE category_category_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: customer; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: customer; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE customer (
@@ -73,10 +74,10 @@ CREATE TABLE customer (
 );
 
 
-ALTER TABLE customer OWNER TO test;
+ALTER TABLE customer OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: customer_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: customer_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE customer_customer_id_seq
@@ -87,10 +88,10 @@ CREATE SEQUENCE customer_customer_id_seq
     CACHE 1;
 
 
-ALTER TABLE customer_customer_id_seq OWNER TO test;
+ALTER TABLE customer_customer_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: customer_shipping; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: customer_shipping; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE customer_shipping (
@@ -103,10 +104,10 @@ CREATE TABLE customer_shipping (
 );
 
 
-ALTER TABLE customer_shipping OWNER TO test;
+ALTER TABLE customer_shipping OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: customershipping_customershipping_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: customershipping_customershipping_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE customershipping_customershipping_id_seq
@@ -117,10 +118,10 @@ CREATE SEQUENCE customershipping_customershipping_id_seq
     CACHE 1;
 
 
-ALTER TABLE customershipping_customershipping_id_seq OWNER TO test;
+ALTER TABLE customershipping_customershipping_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: databasechangelog; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: databasechangelog; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE databasechangelog (
@@ -138,10 +139,10 @@ CREATE TABLE databasechangelog (
 );
 
 
-ALTER TABLE databasechangelog OWNER TO test;
+ALTER TABLE databasechangelog OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: databasechangeloglock; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: databasechangeloglock; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE databasechangeloglock (
@@ -152,10 +153,38 @@ CREATE TABLE databasechangeloglock (
 );
 
 
-ALTER TABLE databasechangeloglock OWNER TO test;
+ALTER TABLE databasechangeloglock OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: featured_product; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: designer; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+CREATE TABLE designer (
+    designer_id bigint NOT NULL,
+    image_path character varying(255),
+    designer_name character varying(255) NOT NULL,
+    shop_id bigint NOT NULL
+);
+
+
+ALTER TABLE designer OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: designer_designer_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+CREATE SEQUENCE designer_designer_id_seq
+    START WITH 9999
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE designer_designer_id_seq OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: featured_product; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE featured_product (
@@ -163,10 +192,10 @@ CREATE TABLE featured_product (
 );
 
 
-ALTER TABLE featured_product OWNER TO test;
+ALTER TABLE featured_product OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: featuredproducts_featuredproducts_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: featuredproducts_featuredproducts_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE featuredproducts_featuredproducts_id_seq
@@ -177,10 +206,36 @@ CREATE SEQUENCE featuredproducts_featuredproducts_id_seq
     CACHE 1;
 
 
-ALTER TABLE featuredproducts_featuredproducts_id_seq OWNER TO test;
+ALTER TABLE featuredproducts_featuredproducts_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: order_order_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: image_info; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+CREATE TABLE image_info (
+    image_info_id bigint NOT NULL,
+    image_path character varying(255)
+);
+
+
+ALTER TABLE image_info OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: imageinfo_imageinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+CREATE SEQUENCE imageinfo_imageinfo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE imageinfo_imageinfo_id_seq OWNER TO njcyxzlnmtiyvb;
+
+--
+-- Name: order_order_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE order_order_id_seq
@@ -191,10 +246,10 @@ CREATE SEQUENCE order_order_id_seq
     CACHE 1;
 
 
-ALTER TABLE order_order_id_seq OWNER TO test;
+ALTER TABLE order_order_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: order_product; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: order_product; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE order_product (
@@ -211,10 +266,10 @@ CREATE TABLE order_product (
 );
 
 
-ALTER TABLE order_product OWNER TO test;
+ALTER TABLE order_product OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: pricing_product; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: pricing_product; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE pricing_product (
@@ -223,10 +278,10 @@ CREATE TABLE pricing_product (
 );
 
 
-ALTER TABLE pricing_product OWNER TO test;
+ALTER TABLE pricing_product OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: pricing_product_pricing_product_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: pricing_product_pricing_product_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE pricing_product_pricing_product_id_seq
@@ -237,16 +292,15 @@ CREATE SEQUENCE pricing_product_pricing_product_id_seq
     CACHE 1;
 
 
-ALTER TABLE pricing_product_pricing_product_id_seq OWNER TO test;
+ALTER TABLE pricing_product_pricing_product_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: product; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: product; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE product (
     product_id bigint NOT NULL,
     created_on timestamp without time zone,
-    image_path character varying(255) NOT NULL,
     long_desc character varying(255),
     name character varying(255) NOT NULL,
     quantity bigint NOT NULL,
@@ -256,14 +310,15 @@ CREATE TABLE product (
     category_id bigint NOT NULL,
     featured_product_id bigint,
     pricing_product_id bigint,
-    shop_id bigint NOT NULL
+    shop_id bigint NOT NULL,
+    image_info_id bigint
 );
 
 
-ALTER TABLE product OWNER TO test;
+ALTER TABLE product OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: product_product_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: product_product_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE product_product_id_seq
@@ -274,10 +329,10 @@ CREATE SEQUENCE product_product_id_seq
     CACHE 1;
 
 
-ALTER TABLE product_product_id_seq OWNER TO test;
+ALTER TABLE product_product_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: product_variation; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: product_variation; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE product_variation (
@@ -292,10 +347,10 @@ CREATE TABLE product_variation (
 );
 
 
-ALTER TABLE product_variation OWNER TO test;
+ALTER TABLE product_variation OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: productvariation_productvariation_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: productvariation_productvariation_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE productvariation_productvariation_id_seq
@@ -306,10 +361,10 @@ CREATE SEQUENCE productvariation_productvariation_id_seq
     CACHE 1;
 
 
-ALTER TABLE productvariation_productvariation_id_seq OWNER TO test;
+ALTER TABLE productvariation_productvariation_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: shipping; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: shipping; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE shipping (
@@ -321,10 +376,10 @@ CREATE TABLE shipping (
 );
 
 
-ALTER TABLE shipping OWNER TO test;
+ALTER TABLE shipping OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: shipping_shipping_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: shipping_shipping_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE shipping_shipping_id_seq
@@ -335,10 +390,10 @@ CREATE SEQUENCE shipping_shipping_id_seq
     CACHE 1;
 
 
-ALTER TABLE shipping_shipping_id_seq OWNER TO test;
+ALTER TABLE shipping_shipping_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: shop; Type: TABLE; Schema: public; Owner: test; Tablespace: 
+-- Name: shop; Type: TABLE; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 CREATE TABLE shop (
@@ -347,10 +402,10 @@ CREATE TABLE shop (
 );
 
 
-ALTER TABLE shop OWNER TO test;
+ALTER TABLE shop OWNER TO njcyxzlnmtiyvb;
 
 --
--- Name: shop_shop_id_seq; Type: SEQUENCE; Schema: public; Owner: test
+-- Name: shop_shop_id_seq; Type: SEQUENCE; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 CREATE SEQUENCE shop_shop_id_seq
@@ -361,36 +416,36 @@ CREATE SEQUENCE shop_shop_id_seq
     CACHE 1;
 
 
-ALTER TABLE shop_shop_id_seq OWNER TO test;
+ALTER TABLE shop_shop_id_seq OWNER TO njcyxzlnmtiyvb;
 
 --
--- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-COPY category (category_id, code, name, parentcategory_category_id, created_on, updated_on) FROM stdin;
-15	1000	Women	\N	\N	\N
-16	1100	Totes and Bag	15	\N	\N
-17	1200	Shirts and Dresses	15	\N	\N
-18	1300	Handbags	15	\N	\N
-19	1000	Women	\N	\N	\N
-20	1100	Totes and Bag	19	\N	\N
-21	1200	Shirts and Dresses	19	\N	\N
-22	1300	Handbags	19	\N	\N
-23	1000	Men	\N	\N	\N
-24	1100	Bags	23	\N	\N
-25	1200	Shirts	23	\N	\N
+COPY category (category_id, code, name, parentcategory_category_id, created_on, updated_on, image_path) FROM stdin;
+15	1000	Women	\N	\N	\N	\N
+16	1100	Totes and Bag	15	\N	\N	\N
+17	1200	Shirts and Dresses	15	\N	\N	\N
+18	1300	Handbags	15	\N	\N	\N
+19	1000	Women	\N	\N	\N	\N
+20	1100	Totes and Bag	19	\N	\N	\N
+21	1200	Shirts and Dresses	19	\N	\N	\N
+22	1300	Handbags	19	\N	\N	\N
+23	1000	Men	\N	\N	\N	\N
+24	1100	Bags	23	\N	\N	\N
+25	1200	Shirts	23	\N	\N	\N
 \.
 
 
 --
--- Name: category_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: category_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 SELECT pg_catalog.setval('category_category_id_seq', 25, true);
 
 
 --
--- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY customer (customer_id, email, first_name, last_name, mobile_number, shop_id) FROM stdin;
@@ -398,14 +453,14 @@ COPY customer (customer_id, email, first_name, last_name, mobile_number, shop_id
 
 
 --
--- Name: customer_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: customer_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 SELECT pg_catalog.setval('customer_customer_id_seq', 1, false);
 
 
 --
--- Data for Name: customer_shipping; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: customer_shipping; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY customer_shipping (customer_shipping_id, address, city, country, state, zipcode) FROM stdin;
@@ -413,14 +468,14 @@ COPY customer_shipping (customer_shipping_id, address, city, country, state, zip
 
 
 --
--- Name: customershipping_customershipping_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: customershipping_customershipping_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 SELECT pg_catalog.setval('customershipping_customershipping_id_seq', 1, false);
 
 
 --
--- Data for Name: databasechangelog; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: databasechangelog; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY databasechangelog (id, author, filename, dateexecuted, orderexecuted, exectype, md5sum, description, comments, tag, liquibase) FROM stdin;
@@ -429,7 +484,7 @@ COPY databasechangelog (id, author, filename, dateexecuted, orderexecuted, exect
 
 
 --
--- Data for Name: databasechangeloglock; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: databasechangeloglock; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY databasechangeloglock (id, locked, lockgranted, lockedby) FROM stdin;
@@ -438,7 +493,23 @@ COPY databasechangeloglock (id, locked, lockgranted, lockedby) FROM stdin;
 
 
 --
--- Data for Name: featured_product; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: designer; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+COPY designer (designer_id, image_path, designer_name, shop_id) FROM stdin;
+10005	/2015/winter	Nayyar Chaudhri	37
+\.
+
+
+--
+-- Name: designer_designer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+SELECT pg_catalog.setval('designer_designer_id_seq', 10005, true);
+
+
+--
+-- Data for Name: featured_product; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY featured_product (featured_product_id) FROM stdin;
@@ -446,21 +517,43 @@ COPY featured_product (featured_product_id) FROM stdin;
 
 
 --
--- Name: featuredproducts_featuredproducts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: featuredproducts_featuredproducts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 SELECT pg_catalog.setval('featuredproducts_featuredproducts_id_seq', 1, false);
 
 
 --
--- Name: order_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Data for Name: image_info; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+COPY image_info (image_info_id, image_path) FROM stdin;
+12	clothes/women/tops/tunic/img-11.jpg
+13	/listing/wallets
+14	/listing/wallets
+15	/listing/wallets
+16	/listing/wallets
+17	/listing/wallets
+18	/listing/wallets
+\.
+
+
+--
+-- Name: imageinfo_imageinfo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+SELECT pg_catalog.setval('imageinfo_imageinfo_id_seq', 18, true);
+
+
+--
+-- Name: order_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 SELECT pg_catalog.setval('order_order_id_seq', 1, false);
 
 
 --
--- Data for Name: order_product; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: order_product; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY order_product (order_id, product_category_id, product_id, product_image_path, product_name, product_price, product_quantity, product_shop_id, product_sku, customer_id) FROM stdin;
@@ -468,7 +561,7 @@ COPY order_product (order_id, product_category_id, product_id, product_image_pat
 
 
 --
--- Data for Name: pricing_product; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: pricing_product; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY pricing_product (pricing_product_id, stored_value) FROM stdin;
@@ -495,52 +588,73 @@ COPY pricing_product (pricing_product_id, stored_value) FROM stdin;
 27	89.99
 35	89.99
 36	89.99
+48	89.99
+49	89.99
+50	89.99
+51	89.99
+52	89.99
+53	89.99
+54	89.99
 \.
 
 
 --
--- Name: pricing_product_pricing_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: pricing_product_pricing_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('pricing_product_pricing_product_id_seq', 36, true);
+SELECT pg_catalog.setval('pricing_product_pricing_product_id_seq', 54, true);
 
 
 --
--- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-COPY product (product_id, created_on, image_path, long_desc, name, quantity, short_desc, sku, updated_on, category_id, featured_product_id, pricing_product_id, shop_id) FROM stdin;
-37	2015-11-24 23:39:04.205	clothes/women/tops/tunic/img-11.jpg	Hand embroided tunic	tunic	50	Embroided Tunic	SKU_TUNIC_1	\N	17	\N	35	29
-38	2015-11-24 23:47:58.075	clothes/women/tops/tunic/img-02.jpg	Jacket - Multi Colored Patch Work	top	50	Jacket - Multi Colored Patch Work	SKU_Tops_1	\N	17	\N	36	30
+COPY product (product_id, created_on, long_desc, name, quantity, short_desc, sku, updated_on, category_id, featured_product_id, pricing_product_id, shop_id, image_info_id) FROM stdin;
+37	2015-11-24 23:39:04.205	Hand embroided tunic	tunic	50	Embroided Tunic	SKU_TUNIC_1	\N	17	\N	35	29	\N
+38	2015-11-24 23:47:58.075	Jacket - Multi Colored Patch Work	top	50	Jacket - Multi Colored Patch Work	SKU_Tops_1	\N	17	\N	36	30	\N
+50	2016-01-03 03:52:49.727	Handmade women leather tote	Women tote	50	Women leather tote 	SKU_BAG_10	\N	16	\N	48	10	12
+51	2016-01-03 06:10:59.564	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_100	\N	24	\N	49	37	13
+52	2016-01-03 08:40:55.884	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_101	\N	24	\N	50	37	14
+53	2016-01-03 08:50:45.082	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_201	\N	24	\N	51	37	15
+54	2016-01-03 08:53:43.612	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_301	\N	24	\N	52	37	16
+55	2016-01-03 08:57:03.05	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_401	\N	24	\N	53	37	17
+56	2016-01-03 08:58:27.716	handmde leather wallet	leather wallet	50	handmade leather wallet	SKU_BAG_501	\N	24	\N	54	37	18
 \.
 
 
 --
--- Name: product_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: product_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('product_product_id_seq', 38, true);
+SELECT pg_catalog.setval('product_product_id_seq', 56, true);
 
 
 --
--- Data for Name: product_variation; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: product_variation; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY product_variation (productvariation_id, color, material, mics, price, quantity, size, product_id) FROM stdin;
 1	\N	\N	\N	\N	\N	\N	37
 2	\N	\N	\N	\N	\N	\N	38
+14	\N	\N	\N	\N	\N	\N	50
+15	\N	\N	\N	\N	\N	\N	51
+16	\N	\N	\N	\N	\N	\N	52
+17	\N	\N	\N	\N	\N	\N	53
+18	\N	\N	\N	\N	\N	\N	54
+19	\N	\N	\N	\N	\N	\N	55
+20	\N	\N	\N	\N	\N	\N	56
 \.
 
 
 --
--- Name: productvariation_productvariation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: productvariation_productvariation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('productvariation_productvariation_id_seq', 2, true);
+SELECT pg_catalog.setval('productvariation_productvariation_id_seq', 20, true);
 
 
 --
--- Data for Name: shipping; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: shipping; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY shipping (id, country_name, shipping_processing_time, shipping_cost, shippingfrom_id) FROM stdin;
@@ -548,14 +662,14 @@ COPY shipping (id, country_name, shipping_processing_time, shipping_cost, shippi
 
 
 --
--- Name: shipping_shipping_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: shipping_shipping_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 SELECT pg_catalog.setval('shipping_shipping_id_seq', 1, false);
 
 
 --
--- Data for Name: shop; Type: TABLE DATA; Schema: public; Owner: test
+-- Data for Name: shop; Type: TABLE DATA; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 COPY shop (shop_id, shop_name) FROM stdin;
@@ -582,18 +696,19 @@ COPY shop (shop_id, shop_name) FROM stdin;
 21	gulgs
 29	gulgs
 30	gulgs
+37	Leather Heaven
 \.
 
 
 --
--- Name: shop_shop_id_seq; Type: SEQUENCE SET; Schema: public; Owner: test
+-- Name: shop_shop_id_seq; Type: SEQUENCE SET; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
-SELECT pg_catalog.setval('shop_shop_id_seq', 30, true);
+SELECT pg_catalog.setval('shop_shop_id_seq', 37, true);
 
 
 --
--- Name: category_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: category_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY category
@@ -601,7 +716,7 @@ ALTER TABLE ONLY category
 
 
 --
--- Name: customer_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: customer_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY customer
@@ -609,7 +724,7 @@ ALTER TABLE ONLY customer
 
 
 --
--- Name: customer_shipping_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: customer_shipping_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY customer_shipping
@@ -617,7 +732,15 @@ ALTER TABLE ONLY customer_shipping
 
 
 --
--- Name: featured_product_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: designer_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+ALTER TABLE ONLY designer
+    ADD CONSTRAINT designer_pkey PRIMARY KEY (designer_id);
+
+
+--
+-- Name: featured_product_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY featured_product
@@ -625,7 +748,15 @@ ALTER TABLE ONLY featured_product
 
 
 --
--- Name: order_product_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: image_info_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
+--
+
+ALTER TABLE ONLY image_info
+    ADD CONSTRAINT image_info_pkey PRIMARY KEY (image_info_id);
+
+
+--
+-- Name: order_product_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY order_product
@@ -633,7 +764,7 @@ ALTER TABLE ONLY order_product
 
 
 --
--- Name: pk_databasechangeloglock; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: pk_databasechangeloglock; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY databasechangeloglock
@@ -641,7 +772,7 @@ ALTER TABLE ONLY databasechangeloglock
 
 
 --
--- Name: pricing_product_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: pricing_product_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY pricing_product
@@ -649,7 +780,7 @@ ALTER TABLE ONLY pricing_product
 
 
 --
--- Name: product_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: product_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY product
@@ -657,7 +788,7 @@ ALTER TABLE ONLY product
 
 
 --
--- Name: product_variation_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: product_variation_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY product_variation
@@ -665,7 +796,7 @@ ALTER TABLE ONLY product_variation
 
 
 --
--- Name: shipping_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: shipping_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY shipping
@@ -673,7 +804,7 @@ ALTER TABLE ONLY shipping
 
 
 --
--- Name: shop_pkey; Type: CONSTRAINT; Schema: public; Owner: test; Tablespace: 
+-- Name: shop_pkey; Type: CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb; Tablespace: 
 --
 
 ALTER TABLE ONLY shop
@@ -681,7 +812,7 @@ ALTER TABLE ONLY shop
 
 
 --
--- Name: fk_3rqk4fspf25iyfbl04uppp4ul; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_3rqk4fspf25iyfbl04uppp4ul; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY category
@@ -689,7 +820,7 @@ ALTER TABLE ONLY category
 
 
 --
--- Name: fk_3ykfr3nic6i9y6q63ld1tr0m0; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_3ykfr3nic6i9y6q63ld1tr0m0; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY product
@@ -697,7 +828,7 @@ ALTER TABLE ONLY product
 
 
 --
--- Name: fk_6oweamgjibmex1v06bgk59asd; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_6oweamgjibmex1v06bgk59asd; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY product
@@ -705,7 +836,7 @@ ALTER TABLE ONLY product
 
 
 --
--- Name: fk_9q2l318eh55wqb10i6ah4s0ng; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_9q2l318eh55wqb10i6ah4s0ng; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY shipping
@@ -713,7 +844,15 @@ ALTER TABLE ONLY shipping
 
 
 --
--- Name: fk_irahbcigpcey2v8ucfo9e8i4j; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_io1ytbi6v66ayv6ksymadh6fn; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+ALTER TABLE ONLY designer
+    ADD CONSTRAINT fk_io1ytbi6v66ayv6ksymadh6fn FOREIGN KEY (shop_id) REFERENCES shop(shop_id);
+
+
+--
+-- Name: fk_irahbcigpcey2v8ucfo9e8i4j; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY product_variation
@@ -721,7 +860,7 @@ ALTER TABLE ONLY product_variation
 
 
 --
--- Name: fk_m7x5c3eg0yydsjf7pktglly1n; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_m7x5c3eg0yydsjf7pktglly1n; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY customer
@@ -729,7 +868,7 @@ ALTER TABLE ONLY customer
 
 
 --
--- Name: fk_nodxvyr0xxxij5c427ulsl5ag; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_nodxvyr0xxxij5c427ulsl5ag; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY order_product
@@ -737,7 +876,7 @@ ALTER TABLE ONLY order_product
 
 
 --
--- Name: fk_oyjqqep8hbmk4adib1t3g2om2; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_oyjqqep8hbmk4adib1t3g2om2; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY product
@@ -745,7 +884,7 @@ ALTER TABLE ONLY product
 
 
 --
--- Name: fk_r0v5c2ajsmfyqwo8il06y4lqu; Type: FK CONSTRAINT; Schema: public; Owner: test
+-- Name: fk_r0v5c2ajsmfyqwo8il06y4lqu; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
 --
 
 ALTER TABLE ONLY product
@@ -753,12 +892,20 @@ ALTER TABLE ONLY product
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: test
+-- Name: fk_sql6plkrp72t9j6c65hf78g54; Type: FK CONSTRAINT; Schema: public; Owner: njcyxzlnmtiyvb
+--
+
+ALTER TABLE ONLY product
+    ADD CONSTRAINT fk_sql6plkrp72t9j6c65hf78g54 FOREIGN KEY (image_info_id) REFERENCES image_info(image_info_id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: njcyxzlnmtiyvb
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM test;
-GRANT ALL ON SCHEMA public TO test;
+REVOKE ALL ON SCHEMA public FROM njcyxzlnmtiyvb;
+GRANT ALL ON SCHEMA public TO njcyxzlnmtiyvb;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 

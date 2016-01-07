@@ -2,6 +2,7 @@ package com.gul.product.service.persistance;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -15,6 +16,7 @@ public class CustomerDao extends AbstractDAO<Customer>{
 	}
 
 	public Customer create(Customer customer) {
+		customer.setCreatedOn(new Date());
 		return persist(customer);
 	}
 	

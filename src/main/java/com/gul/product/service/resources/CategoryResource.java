@@ -40,8 +40,7 @@ public class CategoryResource {
 	@Timed
     @ApiOperation("Adding a new category and its subcategories.")
 	public Response add(@Valid Category category) {
-		Category c = categoryDao.create(category);
-		
+		Category c = categoryDao.create(category);		
 		List<Category> subCategories = (List<Category>) category.getSubCategories();
 		if(subCategories != null) {
 			for(Category subCategory : subCategories) {
@@ -60,10 +59,11 @@ public class CategoryResource {
 		List<Category> subCategories = (List<Category>) category.getSubCategories();
 		category.setId(id);
 		for(Category subCategory : subCategories) {
-			categoryDao.create(subCategory);
+			subCategory.setParentCategory(category);
+//			categoryDao.create(subCategory);
 		}
 		
-		Category c = categoryDao.create(category);
+		Category c = categoryDao.update(category);
 		return Response.status(Response.Status.OK).entity(c).build();
 	}
 	
@@ -82,8 +82,9 @@ public class CategoryResource {
     @ApiOperation("Get products for a given category id. This is a lazily loaded operation.")
 	public Response getCategoryProducts(@PathParam("id") Long id) {
 		Category category = categoryDao.findByIdLoadProducts(id);
-		Set<Product> products = category.getProducts();
-		return Response.status(Response.Status.OK).entity(products).build();		
+		List<Product> products = category.getProducts();
+		category.setProducts(products);
+		return Response.status(Response.Status.OK).entity(category).build();		
 	}
 	
 	@GET

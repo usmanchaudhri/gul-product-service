@@ -2,7 +2,9 @@ package com.gul.product.service.representation;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gul.product.service.audit.TimeStamped;
 
@@ -46,7 +49,7 @@ public class Category implements TimeStamped {
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
 	@OneToMany(mappedBy="category", fetch = FetchType.LAZY)
-	private Set<Product> products; 
+	private List<Product> products; 
 	
 	@ManyToOne
 	private Category parentCategory;
@@ -140,11 +143,11 @@ public class Category implements TimeStamped {
 		this.subCategories = subCategories;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 

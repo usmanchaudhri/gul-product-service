@@ -1,7 +1,10 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import java.util.List;
+import java.util.Set;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,11 +14,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
-import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.Designer;
+import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -50,6 +55,18 @@ public class ShopResource {
 		List<Designer> designers = shop.getDesigners();
 		return Response.status(Response.Status.OK).entity(designers).build();		
 	}
+
+	@GET
+	@UnitOfWork
+	@Path("/{id}/products")
+    @ApiOperation("Get products for a given shop id, lazy load.")
+	public Response getShopProducts(@PathParam("id") Long id) {
+		Shop shop = shopDao.findByIdLoadProducts(id);
+		List<Product> products = shop.getProducts();
+		shop.setProducts(products);
+		return Response.status(Response.Status.OK).entity(shop).build();		
+	}
+
 
 	/**
 	 * TODO - creating products with-in shops.

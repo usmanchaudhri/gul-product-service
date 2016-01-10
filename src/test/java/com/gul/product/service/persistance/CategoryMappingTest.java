@@ -1,10 +1,10 @@
 package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -95,14 +95,17 @@ public class CategoryMappingTest {
 		productTop.setCategory(category);
 		productTop.setShop(shop);
 		
-		category.setProducts(Sets.newSet(productSkirt, productTop));
+		List<Product> productList = new ArrayList<Product>();
+		productList.add(productSkirt);
+		productList.add(productTop);
+		category.setProducts(productList);
 		
 		persistedClassDao.saveInNewTransaction(category);					
 		persistedClassDao.saveInNewTransaction(productSkirt);					
 		persistedClassDao.saveInNewTransaction(productTop);	
 		
 		Category retrievedCategory = persistedClassDao.getEntityManager().find(Category.class, category.getId());
-		Set<Product> products = retrievedCategory.getProducts();
+		List<Product> products = retrievedCategory.getProducts();
 
 		Iterator<Product> ite = products.iterator();
 		while(ite.hasNext()) {

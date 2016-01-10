@@ -49,9 +49,9 @@ public class Shop implements Serializable, TimeStamped {
 	
 	@Column(name = "shop_name", nullable = false) private String name;
 	
-	@OneToMany(mappedBy="shop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@OrderBy("product_id")
-	private Set<Product> products = new HashSet<Product>();
+	private List<Product> products;
 	
 	// shop should have a list of designers too.
 	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -82,11 +82,11 @@ public class Shop implements Serializable, TimeStamped {
 		this.name = name;
 	}
 
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 

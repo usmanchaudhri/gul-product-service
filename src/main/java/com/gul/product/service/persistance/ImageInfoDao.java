@@ -20,6 +20,7 @@ public class ImageInfoDao extends AbstractDAO<ImageInfo> {
 	}
 	
 	public ImageInfo update(ImageInfo imageInfo) {
+		imageInfo.setUpdatedOn(new Date());
 		return persist(imageInfo);
 	}
 	

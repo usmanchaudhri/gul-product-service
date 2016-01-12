@@ -30,6 +30,7 @@ public class Designer implements TimeStamped {
 	
 	@Column(name = "designer_name", nullable = false) private String name;
 	@Column(name = "image_path", nullable = true) private String imagePath;
+	@Column(name = "details", nullable = true) private String details;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id", referencedColumnName ="shop_id", nullable=false)

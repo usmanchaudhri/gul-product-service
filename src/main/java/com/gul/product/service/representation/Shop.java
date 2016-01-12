@@ -48,6 +48,7 @@ public class Shop implements Serializable, TimeStamped {
 	private Long id;
 	
 	@Column(name = "shop_name", nullable = false) private String name;
+	@Column(name = "details", nullable = true) private String details;
 	
 	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@OrderBy("product_id")

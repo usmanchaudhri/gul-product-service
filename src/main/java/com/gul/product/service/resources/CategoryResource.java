@@ -96,6 +96,6 @@ public class CategoryResource {
 		return Response.status(Response.Status.OK).entity(category).build();
 	}	
 
-
+	
 
 }

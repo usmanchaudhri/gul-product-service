@@ -20,6 +20,7 @@ public class DesignerDao extends AbstractDAO<Designer> {
 	}
 
 	public Designer update(Designer designer) {
+		designer.setUpdatedOn(new Date());
 		return persist(designer);
 	}
 

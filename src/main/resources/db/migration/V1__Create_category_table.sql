@@ -5,11 +5,11 @@
 create table CATEGORY (
     category_id bigint not null,
     code varchar(255),
-    created_on timestamp,
     name varchar(255) not null,
-    updated_on timestamp,
     parentCategory_category_id bigint,
     image_path varchar(255),
+    created_on timestamp,
+    updated_on timestamp,
     primary key (category_id)
 );
 

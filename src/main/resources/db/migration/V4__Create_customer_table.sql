@@ -9,6 +9,8 @@ create table customer (
     last_name varchar(255) NOT NULL,
     mobile_number varchar(12) NOT NULL,
     shop_id bigint,
+    created_on timestamp,
+    updated_on timestamp,    
     primary key (customer_id)
 );
 
@@ -26,6 +28,8 @@ create table CUSTOMER_SHIPPING (
     country varchar(255) not null,
     state varchar(255) not null,
     zipcode varchar(255) not null,
+    created_on timestamp,
+    updated_on timestamp,    
     primary key (customer_shipping_id)
 );
        

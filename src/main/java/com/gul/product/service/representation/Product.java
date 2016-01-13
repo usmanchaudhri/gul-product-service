@@ -63,7 +63,8 @@ public class Product implements TimeStamped {
 	@Column(name = "product_id", nullable = false, unique = true)
 	private Long id;
 	
-	@NotNull @Column(name = "sku", nullable = false, unique = true) private String sku;	
+	// TODO - why do we need sku ???
+	@Column(name = "sku", nullable = true, unique = true) private String sku;	
 	@NotNull @Column(name = "name", nullable = false) private String name;
 	@NotNull @Column(name = "short_desc", nullable = false) private String shortDesc;
 	@Column(name = "long_desc", nullable = true) private String longDesc;

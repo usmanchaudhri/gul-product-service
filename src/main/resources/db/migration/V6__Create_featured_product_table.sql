@@ -4,6 +4,8 @@
 
 create table FEATURED_PRODUCT (
     featured_product_id bigint not null,
+    created_on timestamp,
+    updated_on timestamp,    
     primary key (featured_product_id)
 );
     

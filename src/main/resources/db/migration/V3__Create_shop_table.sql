@@ -5,6 +5,9 @@
 CREATE TABLE shop (
     shop_id bigint not null,
     shop_name varchar(255) not null,
+    details varchar(255),
+    created_on timestamp,
+    updated_on timestamp,
     primary key (shop_id)
 );
 
@@ -20,6 +23,9 @@ CREATE TABLE designer (
     image_path varchar(255),
     designer_name varchar(255) not null,
     shop_id bigint not null,
+    details varchar(255),    
+    created_on timestamp,
+    updated_on timestamp,
     primary key (designer_id)
 );
 

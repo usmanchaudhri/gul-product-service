@@ -12,6 +12,8 @@ create table PRODUCT_VARIATION (
     quantity varchar(255),
     size varchar(255),
     product_id bigint not null,
+    created_on timestamp,
+    updated_on timestamp,    
     primary key (productvariation_id)
 );
     

@@ -25,6 +25,10 @@ import com.gul.product.service.representation.Shop;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
+/**
+ *	TODO - add PUT functionality 
+ * */
+
 @Api("/shop")
 @Path("/shop")
 @Produces(MediaType.APPLICATION_JSON)

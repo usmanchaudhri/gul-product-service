@@ -4,6 +4,7 @@ import io.dropwizard.hibernate.AbstractDAO;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.SessionFactory;
+
 import com.gul.product.service.representation.Product;
 
 public class ProductDao extends AbstractDAO<Product> {
@@ -24,6 +25,10 @@ public class ProductDao extends AbstractDAO<Product> {
 	
 	public Product findById(Long id) {
 		return get(id);
+	}
+	
+	public List<Product> findAllPagination(int first, int max) {	
+		return list(namedQuery("com.gul.product.service.representation.Product.findAll").setFirstResult(first).setMaxResults(max));
 	}
 	
 	public List<Product> findAll() {

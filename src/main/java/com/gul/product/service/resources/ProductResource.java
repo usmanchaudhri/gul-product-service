@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
@@ -121,8 +122,9 @@ public class ProductResource {
 	@UnitOfWork
 	@Timed
     @ApiOperation("Get list of existing products")
-	public Response listProducts() {
-		List<Product> products = productDao.findAll();
+	public Response listProducts(@QueryParam("first") int first, @QueryParam("max") int max) {
+//		List<Product> products = productDao.findAll();
+		List<Product> products = productDao.findAllPagination(first, max);		
 		return Response.status(Response.Status.OK).entity(products).build();
 	}	
 

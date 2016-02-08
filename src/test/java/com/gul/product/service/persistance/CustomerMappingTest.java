@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class CustomerMappingTest {
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
-		Collection<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);		
 		setTimeStamp(customer);
@@ -44,7 +45,7 @@ public class CustomerMappingTest {
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 				
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
-		Collection<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
 		setTimeStamp(customer);

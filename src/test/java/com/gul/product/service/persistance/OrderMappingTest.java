@@ -2,9 +2,12 @@ package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
+
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -12,7 +15,6 @@ import com.google.inject.ProvisionException;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Order;
-import org.hamcrest.Matchers;
 
 public class OrderMappingTest {
 	
@@ -22,7 +24,7 @@ public class OrderMappingTest {
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
-		Collection<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
 		persistedClassDao.saveInNewTransaction(customer);

@@ -52,7 +52,7 @@ public class Customer implements TimeStamped {
 	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Collection<CustomerShipping> customerShipping = new ArrayList<CustomerShipping>();
+	private List<CustomerShipping> customerShipping; 	// = new ArrayList<CustomerShipping>();
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id")
@@ -67,7 +67,7 @@ public class Customer implements TimeStamped {
 	public Customer() {}
 	
  	public Customer(String firstName, String lastName, String email,
-			String mobileNumber, Collection<CustomerShipping> customerShipping) {
+			String mobileNumber, List<CustomerShipping> customerShipping) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -120,7 +120,7 @@ public class Customer implements TimeStamped {
 	}
 
 	public void setCustomerAddresses(
-			Collection<CustomerShipping> customerShipping) {
+			List<CustomerShipping> customerShipping) {
 		this.customerShipping = customerShipping;
 	}
 

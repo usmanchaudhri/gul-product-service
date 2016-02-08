@@ -4,17 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import io.dropwizard.flyway.FlywayFactory;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
 import org.flywaydb.core.Flyway;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
+
 import com.gul.product.service.app.ProductServiceApplicationTest;
 import com.gul.product.service.app.ProductServiceConfigurationTest;
 import com.gul.product.service.representation.Customer;
@@ -62,19 +66,19 @@ public class CustomerServiceIntegrationTest {
 		Client client = JerseyClientBuilder.createClient();
 
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
-		Collection<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
 
-		Customer categoryPersisted = client
+		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/customer")
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 
-		Long categoryId = categoryPersisted.getId();
-		String firstName = categoryPersisted.getFirstName();
+		Long customerId = customerPersisted.getId();
+		String firstName = customerPersisted.getFirstName();
 		
-		assertThat(categoryId).isNotNull();
+		assertThat(customerId).isNotNull();
 		assertThat(firstName).isEqualTo("Usman");
 
 	}

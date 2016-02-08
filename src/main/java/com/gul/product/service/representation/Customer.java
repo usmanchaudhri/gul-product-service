@@ -115,12 +115,11 @@ public class Customer implements TimeStamped {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Collection<CustomerShipping> getCustomerAddresses() {
+	public List<CustomerShipping> getCustomerShipping() {
 		return customerShipping;
 	}
 
-	public void setCustomerAddresses(
-			List<CustomerShipping> customerShipping) {
+	public void setCustomerShipping(List<CustomerShipping> customerShipping) {
 		this.customerShipping = customerShipping;
 	}
 

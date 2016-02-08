@@ -90,7 +90,6 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		assertThat(fetchAllProducts.size()).isEqualTo(1);
 	}
 
-	@Ignore
 	@Test
 	public void test_create_new_category_when_saving_product() {
 		Client client = JerseyClientBuilder.createClient();
@@ -154,7 +153,6 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		assertThat(productPersisted.getShop().getDesigners().get(0).getId()).isNotNull();
 	}
 	
-	@Ignore
 	@Test
 	public void test_updating_product() {
 		Client client = JerseyClientBuilder.createClient();
@@ -221,7 +219,6 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		assertThat(updatedPersistedProduct.getSku()).isEqualTo("SKU101");
 	}
 	
-	@Ignore
 	@Test
 	public void test_add_variation_size_when_creating_a_new_product() {
 		Client client = JerseyClientBuilder.createClient();

@@ -28,6 +28,7 @@ create table CUSTOMER_SHIPPING (
     country varchar(255) not null,
     state varchar(255) not null,
     zipcode varchar(255) not null,
+    customer_id bigint,
     created_on timestamp,
     updated_on timestamp,    
     primary key (customer_shipping_id)

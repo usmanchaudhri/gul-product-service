@@ -1,7 +1,9 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,15 +14,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.Customer;
+import com.gul.product.service.representation.CustomerShipping;
+import com.gul.product.service.representation.Order;
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
  * customer order information.
  **/
+@Api("/customer")
 @Path("/customer")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -35,14 +43,31 @@ public class CustomerResource {
 	@POST
 	@UnitOfWork
 	@Timed
-	@ApiOperation(
-            value = "Adding a new customer",
-            notes = "Adding a new customer",
-            response = Customer.class)
+	@ApiOperation(value = "Adding a new customer", notes = "Adding a new customer", response = Customer.class)
 	public Response add(@Valid Customer customer) {
+		setCustomerShipping(customer);
+		setCustomerOrder(customer);
 		Customer cus = customerDao.create(customer);
 		return Response.status(Response.Status.CREATED).entity(cus).build();
 	}		
+	
+	private void setCustomerShipping(Customer customer) {
+		List<CustomerShipping> customerShippings = customer.getCustomerShipping();
+		if(customerShippings != null) {
+			for(CustomerShipping customerShipping : customerShippings) {
+				customerShipping.setCustomer(customer);
+			}
+		}
+	}
+	
+	private void setCustomerOrder(Customer customer) {
+		List<Order> orders = customer.getOrder();
+		if(orders != null) {
+			for(Order order : orders) {
+				order.setCustomer(customer);
+			}			
+		}
+	}
 	
 	@PUT
 	@UnitOfWork
@@ -86,8 +111,9 @@ public class CustomerResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-	public Response getProduct(@PathParam("id") @NotEmpty Long id) {
-		Customer customer = customerDao.findById(id);
+    @ApiOperation("Get customer for passed-in id")
+	public Response getCustomer(@PathParam("id") @NotEmpty Long customerId) {
+		Customer customer = customerDao.findById(customerId);
 		return Response.status(Response.Status.OK).entity(customer).build();
 	}
 	

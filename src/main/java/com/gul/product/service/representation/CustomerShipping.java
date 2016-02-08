@@ -2,11 +2,14 @@ package com.gul.product.service.representation;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,6 +33,10 @@ public class CustomerShipping implements TimeStamped {
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
+	
+	@ManyToOne(cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name="customer_id", referencedColumnName="customer_id", nullable = true)
+	private Customer customer;
 	
 	public CustomerShipping() {}
 	
@@ -107,5 +114,13 @@ public class CustomerShipping implements TimeStamped {
 	@Override
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 }

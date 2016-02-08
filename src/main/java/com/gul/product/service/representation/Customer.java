@@ -1,7 +1,5 @@
 package com.gul.product.service.representation;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +21,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
 
 /**
@@ -38,6 +38,7 @@ import com.gul.product.service.audit.TimeStamped;
 	        query = "SELECT c FROM Customer c"
 	)
 })
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Customer implements TimeStamped {
 
 	@Id
@@ -51,7 +52,7 @@ public class Customer implements TimeStamped {
 	@Email @Column(name = "email", nullable = false) private String email;
 	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<CustomerShipping> customerShipping; 	// = new ArrayList<CustomerShipping>();
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

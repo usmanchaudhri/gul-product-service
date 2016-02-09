@@ -65,6 +65,7 @@ import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
+import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
@@ -168,8 +169,10 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ShopResource(shopDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
+        environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
+        
         
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.

@@ -19,9 +19,13 @@ public class OrderDao extends AbstractDAO<Order> {
 		return persist(order);
 	}
 	
+	public Order update(Order order) {
+		order.setUpdatedOn(new Date());
+		return persist(order);
+	}
+	
 	public Order findById(Long id) {
 		return get(id);
 	}
-
 
 }

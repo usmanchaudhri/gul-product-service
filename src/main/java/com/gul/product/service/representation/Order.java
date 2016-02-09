@@ -41,9 +41,8 @@ public class Order implements TimeStamped {
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
-	
-	@ManyToOne
-	@JoinColumn(name="customer_id", nullable=false)
+	@ManyToOne(cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name="customer_id", referencedColumnName="customer_id", nullable = true)
 	private Customer customer; 
 	
 	public Order(String productId, String productName, String productSku,

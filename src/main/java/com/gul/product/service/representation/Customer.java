@@ -59,7 +59,7 @@ public class Customer implements TimeStamped {
 	@JoinColumn(name="shop_id")
 	private Shop shop;
 
-	@OneToMany(mappedBy="customer")
+	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Order> order;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;

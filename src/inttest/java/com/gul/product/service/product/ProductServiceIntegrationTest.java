@@ -150,7 +150,12 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		assertThat(productPersisted.getId()).isNotNull();
 		assertThat(productPersisted.getCategory().getId()).isNotNull();
 		assertThat(productPersisted.getShop().getId()).isNotNull();
-		assertThat(productPersisted.getShop().getDesigners().get(0).getId()).isNotNull();
+		
+		// TODO - designer results into null but with break point and a bit of delay works fine ???? Why ??????
+		List<Designer> persistedDesigners = productPersisted.getShop().getDesigners();
+		Designer persistedFirstDesigner = persistedDesigners.get(0);
+		Long persistedFirstDesignerId = persistedFirstDesigner.getId();
+		assertThat(persistedFirstDesignerId).isNotNull();
 	}
 	
 	@Test

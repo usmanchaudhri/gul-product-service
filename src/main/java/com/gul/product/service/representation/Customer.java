@@ -38,14 +38,13 @@ import com.gul.product.service.audit.TimeStamped;
 	        query = "SELECT c FROM Customer c"
 	)
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "firstName")
 public class Customer implements TimeStamped {
 
 	@Id
 	@SequenceGenerator(name = "customerseq", sequenceName = "customer_customer_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerseq")
-	@Column(name = "customer_id", nullable = false)
-	private Long id;
+	@Column(name = "customer_id", nullable = false) private Long id;
 
 	@Column(name = "first_name", nullable = false) private String firstName;
 	@Column(name = "last_name", nullable = false) private String lastName;
@@ -59,7 +58,7 @@ public class Customer implements TimeStamped {
 	@JoinColumn(name="shop_id")
 	private Shop shop;
 
-	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Order> order;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;

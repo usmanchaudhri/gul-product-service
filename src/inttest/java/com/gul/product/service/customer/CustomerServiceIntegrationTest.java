@@ -1,27 +1,14 @@
 package com.gul.product.service.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import io.dropwizard.flyway.FlywayFactory;
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-
-import org.flywaydb.core.Flyway;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.h2.jdbcx.JdbcDataSource;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.gul.product.service.app.ProductServiceApplicationTest;
-import com.gul.product.service.app.ProductServiceConfigurationTest;
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
@@ -36,9 +23,10 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
-
+		
 		Customer customerPersisted = client
-				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/customer")
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path("/customer")
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 

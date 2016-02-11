@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,6 +23,13 @@ import com.gul.product.service.audit.TimeStamped;
  **/
 @Entity
 @Table(name = "ORDER_PRODUCT")
+@NamedQueries({
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Order.findAll",
+            query = "SELECT o FROM Order o"
+    )
+})
+
 public class Order implements TimeStamped {
 	
 	@Id
@@ -29,19 +38,20 @@ public class Order implements TimeStamped {
 	@Column(name = "order_id", nullable = false)
 	private Long id;
 
-	@Column(name = "product_id", nullable = false) private String productId;
-	@Column(name = "product_name", nullable = false) private String productName;
-	@Column(name = "product_sku", nullable = false) private String productSku;
-	@Column(name = "product_quantity", nullable = false)  private String productQuantity;
-	@Column(name = "product_price", nullable = false) private String productPrice;
-	@Column(name = "product_image_path", nullable = false) private String productImagePath;
-	@Column(name = "product_category_id", nullable = false)  private String productCategoryId;
-	@Column(name = "product_shop_id", nullable = false)  private String productShopId;
+	@Column(name = "product_id") private String productId;
+	@Column(name = "product_name") private String productName;
+	@Column(name = "product_sku") private String productSku;
+	@Column(name = "product_quantity")  private String productQuantity;
+	@Column(name = "product_price") private String productPrice;
+	@Column(name = "product_image_path") private String productImagePath;
+	@Column(name = "product_category_id")  private String productCategoryId;
+	@Column(name = "product_shop_id")  private String productShopId;
+	@Column(name = "status")  private String status;								// processing, shipped, return.
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
-	@ManyToOne(cascade = CascadeType.ALL, optional = true)
+	@ManyToOne(cascade = CascadeType.ALL, optional = false)
 	@JoinColumn(name="customer_id", referencedColumnName="customer_id", nullable = true)
 	private Customer customer; 
 	
@@ -155,6 +165,14 @@ public class Order implements TimeStamped {
 
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

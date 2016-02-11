@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.inject.ConfigurationException;
@@ -17,6 +18,49 @@ import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Order;
 
 public class OrderMappingTest {
+	
+	@Test
+	public void test_creating_customer_profile_only() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+		
+		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);
+		persistedClassDao.saveInNewTransaction(customer);
+		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
+		Assert.assertNotNull(retrievedCustomer.getId());
+
+		Object[] actualEmail = new Object[1];
+		actualEmail[0] = retrievedCustomer.getEmail();
+		
+		Object[] expectedEmail = new Object[1];
+		expectedEmail[0] = "azhar.rao@gmail.com";
+		Assert.assertArrayEquals("email address didn't match", actualEmail, expectedEmail);
+	}
+	
+	@Test
+	public void test_creating_customer_with_orders_only() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+		
+		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);
+		
+		// create an order
+		Order order = new Order("1001", "Tunic Top", "SKU_101_TUNIC", "9", "39.99", "/gul/product", "31", "10");
+		order.setCustomer(customer);
+		
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(order);
+		customer.setOrder(orders);
+
+		persistedClassDao.saveInNewTransaction(customer);
+		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
+		Assert.assertNotNull(retrievedCustomer.getId());
+
+		List<Order> persistedOrders = retrievedCustomer.getOrder();
+		for(Order tempOrder : persistedOrders) {
+			Assert.assertNotNull(tempOrder.getId());
+		}
+	}
 	
 	@Test
 	public void test_customer_placing_order() throws SQLException, ConfigurationException, ProvisionException {

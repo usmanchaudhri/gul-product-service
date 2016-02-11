@@ -51,7 +51,7 @@ public class CustomerShippingResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}")
-	public Response getProduct(@PathParam("id") @NotEmpty Long id) {
+	public Response getCustomerShipping(@PathParam("id") @NotEmpty Long id) {
 		CustomerShipping customerShipping = customerShippingDao.findById(id);
 		return Response.status(Response.Status.OK).entity(customerShipping).build();
 	}

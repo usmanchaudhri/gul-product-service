@@ -24,7 +24,6 @@ public class AbstractProductServiceIntegrationTest {
     public static final DropwizardAppRule<ProductServiceConfigurationTest> RULE =
             new DropwizardAppRule<ProductServiceConfigurationTest>(ProductServiceApplicationTest.class, ResourceHelpers.resourceFilePath("testProductService.yml"));
 
-	
 	@BeforeClass
 	public static void setupClass() {
 		FlywayFactory flywayFactory = RULE.getConfiguration().getFlyway();
@@ -39,14 +38,14 @@ public class AbstractProductServiceIntegrationTest {
 		ds.setPassword(password);		
 
 		flyway = flywayFactory.build(ds);
-		flyway.migrate();		// migrate category
-		flyway.migrate();		// migrate product
-		flyway.migrate();		// migrate shop
-		flyway.migrate();		// migrate customer
-		flyway.migrate();		// migrate productVariation
-		flyway.migrate();		// migrate featureProducts
-		flyway.migrate();		// migrate note
-		flyway.migrate();		// migrate image info
+		flyway.migrate();		// 1 migrate category
+		flyway.migrate();		// 2 migrate product
+		flyway.migrate();		// 3 migrate shop
+		flyway.migrate();		// 4 migrate customer
+		flyway.migrate();		// 5 migrate productVariation
+		flyway.migrate();		// 6 migrate featureProducts
+		flyway.migrate();		// 7 migrate note
+		flyway.migrate();		// 8 migrate image info
 	}
 	
 	@AfterClass

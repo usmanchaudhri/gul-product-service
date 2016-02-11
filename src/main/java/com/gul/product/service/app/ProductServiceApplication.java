@@ -118,7 +118,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         bootstrap.addBundle(new SwaggerBundle<ProductServiceConfiguration>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(ProductServiceConfiguration configuration) {
-                // this would be the preferred way to set up swagger, you can also construct the object here programtically if you want
+                // this would be the preferred way to set up swagger, you can also construct the object here programmatically if you want
                 return configuration.swaggerBundleConfiguration;
             }
         });

@@ -1,11 +1,9 @@
 package com.gul.product.service.persistance;
 
 import java.util.Date;
-
+import java.util.List;
 import io.dropwizard.hibernate.AbstractDAO;
-
 import org.hibernate.SessionFactory;
-
 import com.gul.product.service.representation.Order;
 
 public class OrderDao extends AbstractDAO<Order> {
@@ -26,6 +24,10 @@ public class OrderDao extends AbstractDAO<Order> {
 	
 	public Order findById(Long id) {
 		return get(id);
+	}
+	
+	public List<Order> findAll() {
+		return list(namedQuery("com.gul.product.service.representation.Order.findAll"));
 	}
 
 }

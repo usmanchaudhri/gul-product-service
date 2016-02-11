@@ -29,6 +29,7 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
 import com.gul.product.service.persistance.ImageInfoDao;
+import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.PricingProductDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
@@ -47,11 +48,13 @@ import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
+import com.gul.product.service.resources.AttributeDefinitionResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
+import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
@@ -77,8 +80,6 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
             		ProductVariation.class,
             		AttributeDefinition.class,
             		AttributeValue.class,
-            		ImageInfo.class,
-            		Shop.class,
             		Designer.class,
             		ImageInfo.class) {
                 @Override
@@ -116,7 +117,6 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 	public void run(ProductServiceConfigurationTest configuration,
 			Environment environment) throws Exception {
         LOGGER.info("Starting the Product data service");
-        removeDefaultExceptionMappers(Boolean.TRUE, environment);
 
         final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
 		final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
@@ -127,8 +127,12 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 		final CustomerShippingDao customerShippingDao = new CustomerShippingDao(hibernateBundle.getSessionFactory());
 		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
 		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());
+		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
+        removeDefaultExceptionMappers(Boolean.TRUE, environment);
+        
+        // register exception mappers
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new ProductJsonExceptionMapper());
 
@@ -139,6 +143,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new ShopResource(shopDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
+        environment.jersey().register(new OrderResource(orderDao, customerDao));
+        environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
 	}
 	

@@ -92,11 +92,6 @@ public class CustomerResource {
 	
 	private void updateCustomer(Customer persistedCustomer, Customer customer) {
 		persistedCustomer.setEmail(customer.getEmail());
-		persistedCustomer.setFirstName(customer.getFirstName());
-		persistedCustomer.setLastName(customer.getLastName());
-		persistedCustomer.setMobileNumber(customer.getMobileNumber());
-
-		// TODO - should we update orders and shop info here.
 	}
 	
 	@POST

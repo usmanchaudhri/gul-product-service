@@ -2,7 +2,6 @@ package com.gul.product.service.representation;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,9 +35,13 @@ import com.gul.product.service.audit.TimeStamped;
 	@NamedQuery(
 	        name = "com.gul.product.service.representation.Customer.findAll",
 	        query = "SELECT c FROM Customer c"
-	)
+	),
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Customer.findCustomer",
+            query = "SELECT c FROM Customer c WHERE c.email = :customerEmail"
+    )
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "firstName")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Customer implements TimeStamped {
 
 	@Id
@@ -46,13 +49,15 @@ public class Customer implements TimeStamped {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerseq")
 	@Column(name = "customer_id", nullable = false) private Long id;
 
-	@Column(name = "first_name", nullable = false) private String firstName;
-	@Column(name = "last_name", nullable = false) private String lastName;
-	@Email @Column(name = "email", nullable = false) private String email;
-	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
+//	@Column(name = "first_name", nullable = false) private String firstName;
+//	@Column(name = "last_name", nullable = false) private String lastName;
+//	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 
+	@Email @Column(name = "email", nullable = false) private String email;
+	@Column(name = "password", nullable = false) private String password;
+	
 	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<CustomerShipping> customerShipping; 	// = new ArrayList<CustomerShipping>();
+	private List<CustomerShipping> customerShipping;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="shop_id")
@@ -66,13 +71,9 @@ public class Customer implements TimeStamped {
 
 	public Customer() {}
 	
- 	public Customer(String firstName, String lastName, String email,
-			String mobileNumber, List<CustomerShipping> customerShipping) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public Customer(String email, String password) {
 		this.email = email;
-		this.mobileNumber = mobileNumber;
-		this.customerShipping = customerShipping;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -83,36 +84,12 @@ public class Customer implements TimeStamped {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
 	}
 
 	public List<CustomerShipping> getCustomerShipping() {
@@ -157,6 +134,14 @@ public class Customer implements TimeStamped {
 	@Override
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	

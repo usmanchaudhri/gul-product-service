@@ -22,8 +22,16 @@ public class CustomerDao extends AbstractDAO<Customer> {
 		return persist(customer);
 	}
 	
+	public Customer findByUsername(String username) {
+		return get(username);
+	}
+	
 	public Customer findById(Long id) {
 		return get(id);
+	}
+	
+	public List<Customer> findCustomerByUsername(String customerEmail) {
+		return list(namedQuery("com.gul.product.service.representation.Customer.findCustomer").setParameter("customerEmail", Long.valueOf(customerEmail)));
 	}
 	
 	public List<Customer> findAll() {

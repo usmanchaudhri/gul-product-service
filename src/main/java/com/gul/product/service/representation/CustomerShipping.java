@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.gul.product.service.audit.TimeStamped;
 
 @Entity
@@ -25,11 +27,14 @@ public class CustomerShipping implements TimeStamped {
 	@Column(name = "customer_shipping_id", nullable = false)
 	private Long id;
 	
+	@Column(name = "first_name", nullable = false) private String firstName;
+	@Column(name = "last_name", nullable = false) private String lastName;
 	@Column(name = "address", nullable = false) private String address;
 	@Column(name = "city", nullable = false) private String city;
 	@Column(name = "state", nullable = false) private String state;
 	@Column(name = "zipcode", nullable = false) private String zipcode;
 	@Column(name = "country", nullable = false) private String country;
+	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;

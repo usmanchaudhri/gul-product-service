@@ -29,7 +29,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gul.product.service.authenticate.SimpleAuthenticator;
+import com.gul.product.service.authenticate.CustomerAuthenticator;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
@@ -58,7 +58,6 @@ import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
-import com.gul.product.service.representation.User;
 import com.gul.product.service.resources.AttributeDefinitionResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
@@ -173,8 +172,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         
-        
-        environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
+        environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "SUPER SECRET STUFF", Customer.class));
 //      TODO - add health check for service here.
 //      environment.lifecycle().manage(TemplateHealthCheck.class);
 	}

@@ -69,7 +69,11 @@ import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
+import com.gul.product.service.resources.TwillioChannelResource;
+import com.gul.product.service.resources.TwillioMemberResource;
+import com.gul.product.service.resources.TwillioMessagesResource;
 import com.gul.product.service.resources.TwillioMessagingResource;
+import com.gul.product.service.resources.TwillioUserResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceConfiguration.class);
@@ -173,7 +177,32 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
-        environment.jersey().register(new TwillioMessagingResource(client));
+        
+        // Twillio ip-messaging
+        environment.jersey().register(new TwillioUserResource(
+        		configuration.getTwillioAccountSid(),
+        		configuration.getTwillioAuthToken(),
+        		configuration.getTwillioServiceSid(),
+        		configuration.getTwillioAuthorizationHeaderName(),
+        		configuration.getTwillioAccessUrl()));
+        environment.jersey().register(new TwillioChannelResource(
+        		configuration.getTwillioAccountSid(),
+        		configuration.getTwillioAuthToken(),
+        		configuration.getTwillioServiceSid(),
+        		configuration.getTwillioAuthorizationHeaderName(),
+        		configuration.getTwillioAccessUrl()));
+        environment.jersey().register(new TwillioMemberResource(
+        		configuration.getTwillioAccountSid(),
+        		configuration.getTwillioAuthToken(),
+        		configuration.getTwillioServiceSid(),
+        		configuration.getTwillioAuthorizationHeaderName(),
+        		configuration.getTwillioAccessUrl()));
+        environment.jersey().register(new TwillioMessagesResource(
+        		configuration.getTwillioAccountSid(),
+        		configuration.getTwillioAuthToken(),
+        		configuration.getTwillioServiceSid(),
+        		configuration.getTwillioAuthorizationHeaderName(),
+        		configuration.getTwillioAccessUrl()));
         
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.

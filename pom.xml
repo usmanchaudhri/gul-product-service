@@ -23,7 +23,7 @@
 		<jetty.version>9.2.9.v20150224</jetty.version>
 		<version.restassured>2.7.0</version.restassured>
 		<version.swagger>0.7.0</version.swagger>
-		
+		<twilio-java-sdk>3.4.5</twilio-java-sdk>
 
 		<!-- For JSP jars -->
 		<glassfish.javax.version>2.2.3</glassfish.javax.version>
@@ -46,6 +46,34 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+		    <groupId>com.twilio.sdk</groupId>
+		    <artifactId>twilio-java-sdk</artifactId>
+			<version>6.2.0-edge</version>
+		    <exclusions>
+				<exclusion>
+					<groupId>io.jsonwebtoken</groupId>
+					<artifactId>jjwt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-mapper-asl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-core-asl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
+		    </exclusions>
+		</dependency>
+	
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>

@@ -53,6 +53,21 @@ public class ProductServiceConfiguration extends Configuration {
 	@JsonProperty("swagger")
 	public SwaggerBundleConfiguration swaggerBundleConfiguration;
 	
+	@JsonProperty
+	public String twillioAccountSid;
+
+	@JsonProperty
+	public String twillioAuthToken;
+
+	@JsonProperty
+	public String twillioServiceSid;
+
+	@JsonProperty
+	public String twillioAuthorizationHeaderName;
+
+	@JsonProperty
+	public String twillioAccessUrl;
+	
 	public Template buildTemplate() {
 		return new Template(template, defaultName);
 	}
@@ -67,10 +82,10 @@ public class ProductServiceConfiguration extends Configuration {
 
     @JsonProperty("database")
 	public DataSourceFactory getDatabase() {
-        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
-        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
-        database = databaseConfiguration.getDataSourceFactory(null);
-        LOGGER.info("Heroku DB URL=" + database.getUrl());
+//        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
+//        DatabaseConfiguration databaseConfiguration = HerokuDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+//        database = databaseConfiguration.getDataSourceFactory(null);
+//        LOGGER.info("Heroku DB URL=" + database.getUrl());
         return database;
 	}
 
@@ -120,6 +135,47 @@ public class ProductServiceConfiguration extends Configuration {
 
 	public void setJerseyClient(JerseyClientConfiguration jerseyClient) {
 		this.jerseyClient = jerseyClient;
+	}
+
+	public String getTwillioAccountSid() {
+		return twillioAccountSid;
+	}
+
+	public void setTwillioAccountSid(String twillioAccountSid) {
+		this.twillioAccountSid = twillioAccountSid;
+	}
+
+	public String getTwillioAuthToken() {
+		return twillioAuthToken;
+	}
+
+	public void setTwillioAuthToken(String twillioAuthToken) {
+		this.twillioAuthToken = twillioAuthToken;
+	}
+
+	public String getTwillioServiceSid() {
+		return twillioServiceSid;
+	}
+
+	public void setTwillioServiceSid(String twillioServiceSid) {
+		this.twillioServiceSid = twillioServiceSid;
+	}
+
+	public String getTwillioAuthorizationHeaderName() {
+		return twillioAuthorizationHeaderName;
+	}
+
+	public void setTwillioAuthorizationHeaderName(
+			String twillioAuthorizationHeaderName) {
+		this.twillioAuthorizationHeaderName = twillioAuthorizationHeaderName;
+	}
+
+	public String getTwillioAccessUrl() {
+		return twillioAccessUrl;
+	}
+
+	public void setTwillioAccessUrl(String twillioAccessUrl) {
+		this.twillioAccessUrl = twillioAccessUrl;
 	}
 
 }

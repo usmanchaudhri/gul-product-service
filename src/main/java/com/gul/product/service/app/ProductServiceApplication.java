@@ -69,6 +69,7 @@ import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
+import com.gul.product.service.resources.TwillioMessagingResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceConfiguration.class);
@@ -157,7 +158,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         
         // register exception mappers
-        removeDefaultExceptionMappers(Boolean.TRUE, environment);				// removes any default exeption mappers
+        removeDefaultExceptionMappers(Boolean.TRUE, environment);				// removes any default exception mappers
         environment.jersey().register(new ProductJsonExceptionMapper());
         environment.jersey().register(new ProductConstraintViolationException());
         environment.jersey().register(new RuntimeExceptionMapper());
@@ -172,7 +173,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
-        
+        environment.jersey().register(new TwillioMessagingResource(client));
         
         environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.

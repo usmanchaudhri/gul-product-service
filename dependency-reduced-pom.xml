@@ -347,6 +347,7 @@
   <properties>
     <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    <twilio-java-sdk>3.4.5</twilio-java-sdk>
     <version.restassured>2.7.0</version.restassured>
     <glassfish.javax.version>2.2.3</glassfish.javax.version>
     <jetty.version>9.2.9.v20150224</jetty.version>

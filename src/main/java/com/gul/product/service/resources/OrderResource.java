@@ -1,9 +1,6 @@
 package com.gul.product.service.resources;
 
-import java.util.List;
-
 import io.dropwizard.hibernate.UnitOfWork;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,23 +11,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.Order;
-import com.gul.product.service.representation.Product;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
- *	Order captures what product customers have bought, it has all product information	 
+ * Order captures what product customers have bought, it has all product
+ * information
  **/
-@Api("/order")
-@Path("/order")
+@Api("/orders")
+@Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class OrderResource {
@@ -43,12 +38,10 @@ public class OrderResource {
 		this.customerDao = customerDao;
 	}
 	
-	
 	@POST
 	@UnitOfWork
 	@Timed
-	@ApiOperation(
-            value = "Adding a new Order", notes = "Adding a new Order", response = Order.class)	
+	@ApiOperation(value = "Adding a new Order", notes = "Adding a new Order", response = Order.class)	
 	public Response add(@Valid Order order) {
 		Long customerId = order.getCustomer().getId();
 		Customer customer = customerDao.findById(customerId);
@@ -81,9 +74,9 @@ public class OrderResource {
 	
 	@GET
 	@UnitOfWork
-	@Path("/{id}")
+	@Path("/{orderId}")
     @ApiOperation("Get individual order for passed-in id")
-	public Response getOrder(@PathParam("id") @NotEmpty Long orderId) {
+	public Response getOrder(@PathParam("orderId") @NotEmpty Long orderId) {
 		Order order = orderDao.findById(orderId);
 		return Response.status(Response.Status.OK).entity(order).build();
 	}

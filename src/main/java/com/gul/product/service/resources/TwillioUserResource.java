@@ -1,19 +1,15 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import com.codahale.metrics.annotation.Timed;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
@@ -36,18 +32,13 @@ public class TwillioUserResource extends TwillioResource {
 	@UnitOfWork
 	@Timed
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response registerUser(@FormParam("Identity") String value) {
+	public Response registerUser(@FormParam("Identity") String value) throws TwilioRestException {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         final Map<String, String> userParams = new HashMap<String, String>();
         userParams.put("Identity", value);
         User user;
-		try {
-			user = service.createUser(userParams);
-		} catch (TwilioRestException e) {
-			// throws exception if user already exists
-			throw new WebApplicationException("Unable to create twillio User");
-		}
+		user = service.createUser(userParams);
 		return Response.status(Response.Status.CREATED).entity(user).build();
 	}
 

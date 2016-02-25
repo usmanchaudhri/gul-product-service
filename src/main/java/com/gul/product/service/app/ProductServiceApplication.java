@@ -35,6 +35,7 @@ import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.exception.mappers.RuntimeExceptionMapper;
+import com.gul.product.service.exception.mappers.TwillioExceptionMapper;
 import com.gul.product.service.persistance.AttributeDefinitionDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
@@ -72,7 +73,6 @@ import com.gul.product.service.resources.ShopResource;
 import com.gul.product.service.resources.TwillioChannelResource;
 import com.gul.product.service.resources.TwillioMemberResource;
 import com.gul.product.service.resources.TwillioMessagesResource;
-import com.gul.product.service.resources.TwillioMessagingResource;
 import com.gul.product.service.resources.TwillioUserResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
@@ -165,6 +165,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         removeDefaultExceptionMappers(Boolean.TRUE, environment);				// removes any default exception mappers
         environment.jersey().register(new ProductJsonExceptionMapper());
         environment.jersey().register(new ProductConstraintViolationException());
+        environment.jersey().register(new TwillioExceptionMapper());
         environment.jersey().register(new RuntimeExceptionMapper());
 
         environment.jersey().register(new HelloProductResource(template));

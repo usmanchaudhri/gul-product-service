@@ -28,9 +28,9 @@ public class ProductConstraintViolationException implements ExceptionMapper<Cons
 		Response response = Response
 				.status(Response.Status.CONFLICT)
 				.type(MediaType.APPLICATION_JSON)
-				.entity(new HashMap<String, String>() { {
+				.entity(new HashMap<String, String>() {{
 					put("error", builder.toString());
-				} }).build();
+				}}).build();
 		return response;
 	}
 

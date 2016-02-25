@@ -35,7 +35,7 @@ public class TwillioMemberResource extends TwillioResource {
 
 	// create a member
 	@POST
-    @Path("/{channelSid}/Members}")
+    @Path("/{channelSid}/Members")
 	@UnitOfWork
 	@Timed
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

@@ -32,7 +32,7 @@ public class TwillioMessagesResource extends TwillioResource {
 	
 	// send message to a channel
 	@POST
-    @Path("/{channelSid}/Messages}")
+    @Path("/{channelSid}/Messages")
 	@UnitOfWork
 	@Timed
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

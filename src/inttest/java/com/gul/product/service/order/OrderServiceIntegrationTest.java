@@ -58,7 +58,7 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 		// updating Order
 		Order orderPersistedUpdated = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/order/").append(orderPersistedId).toString())
+				.path(new StringBuilder("/orders/").append(orderPersistedId).toString())
 				.request(MediaType.APPLICATION_JSON)
 				.put(Entity.json(orderRequestUpdate), Order.class);
 		assertThat(orderPersistedUpdated.getId()).isNotNull();

@@ -1,6 +1,10 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,7 +15,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.OrderDao;
@@ -43,8 +49,12 @@ public class OrderResource {
 	@Timed
 	@ApiOperation(value = "Adding a new Order", notes = "Adding a new Order", response = Order.class)	
 	public Response add(@Valid Order order) {
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(order);
+
 		Long customerId = order.getCustomer().getId();
 		Customer customer = customerDao.findById(customerId);
+		customer.setOrder(orders);
 		order.setCustomer(customer);
 		Order o = orderDao.create(order);
 		return Response.status(Response.Status.CREATED).entity(o).build();

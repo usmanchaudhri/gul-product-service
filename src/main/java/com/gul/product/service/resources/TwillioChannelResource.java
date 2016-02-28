@@ -1,8 +1,10 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,12 +14,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
+import com.twilio.sdk.resource.list.ipmessaging.ChannelList;
 
 @Path("/twillio/Channels")
 @Produces(MediaType.APPLICATION_JSON)
@@ -53,7 +56,7 @@ public class TwillioChannelResource extends TwillioResource {
 	}
 	
 	@GET
-	@Path("/{uniqueName}")
+	@Path("{uniqueName}")
 	@UnitOfWork
 	@Timed
 	public Response getChannel(@PathParam("uniqueName") String uniqueName) {
@@ -61,6 +64,16 @@ public class TwillioChannelResource extends TwillioResource {
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(uniqueName);
 		return Response.status(Response.Status.CREATED).entity(channel).build();
+	}
+	
+	@GET
+	@UnitOfWork
+	@Timed
+	public Response getChannels() {
+        TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
+        Service service = client.getService(SERVICE_SID);
+        ChannelList channelList = service.getChannels();
+		return Response.status(Response.Status.CREATED).entity(channelList).build();
 	}
 
 

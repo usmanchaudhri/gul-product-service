@@ -1,10 +1,8 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,21 +10,15 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
-import com.twilio.sdk.resource.instance.ipmessaging.Member;
-import com.twilio.sdk.resource.instance.ipmessaging.Message;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
 import com.twilio.sdk.resource.list.ipmessaging.ChannelList;
-import com.twilio.sdk.resource.list.ipmessaging.MemberList;
-import com.twilio.sdk.resource.list.ipmessaging.MessageList;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 @Path("/twillio/Channels")
 @Produces(MediaType.APPLICATION_JSON)
@@ -43,6 +35,10 @@ public class TwillioChannelResource extends TwillioResource {
 	@POST
 	@UnitOfWork
 	@Timed
+	@ApiOperation(
+            value = "Creating a new channel",
+            notes = "Creating a new channel passing-in a Unique name i.e could be an email addres",
+            response = Channel.class)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createChannel(@FormParam("UniqueName") String uniqueName, @FormParam("FriendlyName") String friendlyName) {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
@@ -65,6 +61,7 @@ public class TwillioChannelResource extends TwillioResource {
 	@Path("{uniqueName}")
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Get a channel with Unique name")
 	public Response getChannel(@PathParam("uniqueName") String uniqueName) {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
@@ -75,6 +72,7 @@ public class TwillioChannelResource extends TwillioResource {
 	@GET
 	@UnitOfWork
 	@Timed
+    @ApiOperation("Get all channels")
 	public Response getChannels() {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);

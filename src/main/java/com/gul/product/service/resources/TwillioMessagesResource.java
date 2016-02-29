@@ -23,7 +23,7 @@ import com.twilio.sdk.resource.instance.ipmessaging.Message;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
 import com.twilio.sdk.resource.list.ipmessaging.MessageList;
 
-@Path("/twillio")
+@Path("/twillio/Channels")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TwillioMessagesResource extends TwillioResource {
@@ -60,7 +60,7 @@ public class TwillioMessagesResource extends TwillioResource {
 		} catch (TwilioRestException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Response.Status.CREATED).entity(message).build();
+		return Response.status(Response.Status.CREATED).entity(message.toJSON()).build();
 	}
 	
 	@GET
@@ -84,7 +84,7 @@ public class TwillioMessagesResource extends TwillioResource {
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(channelSid);
         Message message = channel.getMessage(messageId);
-		return Response.status(Response.Status.CREATED).entity(message).build();
+		return Response.status(Response.Status.CREATED).entity(message.toJSON()).build();
 	}
 
 

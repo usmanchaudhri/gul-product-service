@@ -2,22 +2,10 @@ package com.gul.product.service.resources;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.dropwizard.hibernate.UnitOfWork;
-
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.codahale.metrics.annotation.Timed;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
@@ -25,10 +13,10 @@ import com.twilio.sdk.resource.instance.ipmessaging.Member;
 import com.twilio.sdk.resource.instance.ipmessaging.Message;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
 import com.twilio.sdk.resource.instance.ipmessaging.User;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
+ * NOTE - this class will be deleted.
+ * 
  *	members @FormParam("Identity") String value
  *	messages @FormParam("Body") String message
  *	messages @FormParam("From") String username

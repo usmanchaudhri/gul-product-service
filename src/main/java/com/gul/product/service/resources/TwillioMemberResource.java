@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -20,8 +21,9 @@ import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
 import com.twilio.sdk.resource.instance.ipmessaging.Member;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
+import com.twilio.sdk.resource.list.ipmessaging.MemberList;
 
-@Path("/twillio")
+@Path("/twillio/Channels")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TwillioMemberResource extends TwillioResource {
@@ -51,11 +53,24 @@ public class TwillioMemberResource extends TwillioResource {
 		try {
 			member = Channel.getMembers().create(memberParams);
 		} catch (TwilioRestException e) {
-			// TODO Auto-generated catch block
+			// TODO handle exception here
 			e.printStackTrace();
 		}
-		return Response.status(Response.Status.CREATED).entity(member).build();
+		return Response.status(Response.Status.CREATED).entity(member.toJSON()).build();
 	}
+	
+	@GET
+	@Path("{channelSid}/Members")
+	@UnitOfWork
+	@Timed
+	public Response getMessages(@PathParam("channelSid") String channelSid) {
+        TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
+        Service service = client.getService(SERVICE_SID);
+        Channel channel = service.getChannel(channelSid);
+        MemberList memberList = channel.getMembers();
+		return Response.status(Response.Status.CREATED).entity(memberList).build();
+	}
+
 
 
 }

@@ -12,15 +12,21 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
+import com.twilio.sdk.resource.instance.ipmessaging.Member;
+import com.twilio.sdk.resource.instance.ipmessaging.Message;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
 import com.twilio.sdk.resource.list.ipmessaging.ChannelList;
+import com.twilio.sdk.resource.list.ipmessaging.MemberList;
+import com.twilio.sdk.resource.list.ipmessaging.MessageList;
 
 @Path("/twillio/Channels")
 @Produces(MediaType.APPLICATION_JSON)
@@ -52,7 +58,7 @@ public class TwillioChannelResource extends TwillioResource {
 		} catch (TwilioRestException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Response.Status.CREATED).entity(channel).build();
+		return Response.status(Response.Status.CREATED).entity(channel.toJSON()).build();
 	}
 	
 	@GET
@@ -63,7 +69,7 @@ public class TwillioChannelResource extends TwillioResource {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(uniqueName);
-		return Response.status(Response.Status.CREATED).entity(channel).build();
+		return Response.status(Response.Status.OK).entity(channel.toJSON()).build();
 	}
 	
 	@GET
@@ -73,7 +79,7 @@ public class TwillioChannelResource extends TwillioResource {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         ChannelList channelList = service.getChannels();
-		return Response.status(Response.Status.CREATED).entity(channelList).build();
+		return Response.status(Response.Status.OK).entity(channelList).build();
 	}
 
 

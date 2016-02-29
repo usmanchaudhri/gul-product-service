@@ -48,7 +48,7 @@ public class Customer implements TimeStamped {
 
 	@Column(name = "first_name", nullable = false) private String firstName;
 	@Column(name = "last_name", nullable = false) private String lastName;
-	@Email @Column(name = "email", nullable = false) private String email;
+	@Column(name = "email", nullable = false) private String email;
 	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 
 	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

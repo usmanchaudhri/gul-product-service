@@ -48,12 +48,8 @@ public class Customer implements TimeStamped {
 	@SequenceGenerator(name = "customerseq", sequenceName = "customer_customer_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerseq")
 	@Column(name = "customer_id", nullable = false) private Long id;
-
-//	@Column(name = "first_name", nullable = false) private String firstName;
-//	@Column(name = "last_name", nullable = false) private String lastName;
-//	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
-
-	@Email @Column(name = "email", nullable = false) private String email;
+	
+	@Column(name = "email", nullable = false) private String email;
 	@Column(name = "password", nullable = false) private String password;
 	
 	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -63,6 +59,7 @@ public class Customer implements TimeStamped {
 	@JoinColumn(name="shop_id")
 	private Shop shop;
 
+	// TODO - we have to add this to the DB
 	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Order> order;
 	

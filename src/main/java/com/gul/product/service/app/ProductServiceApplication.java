@@ -58,6 +58,7 @@ import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
+import com.gul.product.service.representation.User;
 import com.gul.product.service.resources.AttributeDefinitionResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
@@ -66,6 +67,7 @@ import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
+import com.gul.product.service.resources.SecuredResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
 
@@ -171,8 +173,9 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
+        environment.jersey().register(new SecuredResource());
         
-        environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "SUPER SECRET STUFF", Customer.class));
+        environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator(), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.
 //      environment.lifecycle().manage(TemplateHealthCheck.class);
 	}

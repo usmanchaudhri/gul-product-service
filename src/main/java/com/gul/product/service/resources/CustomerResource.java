@@ -1,9 +1,9 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,9 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.Customer;
@@ -45,8 +43,14 @@ public class CustomerResource {
 	@Timed
 	@ApiOperation(value = "Adding a new customer", notes = "Adding a new customer", response = Customer.class)
 	public Response add(@Valid Customer customer) {
-		setCustomerShipping(customer);
-		setCustomerOrder(customer);
+		// convert password into Hash MD5
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Customer cus = customerDao.create(customer);
 		return Response.status(Response.Status.CREATED).entity(cus).build();
 	}		

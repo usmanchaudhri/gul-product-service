@@ -22,7 +22,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao", "password");
 		
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
@@ -31,10 +31,10 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 				.post(Entity.json(customer), Customer.class);
 
 		Long customerId = customerPersisted.getId();
-		String firstName = customerPersisted.getFirstName();
+		String firstName = customerPersisted.getEmail();
 		
 		assertThat(customerId).isNotNull();
-		assertThat(firstName).isEqualTo("Usman");
+		assertThat(firstName).isEqualTo("azhar.rao");
 	}
 	
 	@Test
@@ -44,7 +44,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao", "password");
 
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/customer")

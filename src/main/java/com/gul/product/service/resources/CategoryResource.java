@@ -1,5 +1,6 @@
 package com.gul.product.service.resources;
 
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Product;
+import com.gul.product.service.representation.User;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -91,7 +93,7 @@ public class CategoryResource {
 	@UnitOfWork
 	@Timed
     @ApiOperation("Get the list of all available categories.")
-	public Response listCategories() {
+	public Response listCategories(User user) {
 		List<Category> category = categoryDao.findAll();
 		return Response.status(Response.Status.OK).entity(category).build();
 	}	

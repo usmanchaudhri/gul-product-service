@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -28,7 +26,7 @@ public class CustomerMappingTest {
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);		
+		Customer customer = new Customer("username", "password");		
 		setTimeStamp(customer);
 		
 		persistedClassDao.saveInNewTransaction(customer);
@@ -47,7 +45,7 @@ public class CustomerMappingTest {
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("username", "password");		
 		setTimeStamp(customer);
 
 		persistedClassDao.saveInNewTransaction(customer);

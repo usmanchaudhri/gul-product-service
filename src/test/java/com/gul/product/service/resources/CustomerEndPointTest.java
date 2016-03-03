@@ -28,7 +28,7 @@ public class CustomerEndPointTest {
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao", "password");
 		customer.setId(1L);
 		
 		Mockito.when(customerDao.create(Mockito.any(Customer.class))).thenReturn(customer);
@@ -46,7 +46,7 @@ public class CustomerEndPointTest {
 		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao", "password");
 		customer.setId(1L);
 
 		Order orderRequest = new Order();

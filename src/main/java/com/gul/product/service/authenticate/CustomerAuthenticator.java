@@ -3,25 +3,24 @@ package com.gul.product.service.authenticate;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
+
 import com.google.common.base.Optional;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.Customer;
+import com.gul.product.service.representation.User;
 
-public class CustomerAuthenticator implements Authenticator<BasicCredentials, Customer> {
+public class CustomerAuthenticator implements Authenticator<BasicCredentials, User> {
 
-	private CustomerDao customerDao;
-	
-	public CustomerAuthenticator(CustomerDao customerDao) {
-		this.customerDao = customerDao;
-	}
+	private String login;
+	private String password;
 	
 	@Override
-	public Optional<Customer> authenticate(BasicCredentials credentials)
+	public Optional<User> authenticate(BasicCredentials credentials)
 			throws AuthenticationException {
-		Customer customer = customerDao.findByUsername(credentials.getUsername());
-		if(customer != null && customer.getPassword().equals(credentials.getPassword())) {
-			return Optional.of(new Customer());
-		} else {
+		if(password.equalsIgnoreCase(credentials.getPassword()) && 
+				login.equalsIgnoreCase(credentials.getUsername())) {
+            return Optional.of(new User(login));
+		} else  {
 			return Optional.absent();
 		}
 	}

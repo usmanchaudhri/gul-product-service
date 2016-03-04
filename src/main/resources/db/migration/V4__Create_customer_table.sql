@@ -9,6 +9,7 @@ create table customer (
     last_name varchar(255) NOT NULL,
     mobile_number varchar(12) NOT NULL,
     shop_id bigint,
+    cchat_id bigint,
     created_on timestamp,
     updated_on timestamp,    
     primary key (customer_id)
@@ -46,4 +47,17 @@ CREATE SEQUENCE customershipping_customershipping_id_seq
     NO MAXVALUE
     CACHE 1;
 
+create table CCHAT (
+	cchat_id bigint not null,
+	unique_name varchar(255) not null,
+	customer_id bigint,
+	primary key (cchat_id)
+);
 
+create sequence 
+	cchat_cchat_id_seq 
+	start with 1 
+	increment by 1;
+
+    
+    

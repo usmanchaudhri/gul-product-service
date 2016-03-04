@@ -37,6 +37,7 @@ import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.exception.mappers.RuntimeExceptionMapper;
 import com.gul.product.service.exception.mappers.TwillioExceptionMapper;
 import com.gul.product.service.persistance.AttributeDefinitionDao;
+import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
@@ -47,6 +48,7 @@ import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.AttributeDefinition;
 import com.gul.product.service.representation.AttributeValue;
+import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
@@ -97,7 +99,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             		AttributeDefinition.class,
             		AttributeValue.class,
             		Designer.class,
-            		ImageInfo.class) {
+            		ImageInfo.class,
+            		CChat.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -155,6 +158,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
 		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
 		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());		
+		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
 		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
 

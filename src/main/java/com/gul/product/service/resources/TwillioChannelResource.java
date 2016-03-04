@@ -1,8 +1,12 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import com.codahale.metrics.annotation.Timed;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
@@ -67,7 +72,7 @@ public class TwillioChannelResource extends TwillioResource {
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(uniqueName);
 		return Response.status(Response.Status.OK).entity(channel.toJSON()).build();
-	}
+	}	
 	
 	@GET
 	@UnitOfWork
@@ -78,6 +83,28 @@ public class TwillioChannelResource extends TwillioResource {
         Service service = client.getService(SERVICE_SID);
         ChannelList channelList = service.getChannels();
 		return Response.status(Response.Status.OK).entity(channelList).build();
+	}
+	
+	@GET
+	@Path("/user/{uniqueName}")
+	@UnitOfWork
+	@Timed
+    @ApiOperation("Get all channels for a User")
+	public Response getCustomerChannels(String first, String last) {
+		StringBuilder builder = new StringBuilder(first).append(last);
+		StringBuilder builder1 = new StringBuilder(last).append(first);
+		List<Channel> channels = new ArrayList<Channel>();
+		
+        TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
+        Service service = client.getService(SERVICE_SID);
+        ChannelList channelList = service.getChannels();
+        for(Channel channel : channelList) {
+        	if(channel.getUniqueName().contains(builder.toString()) ||
+        			channel.getUniqueName().contains(builder1.toString())) {
+        		channels.add(channel);
+        	}
+        }
+		return Response.status(Response.Status.OK).entity(channels).build();
 	}
 
 

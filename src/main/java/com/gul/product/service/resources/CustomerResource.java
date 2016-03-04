@@ -2,6 +2,7 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
+import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Order;
@@ -47,9 +49,19 @@ public class CustomerResource {
 	public Response add(@Valid Customer customer) {
 		setCustomerShipping(customer);
 		setCustomerOrder(customer);
+		setCustomerChat(customer);
 		Customer cus = customerDao.create(customer);
 		return Response.status(Response.Status.CREATED).entity(cus).build();
 	}		
+	
+	private void setCustomerChat(Customer customer) {
+		List<CChat> cchats = new ArrayList<CChat>();
+		if(cchats != null) {
+			for(CChat cchat : cchats) {
+				cchat.setCustomer(customer);
+			}
+		}
+	}
 	
 	private void setCustomerShipping(Customer customer) {
 		List<CustomerShipping> customerShippings = customer.getCustomerShipping();

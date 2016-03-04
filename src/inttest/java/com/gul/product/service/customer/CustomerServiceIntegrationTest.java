@@ -1,20 +1,78 @@
 package com.gul.product.service.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.junit.Ignore;
 import org.junit.Test;
+
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
+import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
+	@Test
+	public void test_customer_creating_multiple_chat() {
+		Client client = JerseyClientBuilder.createClient();
+		
+		CChat cchat1 = new CChat("Usman-Amjad");
+		CChat cchat2 = new CChat("Usman-Talha");
+		CChat cchat3 = new CChat("Usman-Zunabia");
+		
+		List<CChat> cchats = new ArrayList<CChat>();
+		cchats.add(cchat1);
+		cchats.add(cchat2);
+		cchats.add(cchat3);
+		
+		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);		
+		customer.setCchat(cchats);
+		
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		
+		assertThat(customerPersisted.getId()).isNotNull();
+		List<CChat> cchatsPersisted = customerPersisted.getCchat();
+	
+		assertThat(cchatsPersisted.get(0).getId()).isNotNull();
+		assertThat(cchatsPersisted.get(1).getId()).isNotNull();
+		assertThat(cchatsPersisted.get(2).getId()).isNotNull();
+		
+		for(CChat cchat: cchatsPersisted) {
+			cchats.contains(cchat.getUniqueName());
+		}
+	}
+
+	@Test
+	public void test_customer_creating_single_chat() {
+		Client client = JerseyClientBuilder.createClient();
+		
+		CChat cchat = new CChat("Amjad-Usman");
+		List<CChat> cchats = new ArrayList<CChat>();
+		cchats.add(cchat);
+		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);		
+		customer.setCchat(cchats);
+		
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+
+		assertThat(customerPersisted.getId()).isNotNull();
+		assertThat(customerPersisted.getCchat().get(0).getId()).isNotNull();
+	}
+	
 	@Test
 	public void create_new_customer_with_empty_shop() {
 		Client client = JerseyClientBuilder.createClient();

@@ -60,7 +60,10 @@ public class Customer implements TimeStamped {
 
 	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Order> order;
-	
+
+	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<CChat> cchat;
+
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 
@@ -157,6 +160,14 @@ public class Customer implements TimeStamped {
 	@Override
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public List<CChat> getCchat() {
+		return cchat;
+	}
+
+	public void setCchat(List<CChat> cchat) {
+		this.cchat = cchat;
 	}
 
 	

@@ -18,6 +18,7 @@
 		<class>com.gul.product.service.representation.AttributeValue</class>
 		<class>com.gul.product.service.representation.ImageInfo</class>
 		<class>com.gul.product.service.representation.Designer</class>
+		<class>com.gul.product.service.representation.CChat</class>
 						
 		<properties>
 			<!-- Disable the second-level cache -->

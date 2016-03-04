@@ -2,12 +2,8 @@ package com.gul.product.service.persistance;
 
 import java.util.Date;
 import java.util.List;
-
 import org.hibernate.SessionFactory;
-import org.joda.time.DateTime;
-
 import com.gul.product.service.representation.Category;
-
 import io.dropwizard.hibernate.AbstractDAO;
 
 public class CategoryDao extends AbstractDAO<Category> {

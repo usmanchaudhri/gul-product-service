@@ -36,6 +36,7 @@ import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
 import com.gul.product.service.representation.AttributeDefinition;
 import com.gul.product.service.representation.AttributeValue;
+import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
@@ -81,7 +82,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
             		AttributeDefinition.class,
             		AttributeValue.class,
             		Designer.class,
-            		ImageInfo.class) {
+            		ImageInfo.class,
+            		CChat.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();

@@ -84,28 +84,5 @@ public class TwillioChannelResource extends TwillioResource {
         ChannelList channelList = service.getChannels();
 		return Response.status(Response.Status.OK).entity(channelList).build();
 	}
-	
-	@GET
-	@Path("/user/{uniqueName}")
-	@UnitOfWork
-	@Timed
-    @ApiOperation("Get all channels for a User")
-	public Response getCustomerChannels(String first, String last) {
-		StringBuilder builder = new StringBuilder(first).append(last);
-		StringBuilder builder1 = new StringBuilder(last).append(first);
-		List<Channel> channels = new ArrayList<Channel>();
-		
-        TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
-        Service service = client.getService(SERVICE_SID);
-        ChannelList channelList = service.getChannels();
-        for(Channel channel : channelList) {
-        	if(channel.getUniqueName().contains(builder.toString()) ||
-        			channel.getUniqueName().contains(builder1.toString())) {
-        		channels.add(channel);
-        	}
-        }
-		return Response.status(Response.Status.OK).entity(channels).build();
-	}
-
 
 }

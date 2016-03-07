@@ -1,10 +1,7 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.List;
-import java.util.Set;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,7 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.representation.Category;
@@ -50,7 +46,6 @@ public class CategoryResource {
 		}
 		return Response.status(Response.Status.CREATED).entity(c).build();
 	}
-	
 	
 	@PUT
 	@UnitOfWork

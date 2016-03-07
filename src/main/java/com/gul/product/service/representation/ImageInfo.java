@@ -26,6 +26,7 @@ public class ImageInfo implements TimeStamped {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "imageinfoseq")
 	@Column(name = "image_info_id", nullable = false, unique = true) private Long id;
 	@Column(name = "image_path", nullable = true) private String imagePath;
+	@Column(name = "image_count", nullable = true) private String imageCount;
 	@OneToOne(mappedBy = "imageInfo") private Product product;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;

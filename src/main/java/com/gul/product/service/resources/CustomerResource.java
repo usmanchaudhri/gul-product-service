@@ -55,7 +55,7 @@ public class CustomerResource {
 	}		
 	
 	private void setCustomerChat(Customer customer) {
-		List<CChat> cchats = new ArrayList<CChat>();
+		List<CChat> cchats = customer.getCchat();
 		if(cchats != null) {
 			for(CChat cchat : cchats) {
 				cchat.setCustomer(customer);
@@ -106,6 +106,7 @@ public class CustomerResource {
 		persistedCustomer.setEmail(customer.getEmail());
 		persistedCustomer.setFirstName(customer.getFirstName());
 		persistedCustomer.setLastName(customer.getLastName());
+		persistedCustomer.setMobileNumber(customer.getMobileNumber());
 		persistedCustomer.setMobileNumber(customer.getMobileNumber());
 
 		// TODO - should we update orders and shop info here.

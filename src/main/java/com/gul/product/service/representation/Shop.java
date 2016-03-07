@@ -95,6 +95,11 @@ public class Shop implements Serializable, TimeStamped {
 		return designers;
 	}
 
+	public void addDesigners(Designer designer) {
+		this.designers.add(designer);
+		designer.setShop(this);
+	}
+	
 	public void setDesigners(List<Designer> designers) {
 		this.designers = designers;
 		if(designers == null || designers.isEmpty()) {

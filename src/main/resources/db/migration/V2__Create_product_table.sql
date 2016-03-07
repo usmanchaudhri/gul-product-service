@@ -44,6 +44,7 @@ CREATE SEQUENCE pricing_product_pricing_product_id_seq
 create table image_info (
     image_info_id bigint NOT NULL,
     image_path varchar(255),
+    image_count varchar(255),
     created_on timestamp,
     updated_on timestamp,    
     primary key (image_info_id)

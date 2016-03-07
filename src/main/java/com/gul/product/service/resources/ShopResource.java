@@ -3,12 +3,12 @@ package com.gul.product.service.resources;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,9 +26,8 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
- *	TODO - add PUT functionality 
- * */
-
+ * TODO - add PUT functionality
+ **/
 @Api("/shop")
 @Path("/shop")
 @Produces(MediaType.APPLICATION_JSON)
@@ -48,6 +47,25 @@ public class ShopResource {
 	public Response add(@Valid Shop shop) {
 		Shop s = shopDao.create(shop);
 		return Response.status(Response.Status.CREATED).entity(s).build();
+	}
+
+	@PUT
+    @Path("/{shopId}")
+	@UnitOfWork
+	@Timed
+    @ApiOperation("Updating an existing shop.")
+	public Response update(@PathParam("shopId") Long shopId, @Valid Shop shop) {
+		Shop persistedShop = shopDao.findById(shopId);
+		updateShop(persistedShop, shop);
+		Shop s = shopDao.update(persistedShop);
+		return Response.status(Response.Status.OK).entity(s).build();
+	}
+
+	private void updateShop(Shop persistedShop, Shop shop) {
+		persistedShop.setName(shop.getName());
+		for(Designer designer : shop.getDesigners()) {
+			persistedShop.addDesigners(designer);
+		}
 	}
 	
 	@GET
@@ -69,16 +87,6 @@ public class ShopResource {
 		List<Product> products = shop.getProducts();
 		shop.setProducts(products);
 		return Response.status(Response.Status.OK).entity(shop).build();		
-	}
-
-
-	/**
-	 * TODO - creating products with-in shops.
-	 **/
-	@POST
-	@Path("/listing/create")
-	public Response createProduct(Shop shop) {
-		return null;
 	}
 	
 	@GET

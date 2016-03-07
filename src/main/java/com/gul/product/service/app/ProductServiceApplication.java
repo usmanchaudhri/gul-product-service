@@ -63,6 +63,7 @@ import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.representation.User;
 import com.gul.product.service.resources.AttributeDefinitionResource;
+import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
@@ -182,6 +183,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
+        environment.jersey().register(new CChatResource(cchatDao, customerDao));
         
         // Twillio ip-messaging
         environment.jersey().register(new TwillioUserResource(

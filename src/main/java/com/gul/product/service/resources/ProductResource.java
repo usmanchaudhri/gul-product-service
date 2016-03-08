@@ -123,7 +123,6 @@ public class ProductResource {
 	@Timed
     @ApiOperation("Get list of existing products")
 	public Response listProducts(@QueryParam("first") int first, @QueryParam("max") int max) {
-//		List<Product> products = productDao.findAll();
 		List<Product> products = productDao.findAllPagination(first, max);		
 		return Response.status(Response.Status.OK).entity(products).build();
 	}	
@@ -137,10 +136,17 @@ public class ProductResource {
 	}
 	
 	private void updateProduct(Product persistedProduct, Product requestProduct) {
-		persistedProduct.setName(requestProduct.getName());
-		persistedProduct.setSku(requestProduct.getSku());
-		persistedProduct.setShortDesc(requestProduct.getShortDesc());
-		persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
+		if(requestProduct.getName() != null && !requestProduct.getName().isEmpty()) {
+			persistedProduct.setName(requestProduct.getName());			
+		} 
+
+		if(requestProduct.getShortDesc() != null && !requestProduct.getShortDesc().isEmpty()) {
+			persistedProduct.setShortDesc(requestProduct.getShortDesc());
+		}
+		
+		if(requestProduct.getLongDesc() != null && !requestProduct.getLongDesc().isEmpty()) {
+			persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
+		}
 	}
 
 	private SolrDoc sendToSolr(Product product) {

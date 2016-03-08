@@ -3,7 +3,6 @@ package com.gul.product.service.representation;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,10 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.TypeDef;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
@@ -63,13 +59,12 @@ public class Product implements TimeStamped {
 	@Column(name = "product_id", nullable = false, unique = true)
 	private Long id;
 	
-	// TODO - why do we need sku ???
+	// TODO - remove sku from under product.
 	@Column(name = "sku", nullable = true, unique = true) private String sku;	
-	@NotNull @Column(name = "name", nullable = false) private String name;
-	@NotNull @Column(name = "short_desc", nullable = false) private String shortDesc;
+	@Column(name = "name", nullable = false) private String name;
+	@Column(name = "short_desc", nullable = false) private String shortDesc;
 	@Column(name = "long_desc", nullable = true) private String longDesc;
-	// @Column(name = "image_path", nullable = true) private String imagePath;
-	@NotNull @Column(name = "quantity", nullable = false) private Long quantity;
+	@Column(name = "quantity", nullable = false) private Long quantity;
     
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pricing_product_id")

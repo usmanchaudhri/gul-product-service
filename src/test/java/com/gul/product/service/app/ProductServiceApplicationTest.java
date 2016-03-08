@@ -59,6 +59,7 @@ import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
+import com.gul.product.service.resources.TwillioChannelResource;
 
 public class ProductServiceApplicationTest extends Application<ProductServiceConfigurationTest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceApplicationTest.class);
@@ -148,6 +149,13 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
+
+        environment.jersey().register(new TwillioChannelResource(
+        		configuration.getTwillioAccountSid(),
+        		configuration.getTwillioAuthToken(),
+        		configuration.getTwillioServiceSid(),
+        		configuration.getTwillioAuthorizationHeaderName(),
+        		configuration.getTwillioAccessUrl()));
 	}
 	
 	private void removeDefaultExceptionMappers(boolean deleteDefault,Environment environment) {

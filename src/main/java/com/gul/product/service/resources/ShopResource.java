@@ -26,7 +26,7 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
- * TODO - add PUT functionality
+ * TODO - add put functionality
  **/
 @Api("/shop")
 @Path("/shop")
@@ -53,7 +53,7 @@ public class ShopResource {
     @Path("/{shopId}")
 	@UnitOfWork
 	@Timed
-    @ApiOperation("Updating an existing shop.")
+    @ApiOperation("Update an existing shop name only.")
 	public Response update(@PathParam("shopId") Long shopId, @Valid Shop shop) {
 		Shop persistedShop = shopDao.findById(shopId);
 		updateShop(persistedShop, shop);
@@ -63,9 +63,6 @@ public class ShopResource {
 
 	private void updateShop(Shop persistedShop, Shop shop) {
 		persistedShop.setName(shop.getName());
-		for(Designer designer : shop.getDesigners()) {
-			persistedShop.addDesigners(designer);
-		}
 	}
 	
 	@GET

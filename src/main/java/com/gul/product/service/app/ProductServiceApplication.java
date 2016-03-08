@@ -41,6 +41,7 @@ import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
+import com.gul.product.service.persistance.DesignerDao;
 import com.gul.product.service.persistance.ImageInfoDao;
 import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.ProductDao;
@@ -67,6 +68,7 @@ import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
+import com.gul.product.service.resources.DesignerResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.OrderResource;
@@ -160,6 +162,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
 		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());		
 		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
+		final DesignerDao designerDao = new DesignerDao(hibernateBundle.getSessionFactory());
 		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
 
@@ -184,6 +187,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
+//        environment.jersey().register(new DesignerResource(designerDao, shopDao));
         
         // Twillio ip-messaging
         environment.jersey().register(new TwillioUserResource(

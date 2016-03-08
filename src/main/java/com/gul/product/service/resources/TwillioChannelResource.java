@@ -2,9 +2,7 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -14,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -71,7 +70,17 @@ public class TwillioChannelResource extends TwillioResource {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(uniqueName);
-		return Response.status(Response.Status.OK).entity(channel.toJSON()).build();
+        Channel chnl = null;
+        
+        Map<String, String> filters = new HashMap<String, String>();
+        filters.put("sid", channel.getSid());
+        ChannelList channelList = service.getChannels(filters);
+        for(Channel temp : channelList) {
+        	chnl = temp;
+        	break;
+        }
+        
+		return Response.status(Response.Status.OK).entity(chnl.toJSON()).build();
 	}	
 	
 	@GET

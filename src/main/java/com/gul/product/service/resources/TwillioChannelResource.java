@@ -56,7 +56,7 @@ public class TwillioChannelResource extends TwillioResource {
 		try {
 			channel = service.createChannel(channelParams);
 		} catch (TwilioRestException e) {
-			e.printStackTrace();
+			return Response.status(Response.Status.BAD_REQUEST).entity(Entity.json(getErrorString(e.getErrorCode()))).build();
 		}
 		return Response.status(Response.Status.CREATED).entity(channel.toJSON()).build();
 	}

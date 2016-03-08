@@ -62,7 +62,14 @@ public class ShopResource {
 	}
 
 	private void updateShop(Shop persistedShop, Shop shop) {
-		persistedShop.setName(shop.getName());
+		if(shop.getName() != null && !shop.getName().isEmpty()) {
+			persistedShop.setName(shop.getName());
+		}
+		
+		for(Designer designer : shop.getDesigners()) {
+			designer.setShop(persistedShop);
+			persistedShop.getDesigners().add(designer);
+		}
 	}
 	
 	@GET

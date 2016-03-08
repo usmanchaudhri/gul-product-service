@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -53,8 +54,7 @@ public class TwillioMemberResource extends TwillioResource {
 		try {
 			member = Channel.getMembers().create(memberParams);
 		} catch (TwilioRestException e) {
-			// TODO handle exception here
-			e.printStackTrace();
+			return Response.status(Response.Status.BAD_REQUEST).entity(Entity.json(getErrorString(e.getErrorCode()))).build();
 		}
 		return Response.status(Response.Status.CREATED).entity(member.toJSON()).build();
 	}

@@ -19,7 +19,9 @@ public class ShopDao extends AbstractDAO<Shop> {
 	
 	public Shop update(Shop shop) {
 		shop.setUpdatedOn(new Date());
-		return persist(shop);
+		persist(shop);
+		initialize(shop.getDesigners());
+		return shop;
 	}
 	
 	public Shop findById(Long id) {

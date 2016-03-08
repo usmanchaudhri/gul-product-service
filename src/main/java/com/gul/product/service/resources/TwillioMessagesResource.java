@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,7 +23,9 @@ import com.twilio.sdk.resource.instance.ipmessaging.Channel;
 import com.twilio.sdk.resource.instance.ipmessaging.Message;
 import com.twilio.sdk.resource.instance.ipmessaging.Service;
 import com.twilio.sdk.resource.list.ipmessaging.MessageList;
+import com.wordnik.swagger.annotations.Api;
 
+@Api("/twillio/Channels")
 @Path("/twillio/Channels")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -58,7 +61,7 @@ public class TwillioMessagesResource extends TwillioResource {
 		try {
 			message = channel.getMessages().create(messageParams);
 		} catch (TwilioRestException e) {
-			e.printStackTrace();
+			return Response.status(Response.Status.BAD_REQUEST).entity(Entity.json(getErrorString(e.getErrorCode()))).build();
 		}
 		return Response.status(Response.Status.CREATED).entity(message.toJSON()).build();
 	}

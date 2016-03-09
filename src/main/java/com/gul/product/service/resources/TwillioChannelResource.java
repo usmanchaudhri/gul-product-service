@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.codahale.metrics.annotation.Timed;
+import com.gul.product.service.representation.TwilioChannel;
+import com.gul.product.service.twilio.services.ChannelService;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
@@ -29,11 +31,14 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 public class TwillioChannelResource extends TwillioResource {
 
+	private ChannelService channelService;
+	
 	public TwillioChannelResource(String accountSid, String authToken,
 			String serviceSid, String authorizationHeaderName,
 			String twillioAccessUrl) {
 		super(accountSid, authToken, serviceSid, authorizationHeaderName,
 				twillioAccessUrl);
+		channelService = new ChannelService(accountSid, authToken, serviceSid);
 	}
 
 	@POST
@@ -45,16 +50,9 @@ public class TwillioChannelResource extends TwillioResource {
             response = Channel.class)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createChannel(@FormParam("UniqueName") String uniqueName, @FormParam("FriendlyName") String friendlyName) {
-        TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
-        Service service = client.getService(SERVICE_SID);
-
-        final Map<String, String> channelParams = new HashMap<String, String>();
-        channelParams.put("FriendlyName", friendlyName);
-        channelParams.put("UniqueName", uniqueName);
-
-        Channel channel = null;
+		Channel channel = null;
 		try {
-			channel = service.createChannel(channelParams);
+			channel = channelService.createChannel(uniqueName, friendlyName);
 		} catch (TwilioRestException e) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(Entity.json(getErrorString(e.getErrorCode()))).build();
 		}
@@ -67,20 +65,11 @@ public class TwillioChannelResource extends TwillioResource {
 	@Timed
     @ApiOperation("Get a channel with Unique name")
 	public Response getChannel(@PathParam("uniqueName") String uniqueName) {
-        TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
-        Service service = client.getService(SERVICE_SID);
-        Channel channel = service.getChannel(uniqueName);
-        Channel chnl = null;
-        
-        Map<String, String> filters = new HashMap<String, String>();
-        filters.put("sid", channel.getSid());
-        ChannelList channelList = service.getChannels(filters);
-        for(Channel temp : channelList) {
-        	chnl = temp;
-        	break;
-        }
-        
-		return Response.status(Response.Status.OK).entity(chnl.toJSON()).build();
+		Channel channel = channelService.getChannel(uniqueName);
+		TwilioChannel twilioChannel = new TwilioChannel(channel.getAccountSid(),
+				channel.getSid(), channel.getUniqueName(),
+				channel.getServiceSid());
+		return Response.status(Response.Status.OK).entity(Entity.json(twilioChannel)).build();
 	}	
 	
 	@GET

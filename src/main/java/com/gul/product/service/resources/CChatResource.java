@@ -44,6 +44,7 @@ public class CChatResource {
     @ApiOperation("Adding a new cchat record against a customer.")
 	public Response add(@Valid CChat cchat) {
 		List<CChat> cchats = new ArrayList<CChat>();
+		cchats.add(cchat);
 		
 		Long customerId = cchat.getCustomer().getId();
 		Customer customer = customerDao.findById(customerId);

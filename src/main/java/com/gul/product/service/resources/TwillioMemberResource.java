@@ -2,7 +2,9 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.codahale.metrics.annotation.Timed;
+import com.gul.product.service.representation.TwilioChannel;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
@@ -45,14 +48,14 @@ public class TwillioMemberResource extends TwillioResource {
 	public Response createMembers(@PathParam("channelSid") String channelSid, @FormParam("Identity") String identity) {
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
-        Channel Channel = service.getChannel(channelSid);
+        Channel channel = service.getChannel(channelSid);
 
         final Map<String, String> memberParams = new HashMap<String, String>();
         memberParams.put("Identity", identity);
         Member member = null;
         
 		try {
-			member = Channel.getMembers().create(memberParams);
+			member = channel.getMembers().create(memberParams);
 		} catch (TwilioRestException e) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(Entity.json(getErrorString(e.getErrorCode()))).build();
 		}
@@ -64,11 +67,19 @@ public class TwillioMemberResource extends TwillioResource {
 	@UnitOfWork
 	@Timed
 	public Response getMessages(@PathParam("channelSid") String channelSid) {
+		List<TwilioChannel> twilioChannels = new ArrayList<TwilioChannel>();		
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(channelSid);
         MemberList memberList = channel.getMembers();
-		return Response.status(Response.Status.CREATED).entity(memberList).build();
+        for(Member member : memberList) {
+        	TwilioChannel twilioChannel = new TwilioChannel(member.getAccountSid(), member.getSid(), null, member.getServiceSid());
+        	twilioChannel.setRoleSid(member.getRoleSid());
+        	twilioChannel.setChannelSid(member.getChannelSid());
+        	twilioChannels.add(twilioChannel);
+        }
+        
+		return Response.status(Response.Status.CREATED).entity(twilioChannels).build();
 	}
 
 

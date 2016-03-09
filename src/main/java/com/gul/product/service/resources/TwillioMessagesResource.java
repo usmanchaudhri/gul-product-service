@@ -2,7 +2,9 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.codahale.metrics.annotation.Timed;
+import com.gul.product.service.representation.TwilioChannel;
 import com.twilio.sdk.TwilioIPMessagingClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.instance.ipmessaging.Channel;
@@ -71,11 +74,19 @@ public class TwillioMessagesResource extends TwillioResource {
 	@UnitOfWork
 	@Timed
 	public Response getMessages(@PathParam("channelSid") String channelSid) {
+		List<TwilioChannel> msgList = new ArrayList<TwilioChannel>();
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         Channel channel = service.getChannel(channelSid);
         MessageList messageList = channel.getMessages();
-		return Response.status(Response.Status.CREATED).entity(messageList).build();
+        for(Message message : messageList) {
+            TwilioChannel msg = new TwilioChannel(message.getAccountSid(), message.getSid(), null, message.getServiceSid());
+            msg.setBody(message.getBody());
+            msg.setFrom(message.getFrom());
+            msg.setTo(message.getTo());
+            msgList.add(msg);
+        }
+		return Response.status(Response.Status.CREATED).entity(msgList).build();
 	}
 
 	@GET

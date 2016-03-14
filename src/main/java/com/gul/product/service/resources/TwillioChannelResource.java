@@ -2,8 +2,8 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -77,10 +77,12 @@ public class TwillioChannelResource extends TwillioResource {
 	@Timed
     @ApiOperation("Get all channels")
 	public Response getChannels() {
+		List<TwilioChannel> twilioChannels = new ArrayList<TwilioChannel>();
         TwilioIPMessagingClient client = new TwilioIPMessagingClient(ACCOUNT_SID, AUTH_TOKEN);
         Service service = client.getService(SERVICE_SID);
         ChannelList channelList = service.getChannels();
 		return Response.status(Response.Status.OK).entity(channelList).build();
 	}
+	
 
 }

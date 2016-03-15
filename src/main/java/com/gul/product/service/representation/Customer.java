@@ -32,6 +32,10 @@ import com.gul.product.service.audit.TimeStamped;
 	@NamedQuery(
 	        name = "com.gul.product.service.representation.Customer.findAll",
 	        query = "SELECT c FROM Customer c"
+	),
+	@NamedQuery(
+	        name = "com.gul.product.service.representation.Customer.findUsername",
+	        query = "SELECT c FROM Customer where email = :email and password = :password"
 	)
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "firstName")

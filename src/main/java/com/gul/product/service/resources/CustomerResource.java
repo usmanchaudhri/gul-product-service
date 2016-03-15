@@ -1,10 +1,7 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,9 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.CChat;
@@ -82,11 +77,12 @@ public class CustomerResource {
 	}
 	
 	@PUT
+    @Path("/{customerId}")
 	@UnitOfWork
 	@Timed	
 	@ApiOperation(
             value = "Updating an existing customer",
-            notes = "Updating an existing customer",
+            notes = "Currently updates email, first name, last name, mobile number, c-chats",
             response = Customer.class)
 	public Response update(@PathParam("customerId") Long customerId, @Valid Customer customer) {
 		Customer c = null;
@@ -103,13 +99,27 @@ public class CustomerResource {
 	}
 	
 	private void updateCustomer(Customer persistedCustomer, Customer customer) {
-		persistedCustomer.setEmail(customer.getEmail());
-		persistedCustomer.setFirstName(customer.getFirstName());
-		persistedCustomer.setLastName(customer.getLastName());
-		persistedCustomer.setMobileNumber(customer.getMobileNumber());
-		persistedCustomer.setMobileNumber(customer.getMobileNumber());
+		if(customer.getEmail() != null && !customer.getEmail().isEmpty()) {
+			persistedCustomer.setEmail(customer.getEmail());
+		} 
+		
+		if(customer.getFirstName() != null && !customer.getFirstName().isEmpty()) {
+			persistedCustomer.setFirstName(customer.getFirstName());
+		}
+		
+		if(customer.getLastName() != null && !customer.getLastName().isEmpty()) {
+			persistedCustomer.setLastName(customer.getLastName());
+		}
 
-		// TODO - should we update orders and shop info here.
+		if(customer.getMobileNumber() != null && !customer.getMobileNumber().isEmpty()) {
+			persistedCustomer.setMobileNumber(customer.getMobileNumber());
+		}
+
+		List<CChat> cchats = customer.getCchat();
+		for(CChat cchat : cchats) {
+			cchat.setCustomer(persistedCustomer);
+			persistedCustomer.getCchat().add(cchat);
+		}
 	}
 	
 	@POST

@@ -10,6 +10,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
@@ -19,6 +20,42 @@ import com.gul.product.service.representation.CustomerShipping;
 
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
+	@Ignore
+	@Test
+	public void test_customer_update_cchat_list() {
+		Client client = JerseyClientBuilder.createClient();
+		CChat cchat1 = new CChat("Usman-Safina");
+		CChat cchat2 = new CChat("Usman-Amjad");
+		CChat cchat3 = new CChat("Usman-Talha");
+		
+		List<CChat> cchats = new ArrayList<CChat>();
+		cchats.add(cchat1);
+		cchats.add(cchat2);
+		cchats.add(cchat3);
+
+		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);		
+		customer.setCchat(cchats);
+		
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+
+		assertThat(customerPersisted.getId()).isNotNull();
+		
+		CChat cchat4 = new CChat("Usman-Safina");
+		customerPersisted.getCchat().add(cchat4);
+		Customer customerPersistedUpdated = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer/"+customerPersisted.getId()).toString())
+				.request(MediaType.APPLICATION_JSON)
+				.put(Entity.json(customerPersisted), Customer.class);
+
+		assertThat(customerPersistedUpdated.getId()).isNotNull();
+		assertThat(customerPersistedUpdated.getCchat().contains("Usman-Safina")).isTrue();
+	}
+	
 	@Test
 	public void test_customer_creating_multiple_chat() {
 		Client client = JerseyClientBuilder.createClient();
@@ -94,7 +131,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		assertThat(customerId).isNotNull();
 		assertThat(firstName).isEqualTo("Usman");
 	}
-	
+
 	@Test
 	public void test_find_customer_by_id() {
 		Client client = JerseyClientBuilder.createClient();

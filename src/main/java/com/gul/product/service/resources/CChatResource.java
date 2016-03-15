@@ -43,16 +43,28 @@ public class CChatResource {
 	@Timed
     @ApiOperation("Adding a new cchat record against a customer.")
 	public Response add(@Valid CChat cchat) {
-		List<CChat> cchats = new ArrayList<CChat>();
-		cchats.add(cchat);
-		
 		Long customerId = cchat.getCustomer().getId();
 		Customer customer = customerDao.findById(customerId);
-		customer.setCchat(cchats);
+		customer.getCchat().add(cchat);
 		cchat.setCustomer(customer);
 		
 		CChat cc = cchatDao.create(cchat);		
 		return Response.status(Response.Status.CREATED).entity(cc).build();
+	}
+	
+	@PUT
+    @Path("/{cchatId}")
+	@UnitOfWork
+	@Timed
+    @ApiOperation("Updating cchat for an existing customer.")
+	public Response update(@Valid CChat cchat) {
+		Long customerId = cchat.getCustomer().getId();
+		Customer customer = customerDao.findById(customerId);
+		customer.getCchat().add(cchat);
+		cchat.setCustomer(customer);
+		
+		CChat cc = cchatDao.update(cchat);		
+		return Response.status(Response.Status.OK).entity(cc).build();
 	}
 
 	@GET

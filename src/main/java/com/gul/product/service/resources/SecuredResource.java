@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import com.gul.product.service.representation.User;
 
-@Path("securedGreetings")
+@Path("/securedGreetings")
 public class SecuredResource {
 
     @GET

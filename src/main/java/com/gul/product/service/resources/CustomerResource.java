@@ -1,8 +1,7 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -12,8 +11,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
@@ -43,16 +44,25 @@ public class CustomerResource {
 	@Timed
 	@ApiOperation(value = "Adding a new customer", notes = "Adding a new customer", response = Customer.class)
 	public Response add(@Valid Customer customer) {
-		// convert password into Hash MD5
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		byte[] hashedPassword = null;
 		
-		Customer cus = customerDao.create(customer);
-		return Response.status(Response.Status.CREATED).entity(cus).build();
+		Customer persistedCustomer = null;
+		
+		try {
+			
+			String password = customer.getPassword();
+			hashedPassword = DigestUtils.getSha256Digest().digest(password.getBytes("UTF-8"));
+			customer.setPassword(hashedPassword.toString());
+			
+			setCustomerShipping(customer);
+			setCustomerOrder(customer);
+			persistedCustomer = customerDao.create(customer);
+
+		} catch (UnsupportedEncodingException e) {
+			throw new WebApplicationException("exception creating customer.");
+		} 
+		
+		return Response.status(Response.Status.CREATED).entity(persistedCustomer).build();
 	}		
 	
 	private void setCustomerShipping(Customer customer) {

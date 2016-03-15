@@ -16,6 +16,23 @@ import com.gul.product.service.representation.CustomerShipping;
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
 	@Test
+	public void test_storing_hashed_passwords() {
+		Client client = JerseyClientBuilder.createClient();
+		
+		Customer customer = new Customer();
+		customer.setEmail("azhar.rao@gmail.com");
+		customer.setPassword("password");
+		
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path("/customer")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		
+		assertThat(customerPersisted.getId()).isNotNull();
+	}
+	
+	@Test
 	public void create_new_customer_with_empty_shop() {
 		Client client = JerseyClientBuilder.createClient();
 

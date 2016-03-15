@@ -175,7 +175,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new SecuredResource());
         
-        environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator(), "SUPER SECRET STUFF", User.class));
+        environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator("login","password"), "SUPER SECRET STUFF", User.class));
 //      TODO - add health check for service here.
 //      environment.lifecycle().manage(TemplateHealthCheck.class);
 	}

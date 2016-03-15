@@ -1,11 +1,14 @@
 package com.gul.product.service.persistance;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -18,6 +21,15 @@ import com.gul.product.service.representation.Shop;
 
 public class CustomerMappingTest {
 
+	@Test
+	public void test_password_to_md5_hash() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		String password = "password123";
+		byte[] hashedPassword = DigestUtils.getSha256Digest().digest(password.getBytes("UTF-8"));		
+		System.out.println("Hashed Password: " + hashedPassword.toString());
+		// assert something here ???
+	}
+	
+	@Ignore
 	@Test
 	public void test_create_a_new_customer() throws SQLException, ConfigurationException, ProvisionException {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 
@@ -37,6 +49,7 @@ public class CustomerMappingTest {
 		Assert.assertTrue(retrievedCustomer.getEmail().equals("azhar.rao@gmail.com"));
 	}
 	
+	@Ignore
 	@Test
 	public void test_add_and_empty_shop_to_an_existing_customer() {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 

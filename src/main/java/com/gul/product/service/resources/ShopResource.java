@@ -101,8 +101,7 @@ public class ShopResource {
 	public Response getShopOwner(@PathParam("id") Long id) {
 		Shop shop = shopDao.findByIdLoadShopOwner(id);
 		Customer shopOwner = shop.getShopOwner();
-		shop.setShopOwner(shopOwner);
-		return Response.status(Response.Status.OK).entity(shop).build();		
+		return Response.status(Response.Status.OK).entity(shopOwner).build();		
 	}
 	
 	@GET

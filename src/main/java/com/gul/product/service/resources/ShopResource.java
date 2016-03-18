@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.Designer;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.Shop;
@@ -90,6 +91,17 @@ public class ShopResource {
 		Shop shop = shopDao.findByIdLoadProducts(id);
 		List<Product> products = shop.getProducts();
 		shop.setProducts(products);
+		return Response.status(Response.Status.OK).entity(shop).build();		
+	}
+
+	@GET
+	@UnitOfWork
+	@Path("/{id}/shopOwner")
+    @ApiOperation("Get the owner for a given shop id.")
+	public Response getShopOwner(@PathParam("id") Long id) {
+		Shop shop = shopDao.findByIdLoadShopOwner(id);
+		Customer shopOwner = shop.getShopOwner();
+		shop.setShopOwner(shopOwner);
 		return Response.status(Response.Status.OK).entity(shop).build();		
 	}
 	

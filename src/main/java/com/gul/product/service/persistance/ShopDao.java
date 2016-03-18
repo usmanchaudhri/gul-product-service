@@ -40,6 +40,12 @@ public class ShopDao extends AbstractDAO<Shop> {
 		initialize(shop.getProducts());
 		return shop;
 	}
+	
+	public Shop findByIdLoadShopOwner(Long id) {
+		Shop shop = get(id);
+		initialize(shop.getShopOwner());
+		return shop;
+	}
 
 	public List<Shop> findAll() {
 		return list(namedQuery("com.gul.product.service.representation.Shop.findAll"));

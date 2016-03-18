@@ -26,11 +26,11 @@ public class CustomerDao extends AbstractDAO<Customer> {
 		return get(id);
 	}
 	
-	public Customer findByUsername(String username, String password) {
-		return uniqueResult(namedQuery("com.gul.product.service.representation.Customer.findUsername")
-				.setParameter("email", username)
-				.setParameter("password", password));
-	}
+//	public Customer findByUsername(String username, String password) {
+//		return uniqueResult(namedQuery("com.gul.product.service.representation.Customer.findUsername")
+//				.setParameter("email", username)
+//				.setParameter("password", password));
+//	}
 	
 	public List<Customer> findAll() {
 		return list(namedQuery("com.gul.product.service.representation.Customer.findAll"));

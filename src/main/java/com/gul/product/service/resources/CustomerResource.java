@@ -1,7 +1,9 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,13 +14,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Order;
+import com.gul.product.service.representation.Shop;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -138,6 +143,16 @@ public class CustomerResource {
 	public Response getCustomer(@PathParam("id") @NotEmpty Long customerId) {
 		Customer customer = customerDao.findById(customerId);
 		return Response.status(Response.Status.OK).entity(customer).build();
+	}
+	
+	@GET
+	@UnitOfWork
+	@Path("/{id}/cchat")
+    @ApiOperation("Get the list of users to chat with for a given customer id.")
+	public Response getCchat(@PathParam("id") Long id) {
+		Customer customer = customerDao.loadCchat(id);
+		List<CChat> cchats = customer.getCchat();
+		return Response.status(Response.Status.OK).entity(cchats).build();		
 	}
 	
 	@GET

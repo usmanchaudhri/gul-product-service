@@ -23,7 +23,7 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 		Client client = JerseyClientBuilder.createClient();
 
 		Customer customerRequest = new Customer();
-		customerRequest.setEmail("azhar.rao@gmail.com");
+		customerRequest.setUsername("azhar.rao@gmail.com");
 		
 		Order orderRequest = new Order();
 		orderRequest.setProductId("101");

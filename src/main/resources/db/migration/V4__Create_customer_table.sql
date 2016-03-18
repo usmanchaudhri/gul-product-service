@@ -4,7 +4,7 @@
 
 create table customer (
     customer_id bigint NOT NULL,
-    email varchar(255) NOT NULL,
+    username varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     shop_id bigint,
     created_on timestamp,

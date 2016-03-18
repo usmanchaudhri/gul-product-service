@@ -31,9 +31,9 @@ public class CustomerDao extends AbstractDAO<Customer> {
 		return get(id);
 	}
 	
-	public Customer findCustomer(String email, String password) {
+	public Customer findCustomer(String username, String password) {
 		Query query = namedQuery("com.gul.product.service.representation.Customer.findCustomer")
-				.setParameter("email", email)
+				.setParameter("username", username)
 				.setParameter("password", password);
 		return uniqueResult(query);
 	}

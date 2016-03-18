@@ -46,7 +46,7 @@ public class CustomerMappingTest {
 		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
 		
 		Assert.assertNotNull(retrievedCustomer.getId());
-		Assert.assertTrue(retrievedCustomer.getEmail().equals("azhar.rao@gmail.com"));
+		Assert.assertTrue(retrievedCustomer.getUsername().equals("azhar.rao@gmail.com"));
 	}
 	
 	@Ignore

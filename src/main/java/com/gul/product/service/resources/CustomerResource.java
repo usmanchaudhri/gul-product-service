@@ -104,17 +104,8 @@ public class CustomerResource {
 	@Timed
 	@ApiOperation(value = "Adding a new customer", notes = "Adding a new customer", response = Customer.class)
 	public Response findCustomer(@Auth Customer customer) {
-		return Response.status(Response.Status.OK).entity(null).build();
+		return Response.status(Response.Status.OK).entity(customer).build();
 	}
-	
-	
-//	@GET
-//	@UnitOfWork
-//    @ApiOperation("Get customer for passed-in id")
-//	public Response findCustomer() {
-//		Customer existingCustomer = customerDao.findCustomer(customer.getEmail(), customer.getPassword());
-//		return Response.status(Response.Status.OK).entity(existingCustomer).build();
-//	}
 	
 	@GET
 	@UnitOfWork
@@ -126,7 +117,7 @@ public class CustomerResource {
 	}
 	
 	private void updateCustomer(Customer persistedCustomer, Customer customer) {
-		persistedCustomer.setEmail(customer.getEmail());
+		persistedCustomer.setUsername(customer.getUsername());
 	}
 	
 	private void setCustomerShipping(Customer customer) {

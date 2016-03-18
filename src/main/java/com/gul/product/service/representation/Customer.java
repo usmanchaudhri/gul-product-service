@@ -34,10 +34,10 @@ import com.gul.product.service.audit.TimeStamped;
 	),
     @NamedQuery(
             name = "com.gul.product.service.representation.Customer.findCustomer",
-            query = "SELECT c FROM Customer c WHERE c.email = :email and c.password = :password"
+            query = "SELECT c FROM Customer c WHERE c.username = :username and c.password = :password"
     )
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
 public class Customer implements TimeStamped {
 
 	@Id
@@ -45,7 +45,7 @@ public class Customer implements TimeStamped {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerseq")
 	@Column(name = "customer_id", nullable = false) private Long id;
 	
-	@Column(name = "email", nullable = false) private String email;
+	@Column(name = "username", nullable = false) private String username;
 	@Column(name = "password", nullable = false) private String password;
 	
 	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -64,8 +64,8 @@ public class Customer implements TimeStamped {
 
 	public Customer() {}
 	
-	public Customer(String email, String password) {
-		this.email = email;
+	public Customer(String username, String password) {
+		this.username = username;
 		this.password = password;
 	}
 
@@ -77,12 +77,20 @@ public class Customer implements TimeStamped {
 		this.id = id;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public List<CustomerShipping> getCustomerShipping() {
@@ -109,32 +117,20 @@ public class Customer implements TimeStamped {
 		this.order = order;
 	}
 
-	@Override
 	public Date getCreatedOn() {
 		return createdOn;
 	}
 
-	@Override
 	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 	}
 
-	@Override
 	public Date getUpdatedOn() {
 		return updatedOn;
 	}
 
-	@Override
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	

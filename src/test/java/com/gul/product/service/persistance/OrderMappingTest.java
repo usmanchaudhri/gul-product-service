@@ -30,7 +30,7 @@ public class OrderMappingTest {
 		Assert.assertNotNull(retrievedCustomer.getId());
 
 		Object[] actualEmail = new Object[1];
-		actualEmail[0] = retrievedCustomer.getEmail();
+		actualEmail[0] = retrievedCustomer.getUsername();
 		
 		Object[] expectedEmail = new Object[1];
 		expectedEmail[0] = "azhar.rao@gmail.com";

@@ -30,41 +30,39 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path("/customer/signup")
 				.request(MediaType.APPLICATION_JSON)
 				.get(Customer.class);
 		
 		assertThat(customerPersisted.getId()).isNotNull();
 	}
 	
-	@Ignore
 	@Test
-	public void test_customer_login() {
+	public void test_customer_signup_and_login() {
 		Client client = JerseyClientBuilder.createClient();
 		
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		client.register(feature);
+
 		Customer customer = new Customer();
-		customer.setEmail("azhar.rao@gmail.com");
+		customer.setUsername("azhar.rao");
 		customer.setPassword("password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path("/customer/signup")
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 		
 		assertThat(customerPersisted.getId()).isNotNull();
 
-		Customer customerToFind = new Customer();
-		customerToFind.setEmail("azhar.rao@gmail.com");
-		customerToFind.setPassword("password");
-
 		Customer findExistingCustomer = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
 				.path("/customer/login")
 				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(customer), Customer.class);
-
+				.get(Customer.class);
+		
 		assertThat(findExistingCustomer.getId()).isNotNull();
-		assertThat(findExistingCustomer.getEmail().equalsIgnoreCase(customerPersisted.getEmail())).isNotNull();
+		assertThat(findExistingCustomer.getUsername().equalsIgnoreCase(customerPersisted.getUsername())).isNotNull();
 		assertThat(findExistingCustomer.getPassword().equalsIgnoreCase(customerPersisted.getPassword())).isNotNull();
 	}
 	
@@ -74,7 +72,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		Client client = JerseyClientBuilder.createClient();
 		
 		Customer customer = new Customer();
-		customer.setEmail("azhar.rao@gmail.com");
+		customer.setUsername("azhar.rao@gmail.com");
 		customer.setPassword("password");
 		
 		Customer customerPersisted = client
@@ -103,7 +101,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 				.post(Entity.json(customer), Customer.class);
 
 		Long customerId = customerPersisted.getId();
-		String firstName = customerPersisted.getEmail();
+		String firstName = customerPersisted.getUsername();
 		
 		assertThat(customerId).isNotNull();
 		assertThat(firstName).isEqualTo("azhar.rao");

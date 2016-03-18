@@ -14,9 +14,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -57,6 +59,9 @@ public class Shop implements Serializable, TimeStamped {
 	// shop should have a list of designers too.
 	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Designer> designers = new ArrayList<Designer>();
+	
+	@OneToOne(mappedBy="shop", fetch = FetchType.LAZY)
+	private Customer shopOwner;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
@@ -125,6 +130,14 @@ public class Shop implements Serializable, TimeStamped {
 
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public Customer getShopOwner() {
+		return shopOwner;
+	}
+
+	public void setShopOwner(Customer shopOwner) {
+		this.shopOwner = shopOwner;
 	}
 
 }

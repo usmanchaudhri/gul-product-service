@@ -61,7 +61,7 @@ public class Customer implements TimeStamped {
 	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Order> order;
 
-	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<CChat> cchat;
 
 	@Column(name = "created_on", nullable = true) private Date createdOn;

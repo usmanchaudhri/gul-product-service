@@ -2,6 +2,7 @@ package com.gul.product.service.app;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
@@ -44,6 +45,7 @@ import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.ProductDao;
 import com.gul.product.service.persistance.ShippingDao;
 import com.gul.product.service.persistance.ShopDao;
+import com.gul.product.service.persistance.UserDao;
 import com.gul.product.service.representation.AttributeDefinition;
 import com.gul.product.service.representation.AttributeValue;
 import com.gul.product.service.representation.Category;
@@ -67,9 +69,9 @@ import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.OrderResource;
 import com.gul.product.service.resources.ProductResource;
-import com.gul.product.service.resources.SecuredResource;
 import com.gul.product.service.resources.ShippingResource;
 import com.gul.product.service.resources.ShopResource;
+import com.gul.product.service.resources.UserResource;
 
 public class ProductServiceApplication extends Application<ProductServiceConfiguration> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceConfiguration.class);
@@ -151,6 +153,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
 		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
 		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());		
+		final UserDao userDao = new UserDao(hibernateBundle.getSessionFactory());		
 		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
 
@@ -172,10 +175,17 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
-        environment.jersey().register(new ImageInfoResource(imageInfoDao));
-        environment.jersey().register(new SecuredResource());
+        environment.jersey().register(new ImageInfoResource(imageInfoDao));        
+        environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "AUTH REALM", Customer.class)));
+
+//      environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator("login","password"), "SUPER SECRET STUFF", User.class));
         
-        environment.jersey().register(new BasicAuthFactory<>(new CustomerAuthenticator("login","password"), "SUPER SECRET STUFF", User.class));
+//        CustomerAuthenticator authenticator = new CustomerAuthenticator("login","password");
+//        CachingAuthenticator cachingAuthenticator = new CachingAuthenticator<BasicCredentials, User>(
+//        		new MetricRegistry(), 
+//        		authenticator,
+//        		null);
+        
 //      TODO - add health check for service here.
 //      environment.lifecycle().manage(TemplateHealthCheck.class);
 	}

@@ -16,10 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
@@ -38,7 +34,7 @@ import com.gul.product.service.audit.TimeStamped;
 	),
     @NamedQuery(
             name = "com.gul.product.service.representation.Customer.findCustomer",
-            query = "SELECT c FROM Customer c WHERE c.email = :customerEmail"
+            query = "SELECT c FROM Customer c WHERE c.email = :email and c.password = :password"
     )
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")

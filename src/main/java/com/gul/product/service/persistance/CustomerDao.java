@@ -1,10 +1,15 @@
 package com.gul.product.service.persistance;
 
 import io.dropwizard.hibernate.AbstractDAO;
+
 import java.util.Date;
 import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+
 import com.gul.product.service.representation.Customer;
+import com.gul.product.service.representation.User;
 
 public class CustomerDao extends AbstractDAO<Customer> {
 
@@ -22,16 +27,15 @@ public class CustomerDao extends AbstractDAO<Customer> {
 		return persist(customer);
 	}
 	
-	public Customer findByUsername(String username) {
-		return get(username);
-	}
-	
 	public Customer findById(Long id) {
 		return get(id);
 	}
 	
-	public List<Customer> findCustomerByUsername(String customerEmail) {
-		return list(namedQuery("com.gul.product.service.representation.Customer.findCustomer").setParameter("customerEmail", Long.valueOf(customerEmail)));
+	public Customer findCustomer(String email, String password) {
+		Query query = namedQuery("com.gul.product.service.representation.Customer.findCustomer")
+				.setParameter("email", email)
+				.setParameter("password", password);
+		return uniqueResult(query);
 	}
 	
 	public List<Customer> findAll() {

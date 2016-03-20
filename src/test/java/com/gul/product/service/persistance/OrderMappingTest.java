@@ -67,7 +67,7 @@ public class OrderMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri","2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 

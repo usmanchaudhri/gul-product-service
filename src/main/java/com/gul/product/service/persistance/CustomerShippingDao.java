@@ -24,6 +24,10 @@ public class CustomerShippingDao extends AbstractDAO<CustomerShipping> {
 		return get(id);
 	}
 	
+	public List<CustomerShipping> findUserShippingAddresses(Long customerId) {
+		return list(namedQuery("com.gul.product.service.representation.CustomerShipping.findUserShippingAddresses"));
+	}
+	
 	public List<CustomerShipping> findAll() {
 		return list(namedQuery("com.gul.checkout.service.representation.Customer.findAll"));
 	}

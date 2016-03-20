@@ -21,22 +21,38 @@ import com.gul.product.service.representation.User;
 
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
-	@Ignore
 	@Test
-	public void test_customer_authenticator() {
+	public void test_add_customer_shipping_for_an_existing_customer() {
 		Client client = JerseyClientBuilder.createClient();
+
 		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
 		client.register(feature);
 
+		// create customer
+		Customer customer = new Customer();
+		customer.setUsername("azhar.rao");
+		customer.setPassword("password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
 				.path("/customer/signup")
 				.request(MediaType.APPLICATION_JSON)
-				.get(Customer.class);
-		
+				.post(Entity.json(customer), Customer.class);
 		assertThat(customerPersisted.getId()).isNotNull();
+
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		shipping.add(customerShipping);
+		
+		CustomerShipping persistedCustomerShipping = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/customershipping").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.put(Entity.json(customerShipping), CustomerShipping.class);
+
+		assertThat(persistedCustomerShipping.getId()).isNotNull();
 	}
 	
+	@Ignore
 	@Test
 	public void test_customer_signup_and_login() {
 		Client client = JerseyClientBuilder.createClient();
@@ -89,7 +105,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 	public void create_new_customer_with_empty_shop() {
 		Client client = JerseyClientBuilder.createClient();
 
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("azhar.rao", "password");
@@ -112,7 +128,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 	public void test_find_customer_by_id() {
 		Client client = JerseyClientBuilder.createClient();
 
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("azhar.rao", "password");

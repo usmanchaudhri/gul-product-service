@@ -25,7 +25,7 @@ public class CustomerEndPointTest {
 
 	@Test
 	public void creating_new_customer() {
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri","2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("azhar.rao", "password");
@@ -43,7 +43,7 @@ public class CustomerEndPointTest {
 	
 	@Test
 	public void create_new_customer_with_single_order_and_shipping() {
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri","2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("azhar.rao", "password");

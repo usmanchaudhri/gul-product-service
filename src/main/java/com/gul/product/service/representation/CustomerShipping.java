@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,6 +21,12 @@ import com.gul.product.service.audit.TimeStamped;
 
 @Entity
 @Table(name = "CUSTOMER_SHIPPING")
+@NamedQueries({
+	@NamedQuery(
+	        name = "com.gul.product.service.representation.CustomerShipping.findUserShippingAddresses",
+	        query = "SELECT c FROM Customer c"
+	)
+})
 public class CustomerShipping implements TimeStamped {
 
 	@Id
@@ -33,8 +41,8 @@ public class CustomerShipping implements TimeStamped {
 	@Column(name = "city", nullable = false) private String city;
 	@Column(name = "state", nullable = false) private String state;
 	@Column(name = "zipcode", nullable = false) private String zipcode;
-	@Column(name = "country", nullable = false) private String country;
-	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
+	@Column(name = "country", nullable = false) private String country;	
+//	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
@@ -45,7 +53,16 @@ public class CustomerShipping implements TimeStamped {
 	
 	public CustomerShipping() {}
 	
-	public CustomerShipping(String address, String city, String state, String zipcode, String country) {
+	public CustomerShipping(
+			String firstName,
+			String lastName,
+			String address, 
+			String city, 
+			String state, 
+			String zipcode, 
+			String country) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.address = address;
 		this.city = city;
 		this.state = state;
@@ -117,13 +134,13 @@ public class CustomerShipping implements TimeStamped {
 		this.country = country;
 	}
 
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
+//	public String getMobileNumber() {
+//		return mobileNumber;
+//	}
+//
+//	public void setMobileNumber(String mobileNumber) {
+//		this.mobileNumber = mobileNumber;
+//	}
 
 	public Customer getCustomer() {
 		return customer;

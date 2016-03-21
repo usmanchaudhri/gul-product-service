@@ -1,7 +1,6 @@
 package com.gul.product.service.representation;
 
 import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,18 +13,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.Length;
-
 import com.gul.product.service.audit.TimeStamped;
 
 @Entity
 @Table(name = "CUSTOMER_SHIPPING")
 @NamedQueries({
-	@NamedQuery(
-	        name = "com.gul.product.service.representation.CustomerShipping.findUserShippingAddresses",
-	        query = "SELECT c FROM Customer c"
-	)
+    @NamedQuery(name = "com.gul.product.service.representation.CustomerShipping.findUserShippingAddresses",
+            query = "SELECT cs FROM CustomerShipping cs WHERE cs.customer.id = :customerId")
 })
 public class CustomerShipping implements TimeStamped {
 
@@ -42,7 +36,6 @@ public class CustomerShipping implements TimeStamped {
 	@Column(name = "state", nullable = false) private String state;
 	@Column(name = "zipcode", nullable = false) private String zipcode;
 	@Column(name = "country", nullable = false) private String country;	
-//	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
@@ -133,14 +126,6 @@ public class CustomerShipping implements TimeStamped {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
-//	public String getMobileNumber() {
-//		return mobileNumber;
-//	}
-//
-//	public void setMobileNumber(String mobileNumber) {
-//		this.mobileNumber = mobileNumber;
-//	}
 
 	public Customer getCustomer() {
 		return customer;

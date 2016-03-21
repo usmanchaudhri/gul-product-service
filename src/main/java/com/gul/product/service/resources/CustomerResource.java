@@ -2,10 +2,8 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,16 +15,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Order;
-import com.gul.product.service.representation.User;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 

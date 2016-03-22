@@ -180,7 +180,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ProductResource(productDao, categoryDao, shopDao));
         environment.jersey().register(new CategoryResource(categoryDao));
         environment.jersey().register(new ShippingResource(shippingDao));
-        environment.jersey().register(new ShopResource(shopDao));
+        environment.jersey().register(new ShopResource(shopDao, customerDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new OrderResource(orderDao, customerDao));

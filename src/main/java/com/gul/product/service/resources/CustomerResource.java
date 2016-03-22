@@ -104,6 +104,11 @@ public class CustomerResource {
 	}
 	
 	private void updateCustomer(Customer persistedCustomer, Customer customer) {
+		
+		if(customer.getShop() != null) {
+			
+		}
+		
 		if(customer.getEmail() != null && !customer.getEmail().isEmpty()) {
 			persistedCustomer.setEmail(customer.getEmail());
 		} 

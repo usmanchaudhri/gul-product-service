@@ -50,7 +50,7 @@ public class Customer implements TimeStamped {
 	@Column(name = "customer_id", nullable = false) private Long id;
 	
 	// START new fields
-	@Column(name = "username", nullable = false) private String username;
+	@Column(name = "username", nullable = false, unique = true) private String username;
 	@Column(name = "password", nullable = false) private String password;
 
 //	@Column(name = "first_name", nullable = false) private String firstName;

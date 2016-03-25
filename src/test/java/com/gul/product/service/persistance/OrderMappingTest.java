@@ -24,13 +24,13 @@ public class OrderMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		persistedClassDao.saveInNewTransaction(customer);
 		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
 		Assert.assertNotNull(retrievedCustomer.getId());
 
 		Object[] actualEmail = new Object[1];
-		actualEmail[0] = retrievedCustomer.getEmail();
+		actualEmail[0] = retrievedCustomer.getUsername();
 		
 		Object[] expectedEmail = new Object[1];
 		expectedEmail[0] = "azhar.rao@gmail.com";
@@ -42,7 +42,7 @@ public class OrderMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		
 		// create an order
 		Order order = new Order("1001", "Tunic Top", "SKU_101_TUNIC", "9", "39.99", "/gul/product", "31", "10");
@@ -67,10 +67,10 @@ public class OrderMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		persistedClassDao.saveInNewTransaction(customer);
 		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
 		Assert.assertNotNull(retrievedCustomer.getId());

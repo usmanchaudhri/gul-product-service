@@ -1,5 +1,6 @@
 package com.gul.product.service.resources;
 
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.ArrayList;
@@ -48,13 +49,12 @@ public class OrderResource {
 	@UnitOfWork
 	@Timed
 	@ApiOperation(value = "Adding a new Order", notes = "Adding a new Order", response = Order.class)	
-	public Response add(@Valid Order order) {
-		List<Order> orders = new ArrayList<Order>();
-		orders.add(order);
-
-		Long customerId = order.getCustomer().getId();
-		Customer customer = customerDao.findById(customerId);
-		customer.setOrder(orders);
+	public Response add(@Auth Customer customer, @Valid Order order) {
+//		List<Order> orders = new ArrayList<Order>();
+//		orders.add(order);
+//		Long customerId = order.getCustomer().getId();
+//		Customer customer = customerDao.findById(customerId);
+		customer.getOrder().add(order);
 		order.setCustomer(customer);
 		Order o = orderDao.create(order);
 		return Response.status(Response.Status.CREATED).entity(o).build();

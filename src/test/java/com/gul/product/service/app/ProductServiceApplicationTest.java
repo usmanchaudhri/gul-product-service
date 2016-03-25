@@ -2,6 +2,8 @@ package com.gul.product.service.app;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.AuthFactory;
+import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.flyway.FlywayBundle;
 import io.dropwizard.flyway.FlywayFactory;
@@ -21,13 +23,16 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gul.product.service.authenticate.CustomerAuthenticator;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.AttributeDefinitionDao;
+import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
+import com.gul.product.service.persistance.DesignerDao;
 import com.gul.product.service.persistance.ImageInfoDao;
 import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.PricingProductDao;
@@ -50,6 +55,7 @@ import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.AttributeDefinitionResource;
+import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
@@ -131,6 +137,9 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 		final AttributeDefinitionDao attributeDefinitionDao = new AttributeDefinitionDao(hibernateBundle.getSessionFactory());
 		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
+		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
+		final DesignerDao designerDao = new DesignerDao(hibernateBundle.getSessionFactory());
+
 		
         final Template template = configuration.buildTemplate();
         removeDefaultExceptionMappers(Boolean.TRUE, environment);
@@ -149,6 +158,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new OrderResource(orderDao, customerDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
+        environment.jersey().register(new CChatResource(cchatDao, customerDao));
+        environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "AUTH REALM", Customer.class)));
 
         environment.jersey().register(new TwillioChannelResource(
         		configuration.getTwillioAccountSid(),

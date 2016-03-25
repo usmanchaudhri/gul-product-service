@@ -16,7 +16,7 @@ public class CustomerShippingMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		persistedClassDao.saveInNewTransaction(customerShipping);
 
 		CustomerShipping retrievedCustomerShipping = persistedClassDao.getEntityManager().find(CustomerShipping.class, customerShipping.getId());

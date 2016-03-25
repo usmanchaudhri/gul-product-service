@@ -4,10 +4,8 @@
 
 create table customer (
     customer_id bigint NOT NULL,
-    email varchar(255) NOT NULL,
-    first_name varchar(255) NOT NULL,
-    last_name varchar(255) NOT NULL,
-    mobile_number varchar(12) NOT NULL,
+    username varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
     shop_id bigint,
     cchat_id bigint,
     created_on timestamp,
@@ -24,6 +22,8 @@ CREATE SEQUENCE customer_customer_id_seq
     
 create table CUSTOMER_SHIPPING (
     customer_shipping_id bigint not null,
+    first_name varchar(255) NOT NULL,
+    last_name varchar(255) NOT NULL,
     address varchar(255) not null,
     city varchar(255) not null,
     country varchar(255) not null,

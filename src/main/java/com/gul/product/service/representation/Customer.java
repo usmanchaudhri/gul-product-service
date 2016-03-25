@@ -2,6 +2,7 @@ package com.gul.product.service.representation;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
@@ -32,27 +35,28 @@ import com.gul.product.service.audit.TimeStamped;
 	@NamedQuery(
 	        name = "com.gul.product.service.representation.Customer.findAll",
 	        query = "SELECT c FROM Customer c"
-	)
-	
-//	@NamedQuery(
-//	        name = "com.gul.product.service.representation.Customer.findUsername",
-//	        query = "SELECT c FROM Customer c where c.email = :email and c.password = :password"
-//	)
-
-	
+	),	
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Customer.findCustomer",
+            query = "SELECT c FROM Customer c WHERE c.username = :username and c.password = :password"
+    )
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "firstName")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
 public class Customer implements TimeStamped {
 
 	@Id
 	@SequenceGenerator(name = "customerseq", sequenceName = "customer_customer_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerseq")
 	@Column(name = "customer_id", nullable = false) private Long id;
+	
+	// START new fields
+	@Column(name = "username", nullable = false) private String username;
+	@Column(name = "password", nullable = false) private String password;
 
-	@Column(name = "first_name", nullable = false) private String firstName;
-	@Column(name = "last_name", nullable = false) private String lastName;
-	@Column(name = "email", nullable = false) private String email;
-	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
+//	@Column(name = "first_name", nullable = false) private String firstName;
+//	@Column(name = "last_name", nullable = false) private String lastName;
+//	@Column(name = "email", nullable = false) private String email;
+//	@Length(min = 12, max = 12) @Column(name = "mobile_number", nullable = false) private String mobileNumber;
 
 	@OneToMany(mappedBy="customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<CustomerShipping> customerShipping; 	// = new ArrayList<CustomerShipping>();
@@ -72,13 +76,9 @@ public class Customer implements TimeStamped {
 
 	public Customer() {}
 	
- 	public Customer(String firstName, String lastName, String email,
-			String mobileNumber, List<CustomerShipping> customerShipping) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.mobileNumber = mobileNumber;
-		this.customerShipping = customerShipping;
+	public Customer(String username, String password) {
+		this.username = username;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -89,36 +89,21 @@ public class Customer implements TimeStamped {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public List<CustomerShipping> getCustomerShipping() {

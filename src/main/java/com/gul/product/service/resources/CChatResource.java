@@ -1,8 +1,8 @@
 package com.gul.product.service.resources;
 
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -24,8 +24,8 @@ import com.gul.product.service.representation.Customer;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-@Api("/customer/cchat")
-@Path("/customer/cchat")
+@Api("/cchat")
+@Path("/cchat")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CChatResource {
@@ -42,12 +42,9 @@ public class CChatResource {
 	@UnitOfWork
 	@Timed
     @ApiOperation("Adding a new cchat record against a customer.")
-	public Response add(@Valid CChat cchat) {
-		Long customerId = cchat.getCustomer().getId();
-		Customer customer = customerDao.findById(customerId);
+	public Response add(@Auth Customer customer, @Valid CChat cchat) {
 		customer.getCchat().add(cchat);
 		cchat.setCustomer(customer);
-		
 		CChat cc = cchatDao.create(cchat);		
 		return Response.status(Response.Status.CREATED).entity(cc).build();
 	}

@@ -3,13 +3,19 @@ package com.gul.product.service.resources;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import io.dropwizard.testing.junit.ResourceTestRule;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
@@ -25,16 +31,21 @@ public class CustomerEndPointTest {
 
 	@Test
 	public void creating_new_customer() {
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		Client client = resources.client();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		client.register(feature);
+
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri","2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		customer.setId(1L);
 		
 		Mockito.when(customerDao.create(Mockito.any(Customer.class))).thenReturn(customer);
+
 		Customer customerPersisted = resources
 				.client()
-				.target("/customer")
+				.target(new StringBuilder("/customer").append("/signup") .toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 
@@ -43,10 +54,14 @@ public class CustomerEndPointTest {
 	
 	@Test
 	public void create_new_customer_with_single_order_and_shipping() {
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		Client client = resources.client();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		client.register(feature);
+
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri","2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		customer.setId(1L);
 
 		Order orderRequest = new Order();
@@ -68,7 +83,7 @@ public class CustomerEndPointTest {
 		Mockito.when(customerDao.create(Mockito.any(Customer.class))).thenReturn(customer);
 		Customer customerPersisted = resources
 				.client()
-				.target("/customer")
+				.target(new StringBuilder("/customer").append("/signup") .toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 		

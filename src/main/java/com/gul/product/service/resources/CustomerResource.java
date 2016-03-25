@@ -1,9 +1,9 @@
 package com.gul.product.service.resources;
 
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,11 +12,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.CChat;
@@ -42,16 +42,40 @@ public class CustomerResource {
 		this.customerDao = customerDao;
 	}
 	
+	public void updatePassword() {
+		
+	}
+	
+	@GET
+	@Path("/login")
+	@UnitOfWork
+	@Timed
+	@ApiOperation(value = "Logging-in existing customer", notes = "Logging-in existing customer", response = Customer.class)
+	public Response findCustomer(@Auth Customer customer) {
+		return Response.status(Response.Status.OK).entity(customer).build();
+	}
+	
 	@POST
+	@Path("/signup")
 	@UnitOfWork
 	@Timed
 	@ApiOperation(value = "Adding a new customer", notes = "Adding a new customer", response = Customer.class)
 	public Response add(@Valid Customer customer) {
-		setCustomerShipping(customer);
-		setCustomerOrder(customer);
-		setCustomerChat(customer);
-		Customer cus = customerDao.create(customer);
-		return Response.status(Response.Status.CREATED).entity(cus).build();
+		byte[] hashedPassword = null;
+		Customer persistedCustomer = null;
+
+		try {
+			
+			hashedPassword = DigestUtils.getSha256Digest().digest(customer.getPassword().getBytes("UTF-8"));
+			customer.setPassword(new String(hashedPassword));
+			
+			setCustomerChat(customer);
+			persistedCustomer = customerDao.create(customer);
+
+		} catch (UnsupportedEncodingException e) {
+			throw new WebApplicationException("exception creating customer.");
+		} 
+		return Response.status(Response.Status.CREATED).entity(persistedCustomer).build();
 	}		
 	
 	private void setCustomerChat(Customer customer) {
@@ -87,7 +111,7 @@ public class CustomerResource {
 	@Timed	
 	@ApiOperation(
             value = "Updating an existing customer",
-            notes = "Currently updates email, first name, last name, mobile number, c-chats",
+            notes = "Currently updates cchats",
             response = Customer.class)
 	public Response update(@PathParam("customerId") Long customerId, @Valid Customer customer) {
 		Customer c = null;
@@ -104,27 +128,6 @@ public class CustomerResource {
 	}
 	
 	private void updateCustomer(Customer persistedCustomer, Customer customer) {
-		
-		if(customer.getShop() != null) {
-			
-		}
-		
-		if(customer.getEmail() != null && !customer.getEmail().isEmpty()) {
-			persistedCustomer.setEmail(customer.getEmail());
-		} 
-		
-		if(customer.getFirstName() != null && !customer.getFirstName().isEmpty()) {
-			persistedCustomer.setFirstName(customer.getFirstName());
-		}
-		
-		if(customer.getLastName() != null && !customer.getLastName().isEmpty()) {
-			persistedCustomer.setLastName(customer.getLastName());
-		}
-
-		if(customer.getMobileNumber() != null && !customer.getMobileNumber().isEmpty()) {
-			persistedCustomer.setMobileNumber(customer.getMobileNumber());
-		}
-
 		List<CChat> cchats = customer.getCchat();
 		for(CChat cchat : cchats) {
 			cchat.setCustomer(persistedCustomer);
@@ -159,7 +162,17 @@ public class CustomerResource {
 		List<CChat> cchats = customer.getCchat();
 		return Response.status(Response.Status.OK).entity(cchats).build();		
 	}
-	
+
+	@GET
+	@UnitOfWork
+	@Path("/{id}/orders")
+    @ApiOperation("Get the list of users to chat with for a given customer id.")
+	public Response getOrders(@PathParam("id") Long id) {
+		Customer customer = customerDao.loadOrders(id);
+		List<Order> orders = customer.getOrder();
+		return Response.status(Response.Status.OK).entity(orders).build();		
+	}
+
 	@GET
 	@UnitOfWork
 	@Timed

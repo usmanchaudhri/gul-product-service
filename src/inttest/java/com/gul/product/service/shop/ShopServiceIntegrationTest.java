@@ -26,10 +26,10 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		Client client = JerseyClientBuilder.createClient();
 		
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
 				.path("/customer")
@@ -71,10 +71,10 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		Client client = JerseyClientBuilder.createClient();
 
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
@@ -104,10 +104,10 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		Client client = JerseyClientBuilder.createClient();
 		
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Asifa", "Nabeel", "asifa.nabeel@gmail.com", "333-444-5555", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
 				.path("/customer")
@@ -150,10 +150,10 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		Client client = JerseyClientBuilder.createClient();
 	
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Asifa", "Nabeel", "asifa.nabeel@gmail.com", "333-444-5555", shipping);
+		Customer customer = new Customer("asifa.nabeel@gmail.com", "password");
 		
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))

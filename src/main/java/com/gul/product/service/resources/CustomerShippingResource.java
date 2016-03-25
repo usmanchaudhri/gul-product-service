@@ -1,5 +1,6 @@
 package com.gul.product.service.resources;
 
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerShippingDao;
+import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 
 // customer can add / edit address at any time during the checkout process hence 
@@ -35,7 +37,9 @@ public class CustomerShippingResource {
 	@POST
 	@UnitOfWork
 	@Timed
-	public Response add(@Valid CustomerShipping customerShipping) {
+	public Response add(@Auth Customer customer, @Valid CustomerShipping customerShipping) {
+		customer.getCustomerShipping().add(customerShipping);
+		customerShipping.setCustomer(customer);
 		CustomerShipping cusShipping = customerShippingDao.create(customerShipping);
 		return Response.status(Response.Status.CREATED).entity(cusShipping).build();
 	}		

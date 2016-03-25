@@ -2,6 +2,7 @@ package com.gul.product.service.app;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
@@ -29,7 +30,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gul.product.service.authenticate.SimpleAuthenticator;
+import com.gul.product.service.authenticate.CustomerAuthenticator;
 import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductConstraintViolationException;
@@ -215,7 +216,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         		configuration.getTwillioAuthorizationHeaderName(),
         		configuration.getTwillioAccessUrl()));
         
-        environment.jersey().register(new BasicAuthFactory<User>(new SimpleAuthenticator(), "SUPER SECRET STUFF", User.class));
+        environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "AUTH REALM", Customer.class)));
 //      TODO - add health check for service here.
 //      environment.lifecycle().manage(TemplateHealthCheck.class);
 	}

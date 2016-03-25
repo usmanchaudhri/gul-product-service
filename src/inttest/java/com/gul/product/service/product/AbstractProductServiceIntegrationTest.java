@@ -3,15 +3,19 @@ package com.gul.product.service.product;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import io.dropwizard.flyway.FlywayFactory;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+
 import org.apache.commons.lang3.StringUtils;
 import org.flywaydb.core.Flyway;
 import org.h2.jdbcx.JdbcDataSource;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+
 import com.gul.product.service.app.ProductServiceApplicationTest;
 import com.gul.product.service.app.ProductServiceConfigurationTest;
 
@@ -47,6 +51,11 @@ public class AbstractProductServiceIntegrationTest {
 		flyway.migrate();		// 7 migrate note
 		flyway.migrate();		// 8 migrate image info
 	}
+	
+//	@After
+//	public void tearDown() {
+//		flyway.clean();
+//	}
 	
 	@AfterClass
 	public static void teardownClass() throws IOException {

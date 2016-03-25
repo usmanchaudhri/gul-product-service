@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,6 +19,10 @@ import com.gul.product.service.audit.TimeStamped;
 
 @Entity
 @Table(name = "CUSTOMER_SHIPPING")
+@NamedQueries({
+    @NamedQuery(name = "com.gul.product.service.representation.CustomerShipping.findUserShippingAddresses",
+            query = "SELECT cs FROM CustomerShipping cs WHERE cs.customer.id = :customerId")
+})
 public class CustomerShipping implements TimeStamped {
 
 	@Id
@@ -25,6 +31,8 @@ public class CustomerShipping implements TimeStamped {
 	@Column(name = "customer_shipping_id", nullable = false)
 	private Long id;
 	
+	@Column(name = "first_name", nullable = false) private String firstName;
+	@Column(name = "last_name", nullable = false) private String lastName;
 	@Column(name = "address", nullable = false) private String address;
 	@Column(name = "city", nullable = false) private String city;
 	@Column(name = "state", nullable = false) private String state;
@@ -40,7 +48,9 @@ public class CustomerShipping implements TimeStamped {
 	
 	public CustomerShipping() {}
 	
-	public CustomerShipping(String address, String city, String state, String zipcode, String country) {
+	public CustomerShipping(String firstName, String lastName, String address, String city, String state, String zipcode, String country) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.address = address;
 		this.city = city;
 		this.state = state;
@@ -56,6 +66,22 @@ public class CustomerShipping implements TimeStamped {
 		this.id = id;
 	}
 	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public String getAddress() {
 		return address;
 	}

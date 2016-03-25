@@ -25,7 +25,7 @@ public class CChatMappingTest {
 		List<CChat> cchats = new ArrayList<CChat>();
 		cchats.add(cchat);
 		
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", null);		
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");
 		customer.setCchat(cchats);
 		setTimeStamp(customer);
 		

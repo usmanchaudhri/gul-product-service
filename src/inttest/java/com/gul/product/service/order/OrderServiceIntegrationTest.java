@@ -10,6 +10,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Test;
 
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
@@ -23,11 +24,18 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 		Client client = JerseyClientBuilder.createClient();
 
 		Customer customerRequest = new Customer();
-		customerRequest.setFirstName("Usman");
-		customerRequest.setLastName("Chaudhri");		
-		customerRequest.setMobileNumber("310-809-8581");
-		customerRequest.setEmail("azhar.rao@gmail.com");
-		
+		customerRequest.setUsername("azhar.rao");
+		customerRequest.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup") .toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customerRequest), Customer.class);
+		assertThat(customerPersisted.getId());
+
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		client.register(feature);
+
 		Order orderRequest = new Order();
 		orderRequest.setProductId("101");
 		orderRequest.setProductCategoryId("10");
@@ -42,34 +50,31 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 		
 		List<Order> orders = new ArrayList<Order>();
 		orders.add(orderRequest);
-		customerRequest.setOrder(orders);
+		customerPersisted.setOrder(orders);
 		
-		Customer customerPersisted = client
+		// CREATE ORDER
+		Order persistedOrder = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path(new StringBuilder("/orders").toString())
 				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(customerRequest), Customer.class);
-		assertThat(customerPersisted.getId());
-
-		Long orderPersistedId = customerPersisted.getOrder().get(0).getId();
-		Order orderRequestUpdate = new Order();
-		orderRequestUpdate.setStatus("Cancelled");
-
+				.post(Entity.json(orderRequest), Order.class);
+		assertThat(persistedOrder.getId()).isNotNull();
+		assertThat(persistedOrder.getProductId()).isEqualToIgnoringCase("101");
+		assertThat(persistedOrder.getProductCategoryId()).isEqualToIgnoringCase("10");
+		assertThat(persistedOrder.getCustomer().getId()).isEqualTo(customerPersisted.getId());
+		
 		// updating Order
-		Order orderPersistedUpdated = client
-				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/orders/").append(orderPersistedId).toString())
-				.request(MediaType.APPLICATION_JSON)
-				.put(Entity.json(orderRequestUpdate), Order.class);
-		assertThat(orderPersistedUpdated.getId()).isNotNull();
-		assertThat(orderPersistedUpdated.getStatus()).isEqualTo("Cancelled");
+//		Order orderPersistedUpdated = client
+//				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+//				.path(new StringBuilder("/orders/").append(orderPersistedId).toString())
+//				.request(MediaType.APPLICATION_JSON)
+//				.put(Entity.json(orderRequestUpdate), Order.class);
+//		assertThat(orderPersistedUpdated.getId()).isNotNull();
+//		assertThat(orderPersistedUpdated.getStatus()).isEqualTo("Cancelled");
 	}
 
 	
-//	@Test
-//	public void test_place_a_new_order() {
-//		Client client = JerseyClientBuilder.createClient();
-//	}
+	
 	
 }
 

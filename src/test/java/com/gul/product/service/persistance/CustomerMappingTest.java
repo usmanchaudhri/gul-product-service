@@ -25,10 +25,10 @@ public class CustomerMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);		
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");		
 		setTimeStamp(customer);
 		
 		persistedClassDao.saveInNewTransaction(customer);
@@ -36,7 +36,7 @@ public class CustomerMappingTest {
 		Customer retrievedCustomer = persistedClassDao.getEntityManager().find(Customer.class, customer.getId());
 		
 		Assert.assertNotNull(retrievedCustomer.getId());
-		Assert.assertTrue(retrievedCustomer.getEmail().equals("azhar.rao@gmail.com"));
+		Assert.assertTrue(retrievedCustomer.getUsername().equals("azhar.rao@gmail.com"));
 	}
 	
 	@Test
@@ -44,10 +44,10 @@ public class CustomerMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 				
-		CustomerShipping customerShipping = new CustomerShipping("2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("Usman", "Chaudhri", "azhar.rao@gmail.com", "310-809-8581", shipping);
+		Customer customer = new Customer("azhar.rao@gmail.com", "password");		
 		setTimeStamp(customer);
 
 		persistedClassDao.saveInNewTransaction(customer);

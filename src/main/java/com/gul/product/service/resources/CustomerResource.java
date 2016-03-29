@@ -165,7 +165,7 @@ public class CustomerResource {
 	public Response getCchat(@PathParam("id") Long id) {
 		Customer customer = customerDao.loadCchat(id);
 		List<CChat> cchats = customer.getCchat();
-		return Response.status(Response.Status.OK).entity(Entity.json(cchats)).build();		
+		return Response.status(Response.Status.OK).entity(cchats).build();		
 	}
 
 	@GET

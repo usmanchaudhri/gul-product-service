@@ -1,12 +1,17 @@
 package com.gul.product.service.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -16,6 +21,7 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
 import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
@@ -24,6 +30,7 @@ import com.gul.product.service.representation.Order;
 
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
+	@Ignore
 	@Test
 	public void test_add_customer_shipping_to_customer() throws JsonParseException, JsonMappingException, IOException {
 		Client client = JerseyClientBuilder.createClient();
@@ -162,10 +169,32 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 				.put(Entity.json(customerPersisted), Customer.class);
 
 		assertThat(customerPersistedUpdated.getId()).isNotNull();
-		
+
+
 		// TODO - lazy load cchat from customers.
+		LinkedHashMap<String, CChat> cusCchats = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer/").append(customerPersistedUpdated.getId()).append("/cchat") .toString())
+				.request(MediaType.APPLICATION_JSON)
+				.get(LinkedHashMap.class);
+
+//		List<CChat> cusCchats = client
+//				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+//				.path(new StringBuilder("/customer/").append(customerPersistedUpdated.getId()).append("/cchat").toString())
+//				.request(MediaType.APPLICATION_JSON)
+//				.get(List.class);
+		
+		for(Map.Entry<String , CChat> entry : cusCchats.entrySet()) {
+			System.out.println(entry.getKey());
+			System.out.println(entry.getValue());
+			CChat cchat = entry.getValue();
+			assertThat(cchat.getId()).isNotNull();
+		}
+		
+		System.out.println("");		
 	}
 	
+	@Ignore
 	@Test
 	public void test_customer_creating_multiple_chat() {
 		Client client = JerseyClientBuilder.createClient();
@@ -204,6 +233,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		}
 	}
 
+	@Ignore
 	@Test
 	public void test_customer_creating_single_chat() {
 		Client client = JerseyClientBuilder.createClient();
@@ -229,6 +259,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		assertThat(customerPersisted.getCchat().get(0).getId()).isNotNull();
 	}
 	
+	@Ignore
 	@Test
 	public void test_find_customer_by_id() {
 		Client client = JerseyClientBuilder.createClient();

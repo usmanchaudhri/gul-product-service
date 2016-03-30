@@ -20,6 +20,11 @@ public class CustomerShippingDao extends AbstractDAO<CustomerShipping> {
 		return persist(customerShipping);
 	}
 	
+	public CustomerShipping update(CustomerShipping customerShipping) {
+		customerShipping.setUpdatedOn(new Date());
+		return persist(customerShipping);
+	}
+	
 	public CustomerShipping findById(Long id) {
 		return get(id);
 	}

@@ -110,6 +110,7 @@ public class CustomerResource {
 		}
 	}
 	
+	// TODO - do we need to authenticate customer here.
 	@PUT
     @Path("/{customerId}")
 	@UnitOfWork

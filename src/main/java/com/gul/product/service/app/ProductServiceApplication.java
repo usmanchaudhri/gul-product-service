@@ -147,6 +147,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         
         // Configure CORS parameters
+        cors.setInitParameter("Access-Control-Allow-Origin", "*");
         cors.setInitParameter("allowedOrigins", "*");
         cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
         cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
@@ -184,7 +185,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ShopResource(shopDao, customerDao));
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
-        environment.jersey().register(new OrderResource(orderDao, customerDao));
+        environment.jersey().register(new OrderResource(orderDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));

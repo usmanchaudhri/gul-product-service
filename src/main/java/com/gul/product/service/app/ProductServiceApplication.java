@@ -148,10 +148,9 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         
         // Configure CORS parameters
 //        cors.setInitParameter("Access-Control-Allow-Origin", "*");
-        
         cors.setInitParameter("Access-Control-Allow-Credentials", "true");
         cors.setInitParameter("allowedOrigins", "*");
-        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin,Authorization");
         cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
         // Enable CORS headers

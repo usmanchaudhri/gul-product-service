@@ -119,7 +119,7 @@ public class CustomerResource {
             value = "Updating an existing customer",
             notes = "Currently updates cchats",
             response = Customer.class)
-	public Response update(@PathParam("customerId") Long customerId, @Valid Customer customer) {
+	public Response update(@Auth Customer customer, @PathParam("customerId") Long customerId) {
 		Customer c = null;
 		Customer persistedCustomer = customerDao.findById(customerId);
 		if(persistedCustomer != null) {
@@ -140,29 +140,12 @@ public class CustomerResource {
 			persistedCustomer.getCchat().add(cchat);
 		}
 	}
-	
-	@POST
-	@Path("/shipping")
-	@UnitOfWork
-	@Timed
-	public Response processShipping(@Valid Customer customer) {
-		Customer cus = customerDao.create(customer);
-		return Response.status(Response.Status.CREATED).entity(cus).build();
-	}		
 
-	@GET
-	@UnitOfWork
-	@Path("/{id}")
-    @ApiOperation("Get customer for passed-in id")
-	public Response getCustomer(@PathParam("id") @NotEmpty Long customerId) {
-		Customer customer = customerDao.findById(customerId);
-		return Response.status(Response.Status.OK).entity(customer).build();
-	}
 	
 	@GET
 	@UnitOfWork
 	@Path("/{id}/cchat")
-    @ApiOperation("Get the list of users to chat with for a given customer id.")
+    @ApiOperation("Get unique names to chat with for a given customer id.")
 	public Response getCchat(@PathParam("id") Long id) {
 		Customer customer = customerDao.loadCchat(id);
 		List<CChat> cchats = customer.getCchat();
@@ -172,7 +155,7 @@ public class CustomerResource {
 	@GET
 	@UnitOfWork
 	@Path("/{id}/orders")
-    @ApiOperation("Get the list of users to chat with for a given customer id.")
+    @ApiOperation("Get the list of all orders a customer has placed.")
 	public Response getOrders(@PathParam("id") Long id) {
 		Customer customer = customerDao.loadOrders(id);
 		List<Order> orders = customer.getOrder();
@@ -182,7 +165,7 @@ public class CustomerResource {
 	@GET
 	@UnitOfWork
 	@Timed
-    @ApiOperation("Get list of existing customers")
+    @ApiOperation("Get all existing customers.")
 	public Response listCustomers() {
 		List<Customer> customers = customerDao.findAll();
 		return Response.status(Response.Status.OK).entity(customers).build();

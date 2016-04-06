@@ -83,7 +83,7 @@ jerseyClient:
 # Twillio Info
 twillioAccountSid: ACf241176efd7d94d2512d1ecd4a6f943e
 twillioAuthToken: 08690c795b201adaaac4135eb2f0b553
-twillioServiceSid: ISab9dc2089e6e483fadae58078216bb03
+twillioServiceSid: ISa4e85c26ba0847eeb056d5da00e4c6e8
 twillioAuthorizationHeaderName: Authorization
 twillioAccessUrl: https://ip-messaging.twilio.com/v1
 

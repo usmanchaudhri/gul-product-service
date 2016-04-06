@@ -4,6 +4,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -49,10 +50,12 @@ public class TwillioChannelResource extends TwillioResource {
             notes = "Creating a new channel passing-in a Unique name i.e could be an email addres",
             response = Channel.class)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response createChannel(@FormParam("UniqueName") String uniqueName, @FormParam("FriendlyName") String friendlyName) {
+	public Response createChannel(@FormParam("FriendlyName") String friendlyName) {
 		Channel channel = null;
 		try {
-			channel = channelService.createChannel(uniqueName, friendlyName);
+			// every new chat will result into a new 
+			UUID uuid = UUID.randomUUID();
+			channel = channelService.createChannel(uuid.toString(), friendlyName);
 		} catch (TwilioRestException e) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(Entity.json(getErrorString(e.getErrorCode()))).build();
 		}

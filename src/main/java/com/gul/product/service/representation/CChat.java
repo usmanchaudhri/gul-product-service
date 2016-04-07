@@ -31,11 +31,13 @@ public class CChat {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cchatseq")
 	@Column(name = "cchat_id", nullable = false) private Long id;
 	@Column(name = "unique_name", nullable = false) private String uniqueName;
-
+	@Column(name = "customer_username", nullable = true) private String customerUsername;
+	@Column(name = "shopowner_username", nullable = true) private String shopOwnerUsername;
+	
 	@ManyToOne(cascade = CascadeType.ALL, optional = true)
 	@JoinColumn(name="customer_id", referencedColumnName="customer_id", nullable = true)	
 	private Customer customer;
-
+	
 	public CChat() {}
 	
 	public CChat(String uniqueName) {

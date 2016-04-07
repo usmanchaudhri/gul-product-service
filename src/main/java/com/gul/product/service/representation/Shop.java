@@ -51,6 +51,7 @@ public class Shop implements Serializable, TimeStamped {
 	
 	@Column(name = "shop_name", nullable = false) private String name;
 	@Column(name = "details", nullable = true) private String details;
+	@Column(name = "image_path", nullable = true) private String imagePath;
 	
 	@OneToMany(mappedBy="shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@OrderBy("product_id")
@@ -138,6 +139,14 @@ public class Shop implements Serializable, TimeStamped {
 
 	public void setShopOwner(Customer shopOwner) {
 		this.shopOwner = shopOwner;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 }

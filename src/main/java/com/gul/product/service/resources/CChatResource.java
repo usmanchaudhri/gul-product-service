@@ -24,18 +24,19 @@ import com.gul.product.service.representation.Customer;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-@Api("/cchat")
-@Path("/cchat")
+/**
+ *	this API just allows adding new cchat. 
+ **/
+@Api("/customer/cchat")
+@Path("/customer/cchat")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CChatResource {
 
 	private CChatDao cchatDao;
-	private CustomerDao customerDao;
 	
-	public CChatResource(CChatDao cchatDao, CustomerDao customerDao) {
+	public CChatResource(CChatDao cchatDao) {
 		this.cchatDao = cchatDao;
-		this.customerDao = customerDao;
 	}
 	
 	@POST
@@ -49,36 +50,4 @@ public class CChatResource {
 		return Response.status(Response.Status.CREATED).entity(cc).build();
 	}
 	
-	@PUT
-    @Path("/{cchatId}")
-	@UnitOfWork
-	@Timed
-    @ApiOperation("Updating cchat for an existing customer.")
-	public Response update(@Valid CChat cchat) {
-		Long customerId = cchat.getCustomer().getId();
-		Customer customer = customerDao.findById(customerId);
-		customer.getCchat().add(cchat);
-		cchat.setCustomer(customer);
-		
-		CChat cc = cchatDao.update(cchat);		
-		return Response.status(Response.Status.OK).entity(cc).build();
-	}
-
-	@GET
-	@UnitOfWork
-	@Path("/{id}")
-    @ApiOperation("Get individual cchat passing-in an id.")
-	public Response getCChat(@PathParam("id") Long id) {
-		CChat cc = cchatDao.findById(id);		
-		return Response.status(Response.Status.OK).entity(cc).build();
-	}
-
-	@GET
-	@UnitOfWork
-    @ApiOperation("Get individual catgorpassed-in id.")
-	public Response getAllCChat() {
-		List<CChat> cc = cchatDao.findAll();		
-		return Response.status(Response.Status.OK).entity(cc).build();
-	}
-
 }

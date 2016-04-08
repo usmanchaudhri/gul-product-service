@@ -30,16 +30,15 @@ import com.gul.product.service.representation.Order;
 
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
-	@Ignore
 	@Test
 	public void test_add_customer_shipping_to_customer() throws JsonParseException, JsonMappingException, IOException {
 		Client client = JerseyClientBuilder.createClient();
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri@gmail.com", "password");
 		client.register(feature);
 
 		// CREATE NEW USER
 		Customer customer = new Customer();
-		customer.setUsername("azhar.rao");
+		customer.setUsername("usman.chaudhri@gmail.com");
 		customer.setPassword("password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
@@ -52,7 +51,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CChat cchat = new CChat("Usman-Asifa");
 		CChat persistedCchat = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/cchat").toString())
+				.path(new StringBuilder("/customer").append("/cchat").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(cchat), CChat.class);
 		assertThat(persistedCchat.getId()).isNotNull();
@@ -62,7 +61,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CChat cchat1 = new CChat("Usman-Gulgs");
 		CChat persistedCchat1 = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/cchat").toString())
+				.path(new StringBuilder("/customer").append("/cchat").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(cchat1), CChat.class);
 		assertThat(persistedCchat1.getId()).isNotNull();
@@ -136,69 +135,42 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 	@Test
 	public void test_customer_update_cchat_list() {
 		Client client = JerseyClientBuilder.createClient();
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri1@gmail.com", "password");
 		client.register(feature);
 
 		CChat cchat1 = new CChat("Usman-Safina-1");
 		CChat cchat2 = new CChat("Usman-Amjad-1");
 		CChat cchat3 = new CChat("Usman-Talha-1");
-		
 		List<CChat> cchats = new ArrayList<CChat>();
 		cchats.add(cchat1);
 		cchats.add(cchat2);
 		cchats.add(cchat3);
 
 		Customer customer = new Customer();
-		customer.setUsername("azhar.rao1");
-		customer.setPassword("password1");
+		customer.setUsername("usman.chaudhri1@gmail.com");
+		customer.setPassword("password");
 		customer.setCchat(cchats);
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
 				.path(new StringBuilder("/customer").append("/signup") .toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
-
 		assertThat(customerPersisted.getId()).isNotNull();
 		
 		CChat cchat4 = new CChat("Usman-Safina-2");
-		customerPersisted.getCchat().add(cchat4);
-		Customer customerPersistedUpdated = client
+		CChat cchatPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customer/"+customerPersisted.getId()).toString())
+				.path(new StringBuilder("/customer").append("/cchat").toString())
 				.request(MediaType.APPLICATION_JSON)
-				.put(Entity.json(customerPersisted), Customer.class);
+				.post(Entity.json(cchat4) , CChat.class);
 
-		assertThat(customerPersistedUpdated.getId()).isNotNull();
-
-
-		// TODO - lazy load cchat from customers.
-		LinkedHashMap<String, CChat> cusCchats = client
-				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customer/").append(customerPersistedUpdated.getId()).append("/cchat") .toString())
-				.request(MediaType.APPLICATION_JSON)
-				.get(LinkedHashMap.class);
-
-//		List<CChat> cusCchats = client
-//				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-//				.path(new StringBuilder("/customer/").append(customerPersistedUpdated.getId()).append("/cchat").toString())
-//				.request(MediaType.APPLICATION_JSON)
-//				.get(List.class);
-		
-		for(Map.Entry<String , CChat> entry : cusCchats.entrySet()) {
-			System.out.println(entry.getKey());
-			System.out.println(entry.getValue());
-			CChat cchat = entry.getValue();
-			assertThat(cchat.getId()).isNotNull();
-		}
-		
-		System.out.println("");		
+		assertThat(cchatPersisted.getId()).isNotNull();
 	}
 	
-	@Ignore
 	@Test
 	public void test_customer_creating_multiple_chat() {
 		Client client = JerseyClientBuilder.createClient();
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("talha.khan", "password");
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri2@gmail.com", "password");
 		client.register(feature);
 		
 		CChat cchat1 = new CChat("Talha-Amjad");
@@ -211,7 +183,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		cchats.add(cchat3);
 		
 		Customer customer = new Customer();
-		customer.setUsername("talha.khan");
+		customer.setUsername("usman.chaudhri2@gmail.com");
 		customer.setPassword("password");
 		customer.setCchat(cchats);
 		
@@ -233,11 +205,10 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		}
 	}
 
-	@Ignore
 	@Test
 	public void test_customer_creating_single_chat() {
 		Client client = JerseyClientBuilder.createClient();
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("awais.khan", "password");
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri3@gmail.com", "password");
 		client.register(feature);
 
 		CChat cchat = new CChat("awais-zara");
@@ -245,7 +216,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		cchats.add(cchat);
 
 		Customer customer = new Customer();
-		customer.setUsername("awais.khan");
+		customer.setUsername("usman.chaudhri3@gmail.com");
 		customer.setPassword("password");
 		customer.setCchat(cchats);
 		
@@ -259,17 +230,16 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		assertThat(customerPersisted.getCchat().get(0).getId()).isNotNull();
 	}
 	
-	@Ignore
 	@Test
 	public void test_find_customer_by_id() {
 		Client client = JerseyClientBuilder.createClient();
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("asif.nabeel", "password");
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri4@gmail.com", "password");
 		client.register(feature);
 
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("asif.nabeel", "password");
+		Customer customer = new Customer("usman.chaudhri4@gmail.com", "password");
 
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
@@ -277,16 +247,8 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 
-		Customer findCustomerPersisted = client
-				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customer").append("/").append(customerPersisted.getId()).toString())
-				.request(MediaType.APPLICATION_JSON)
-				.get(Customer.class);
-		
-		assertThat(findCustomerPersisted.getId()).isNotNull();
-		assertThat(findCustomerPersisted.getId()).isEqualTo(customerPersisted.getId());
+		assertThat(customerPersisted.getId()).isNotNull();
 	}
 	
-
 
 }

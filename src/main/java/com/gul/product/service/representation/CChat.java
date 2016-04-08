@@ -67,5 +67,21 @@ public class CChat {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	public String getCustomerUsername() {
+		return customerUsername;
+	}
+
+	public void setCustomerUsername(String customerUsername) {
+		this.customerUsername = customerUsername;
+	}
+
+	public String getShopOwnerUsername() {
+		return shopOwnerUsername;
+	}
+
+	public void setShopOwnerUsername(String shopOwnerUsername) {
+		this.shopOwnerUsername = shopOwnerUsername;
+	}
 	
 }

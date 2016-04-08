@@ -51,6 +51,8 @@ create table CCHAT (
 	cchat_id bigint not null,
 	unique_name varchar(255) not null,
 	customer_id bigint,
+	customer_username varchar(255),
+	shopowner_username varchar(255),
 	primary key (cchat_id)
 );
 

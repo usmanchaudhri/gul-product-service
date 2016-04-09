@@ -189,7 +189,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new OrderResource(orderDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
-        environment.jersey().register(new CChatResource(cchatDao));
+        environment.jersey().register(new CChatResource(cchatDao, customerDao));
 //        environment.jersey().register(new DesignerResource(designerDao, shopDao));
         
         // Twillio ip-messaging

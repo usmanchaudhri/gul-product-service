@@ -51,7 +51,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CChat cchat = new CChat("Usman-Asifa");
 		CChat persistedCchat = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customer").append("/cchat").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/cchat").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(cchat), CChat.class);
 		assertThat(persistedCchat.getId()).isNotNull();
@@ -61,7 +61,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CChat cchat1 = new CChat("Usman-Gulgs");
 		CChat persistedCchat1 = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customer").append("/cchat").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/cchat").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(cchat1), CChat.class);
 		assertThat(persistedCchat1.getId()).isNotNull();
@@ -160,7 +160,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CChat cchat4 = new CChat("Usman-Safina-2");
 		CChat cchatPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customer").append("/cchat").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/cchat").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(cchat4) , CChat.class);
 

@@ -158,7 +158,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new OrderResource(orderDao));
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
-        environment.jersey().register(new CChatResource(cchatDao));
+        environment.jersey().register(new CChatResource(cchatDao, customerDao));
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "AUTH REALM", Customer.class)));
 
         environment.jersey().register(new TwillioChannelResource(

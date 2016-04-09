@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
@@ -24,10 +25,11 @@ import com.gul.product.service.representation.Order;
 public class CustomerEndPointTest {
 
     private static final CustomerDao customerDao = mock(CustomerDao.class);
+    private static final CChatDao cchatDao = mock(CChatDao.class);
 
     @Rule
 	public final ResourceTestRule resources = 
-			ResourceTestRule.builder().addResource(new CustomerResource(customerDao)).build();
+			ResourceTestRule.builder().addResource(new CustomerResource(customerDao, cchatDao)).build();
 
 	@Test
 	public void creating_new_customer() {

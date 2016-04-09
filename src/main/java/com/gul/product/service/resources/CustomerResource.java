@@ -23,6 +23,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.codahale.metrics.annotation.Timed;
+import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
@@ -42,14 +43,14 @@ import com.wordnik.swagger.annotations.ApiOperation;
 public class CustomerResource {
 	
 	private CustomerDao customerDao;
+	private CChatDao cchatDao;
 	
-	public CustomerResource(CustomerDao customerDao) {
+	public CustomerResource(CustomerDao customerDao, CChatDao cchatDao) {
 		this.customerDao = customerDao;
+		this.cchatDao = cchatDao;
 	}
 	
-	public void updatePassword() {
-		
-	}
+	public void updatePassword() {}
 	
 	@GET
 	@Path("/login")
@@ -140,24 +141,37 @@ public class CustomerResource {
 			persistedCustomer.getCchat().add(cchat);
 		}
 	}
+	
+	@POST
+	@UnitOfWork
+	@Path("/{customerId}/cchat")
+	@Timed
+    @ApiOperation("Adding a new cchat record against a customer.")
+	public Response add(@PathParam("customerId") Long customerId, @Valid CChat cchat) {
+		Customer customer = customerDao.findById(customerId);
+		customer.getCchat().add(cchat);
+		cchat.setCustomer(customer);
+		CChat cc = cchatDao.create(cchat);		
+		return Response.status(Response.Status.CREATED).entity(cc).build();
+	}
 
 	
 	@GET
 	@UnitOfWork
-	@Path("/{id}/cchat")
+	@Path("/{customerId}/cchat")
     @ApiOperation("Get unique names to chat with for a given customer id.")
-	public Response getCchat(@PathParam("id") Long id) {
-		Customer customer = customerDao.loadCchat(id);
+	public Response getCchat(@PathParam("customerId") Long customerId) {
+		Customer customer = customerDao.loadCchat(customerId);
 		List<CChat> cchats = customer.getCchat();
 		return Response.status(Response.Status.OK).entity(cchats).build();		
 	}
 
 	@GET
 	@UnitOfWork
-	@Path("/{id}/orders")
+	@Path("/{customerId}/orders")
     @ApiOperation("Get the list of all orders a customer has placed.")
-	public Response getOrders(@PathParam("id") Long id) {
-		Customer customer = customerDao.loadOrders(id);
+	public Response getOrders(@PathParam("customerId") Long customerId) {
+		Customer customer = customerDao.loadOrders(customerId);
 		List<Order> orders = customer.getOrder();
 		return Response.status(Response.Status.OK).entity(orders).build();		
 	}

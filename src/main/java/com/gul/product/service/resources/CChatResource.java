@@ -27,10 +27,10 @@ import com.wordnik.swagger.annotations.ApiOperation;
 /**
  * this API just allows adding new cchat.
  **/
-@Api("/customer/{customerId}/cchat")
-@Path("/customer/{customerId}/cchat")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+//@Api("/customer/{customerId}/cchat")
+//@Path("/customer/{customerId}/cchat")
+//@Produces(MediaType.APPLICATION_JSON)
+//@Consumes(MediaType.APPLICATION_JSON)
 public class CChatResource {
 
 	private CChatDao cchatDao;
@@ -41,10 +41,10 @@ public class CChatResource {
 		this.customerDao = customerDao;
 	}
 	
-	@POST
-	@UnitOfWork
-	@Timed
-    @ApiOperation("Adding a new cchat record against a customer.")
+//	@POST
+//	@UnitOfWork
+//	@Timed
+//    @ApiOperation("Adding a new cchat record against a customer.")
 	public Response add(@PathParam("customerId") Long customerId, @Valid CChat cchat) {
 		Customer customer = customerDao.findById(customerId);
 		customer.getCchat().add(cchat);

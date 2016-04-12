@@ -1,14 +1,19 @@
 package com.gul.product.service.shop;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
 import com.gul.product.service.representation.Customer;
@@ -20,19 +25,54 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 	
 	private static final String REST_PRODUCT_SERVICE_URL = "http://localhost:%d/gul-product-service";
 	
-	@Ignore
 	@Test
-	public void test_get_designers_and_product_from_shop() {
+	public void test_get_shop_details() {
 		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri@gmail.com", "password");
+		client.register(feature);
 		
 		// Create Customer
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("azhar.rao@gmail.com", "password");
+		Customer customer = new Customer("usman.chaudhri@gmail.com", "password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		Shop shopRequest = new Shop("testshop");
+		shopRequest.setDetails("This is a test shop created for testing details.");
+		shopRequest.setImagePath("/gul/images/2016");
+		shopRequest.setShopOwner(customerPersisted);
+		Shop shopPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/shop/").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(shopRequest), Shop.class);
+		
+		assertThat(shopPersisted.getId()).isNotNull();
+		assertThat(shopPersisted.getDetails()).isEqualToIgnoringCase("This is a test shop created for testing details.");
+		assertThat(shopPersisted.getImagePath()).isEqualToIgnoringCase("/gul/images/2016");
+	}
+	
+	@Ignore
+	@Test
+	public void test_get_designers_and_product_from_shop() {
+		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri@gmail.com", "password");
+		client.register(feature);
+		
+		// Create Customer
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		shipping.add(customerShipping);
+		Customer customer = new Customer("usman.chaudhri@gmail.com", "password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 		assertThat(customerPersisted.getId()).isNotNull();
@@ -69,16 +109,19 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 	@Test
 	public void test_add_new_shop_to_existing_customer() {
 		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri1@gmail.com", "password");
+		client.register(feature);
+
 
 		// Create Customer
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("azhar.rao@gmail.com", "password");
+		Customer customer = new Customer("usman.chaudhri1@gmail.com", "password");
 		
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path(new StringBuilder("/customer").append("/signup").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 		
@@ -102,15 +145,17 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 	@Test
 	public void test_updating_shop_with_designers() {
 		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri2@gmail.com", "password");
+		client.register(feature);
 		
 		// Create Customer
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("azhar.rao@gmail.com", "password");
+		Customer customer = new Customer("usman.chaudhri2@gmail.com", "password");
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path(new StringBuilder("/customer").append("/signup").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 		assertThat(customerPersisted.getId()).isNotNull();
@@ -148,16 +193,18 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 	@Test
 	public void test_creating_new_shop() throws JsonProcessingException {
 		Client client = JerseyClientBuilder.createClient();
-	
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri3@gmail.com", "password");
+		client.register(feature);
+
 		// Create Customer
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
-		Customer customer = new Customer("asifa.nabeel@gmail.com", "password");
+		Customer customer = new Customer("usman.chaudhri3@gmail.com", "password");
 		
 		Customer customerPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path("/customer")
+				.path(new StringBuilder("/customer").append("/signup").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customer), Customer.class);
 		assertThat(customerPersisted.getId()).isNotNull();

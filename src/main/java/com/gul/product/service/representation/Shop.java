@@ -141,6 +141,14 @@ public class Shop implements Serializable, TimeStamped {
 		this.shopOwner = shopOwner;
 	}
 
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
 	public String getImagePath() {
 		return imagePath;
 	}

@@ -27,6 +27,7 @@ public class ImageInfo implements TimeStamped {
 	@Column(name = "image_info_id", nullable = false, unique = true) private Long id;
 	@Column(name = "image_path", nullable = true) private String imagePath;
 	@Column(name = "image_count", nullable = true) private String imageCount;
+
 	@OneToOne(mappedBy = "imageInfo") private Product product;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
@@ -46,6 +47,14 @@ public class ImageInfo implements TimeStamped {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public String getImageCount() {
+		return imageCount;
+	}
+
+	public void setImageCount(String imageCount) {
+		this.imageCount = imageCount;
 	}
 
 	@Override

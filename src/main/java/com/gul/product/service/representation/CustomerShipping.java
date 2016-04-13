@@ -42,6 +42,7 @@ public class CustomerShipping implements TimeStamped {
 	@Column(name = "state", nullable = false) private String state;
 	@Column(name = "zipcode", nullable = false) private String zipcode;
 	@Column(name = "country", nullable = false) private String country;
+	@Column(name = "is_active", nullable = true) private String isActive;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
@@ -152,5 +153,13 @@ public class CustomerShipping implements TimeStamped {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
 }

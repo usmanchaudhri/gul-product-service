@@ -1,7 +1,9 @@
 package com.gul.product.service.resources;
 
 import io.dropwizard.hibernate.UnitOfWork;
+
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,9 +12,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.ShopDao;
@@ -46,8 +51,12 @@ public class ShopResource {
 	@UnitOfWork
 	@Timed
 	@ApiOperation(value = "Creating a new shop", 
-	notes = "Specify the customer id with-in the shop for associating Customer with shop.", response = Customer.class)	
+	notes = "Shop should be associated to a customer when creating a new shop.", response = Customer.class)	
 	public Response addShop(@Valid Shop shop) {
+		if(shop.getShopOwner() == null) {
+			throw new WebApplicationException("Error specifying shop owmer");
+		}
+		
 		Long customerId = shop.getShopOwner().getId();
 		Customer customer = customerDao.findById(customerId);
 		shop.setShopOwner(customer);

@@ -19,10 +19,14 @@ import com.gul.product.service.audit.TimeStamped;
 
 @Entity
 @Table(name = "CUSTOMER_SHIPPING")
-@NamedQueries({
-    @NamedQuery(name = "com.gul.product.service.representation.CustomerShipping.findUserShippingAddresses",
-            query = "SELECT cs FROM CustomerShipping cs WHERE cs.customer.id = :customerId")
+@NamedQueries({ 
+	@NamedQuery(name = "com.gul.product.service.representation.CustomerShipping.findUserShippingAddress", 
+		query = "SELECT cs FROM CustomerShipping cs WHERE cs.customer.id = :customerId"),
+
+	@NamedQuery(name = "com.gul.product.service.representation.CustomerShipping.deleteShippingAddress", 
+		query = "DELETE CustomerShipping as cs WHERE cs.customer.id = :customerId") 
 })
+// delete AttrNote as note where note.attrDefinition.id = :attributeDefinitionId
 public class CustomerShipping implements TimeStamped {
 
 	@Id

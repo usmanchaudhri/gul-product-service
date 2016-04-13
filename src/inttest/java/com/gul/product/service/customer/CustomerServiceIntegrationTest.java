@@ -1,27 +1,18 @@
 package com.gul.product.service.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
 import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
@@ -30,6 +21,42 @@ import com.gul.product.service.representation.Order;
 
 public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
+	@Test
+	public void test_delete_customer_shipping_address() throws JsonParseException, JsonMappingException, IOException {
+		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri6@gmail.com", "password");
+		client.register(feature);
+	
+		// CREATE NEW USER
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri6@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+		
+		// ADD CUSTOMERSHIPPING TO USER
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping persistedCustomerShipping = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customershipping").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customerShipping), CustomerShipping.class);
+		assertThat(persistedCustomerShipping.getId()).isNotNull();
+
+		// DELETED CUSTOMERSHIPPING ADDRESS
+		CustomerShipping deletedCustomerShipping = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customershipping/").append(persistedCustomerShipping.getId()).toString())
+				.request(MediaType.APPLICATION_JSON)
+				.delete(CustomerShipping.class);
+		assertThat(deletedCustomerShipping.getId()).isNotNull();
+	}
+	
+	
 	@Test
 	public void test_add_customer_shipping_to_customer() throws JsonParseException, JsonMappingException, IOException {
 		Client client = JerseyClientBuilder.createClient();
@@ -250,5 +277,46 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		assertThat(customerPersisted.getId()).isNotNull();
 	}
 	
+	@Test
+	public void test_edit_customer_shipping() {
+		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri5@gmail.com", "password");
+		client.register(feature);
+	
+		// CREATE NEW USER
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri5@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+		
+		// ADD CUSTOMERSHIPPING TO USER
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping persistedCustomerShipping = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customershipping").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customerShipping), CustomerShipping.class);
+		assertThat(persistedCustomerShipping.getId()).isNotNull();
+		
+		// EDIT CUSTOMER SHIPPING
+		CustomerShipping customerShippingNew = new CustomerShipping("Zarka", "Ahmed", "92E Street 3", "Lahore", "PJ", "04004", "Pakistan");
+		CustomerShipping customerShippingUpdated = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customershipping/").append(persistedCustomerShipping.getId()).toString())
+				.request(MediaType.APPLICATION_JSON)
+				.put(Entity.json(customerShippingNew), CustomerShipping.class);
+		
+		assertThat(customerShippingUpdated.getId()).isNotNull();
+		assertThat(customerShippingUpdated.getFirstName()).isEqualTo("Zarka");
+		assertThat(customerShippingUpdated.getLastName()).isEqualTo("Ahmed");
+		assertThat(customerShippingUpdated.getAddress()).isEqualTo("92E Street 3");
+		assertThat(customerShippingUpdated.getCity()).isEqualTo("Lahore");
+	}
+
 
 }

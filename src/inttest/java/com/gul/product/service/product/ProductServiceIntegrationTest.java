@@ -1,15 +1,20 @@
 package com.gul.product.service.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import com.gul.product.service.representation.Category;
+import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.Designer;
 import com.gul.product.service.representation.ImageInfo;
 import com.gul.product.service.representation.Product;
@@ -27,7 +32,7 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 	public void test_fetch_all_product_pagination() {
 		Client client = JerseyClientBuilder.createClient();
 
-		// create product
+		// CREATE PRODUCT
 		Product productRequest = new Product();
 		productRequest.setName("Test Women Skirt");
 		productRequest.setSku("SKU101");
@@ -42,8 +47,22 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 				.post(Entity.json(categoryRequest), Category.class);
 		assertThat(categoryPersisted.getId());
 
-		// create shop
+		// CREATE SHOP
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		// CREATE SHOP
 		Shop shopRequest = new Shop("gulgs");
+		shopRequest.setShopOwner(customerPersisted);
+
+		// CREATE DESIGNER
 		Designer designer = new Designer();
 		designer.setName("Nayyar Chaudhri");
 		designer.setImagePath("/winter/clothes");
@@ -90,11 +109,12 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		assertThat(fetchAllProducts.size()).isEqualTo(1);
 	}
 
+	@Ignore
 	@Test
 	public void test_create_new_category_when_saving_product() {
 		Client client = JerseyClientBuilder.createClient();
 
-		// create product
+		// CREATE PRODUCT
 		Product productRequest = new Product();
 		productRequest.setName("Test Women Skirt");
 		productRequest.setSku("SKU101");
@@ -102,7 +122,7 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		productRequest.setLongDesc("Long Description Women Skirt");
 		productRequest.setQuantity(10L);
 	
-		// create category
+		// CREATE CATEGORY
 		Category categoryRequest = new Category("1000", "Women");
 		Category categoryPersisted = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
@@ -110,8 +130,22 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 				.post(Entity.json(categoryRequest), Category.class);
 		assertThat(categoryPersisted.getId());
 		
-		// create shop
+		// CREATE CUSTOMER
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		// CREATE SHOP
 		Shop shopRequest = new Shop("gulgs");
+		shopRequest.setShopOwner(customerPersisted);
+
+		// CREATE DESIGNER
 		Designer designer = new Designer();
 		designer.setName("Nayyar Chaudhri");
 		designer.setImagePath("/winter/clothes");
@@ -176,8 +210,22 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 				.post(Entity.json(categoryRequest), Category.class);
 		assertThat(categoryPersisted).isNotNull();
 
-		// create shop
+		// CREATE CUSTOMER
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		// CREATE SHOP
 		Shop shopRequest = new Shop("gulgs");
+		shopRequest.setShopOwner(customerPersisted);
+
+		// CREATE DESIGNER
 		Designer designer = new Designer();
 		designer.setName("Nayyar Chaudhri");
 		designer.setImagePath("/winter/clothes");
@@ -235,7 +283,22 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		productRequest.setLongDesc("Long Description Women Skirt");
 		productRequest.setQuantity(10L);
 
+		// CREATE CUSTOMER
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		// CREATE SHOP
 		Shop shopRequest = new Shop("gulgs");
+		shopRequest.setShopOwner(customerPersisted);
+
+		// CREATE DESIGNER
 		Designer designer = new Designer();
 		designer.setName("Nayyar Chaudhri");
 		designer.setImagePath("/winter/clothes");

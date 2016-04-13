@@ -2,8 +2,10 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,7 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CustomerShippingDao;
 import com.gul.product.service.representation.Customer;
@@ -66,6 +70,16 @@ public class CustomerShippingResource {
 	@ApiOperation(value = "Get customer shipping address", notes = "Get customer shipping address", response = CustomerShipping.class)	
 	public Response getCustomerShipping(@PathParam("customerShippingId") @NotEmpty Long customerShippingId) {
 		CustomerShipping customerShipping = customerShippingDao.findById(customerShippingId);
+		return Response.status(Response.Status.OK).entity(customerShipping).build();
+	}
+	
+	@DELETE
+	@UnitOfWork
+	@Path("/{customerShippingId}")
+	@ApiOperation(value = "Delete customer shipping address", notes = "Delete customer shipping address", response = CustomerShipping.class)	
+	public Response deleteCustomerShipping(@Auth Customer customer, 
+			@PathParam("customerShippingId") @NotEmpty Long customerShippingId) {
+		CustomerShipping customerShipping = customerShippingDao.delete(customerShippingId);
 		return Response.status(Response.Status.OK).entity(customerShipping).build();
 	}
 	

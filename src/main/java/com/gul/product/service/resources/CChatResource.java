@@ -55,7 +55,6 @@ public class CChatResource {
 	
 	@GET
 	@UnitOfWork
-	@Path("/cchat")
     @ApiOperation("Get unique names to chat with for a given customer id.")
 	public Response getCchat(@PathParam("customerId") Long customerId) {
 		Customer customer = customerDao.loadCchat(customerId);

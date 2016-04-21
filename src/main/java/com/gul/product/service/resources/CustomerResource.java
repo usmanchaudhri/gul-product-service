@@ -2,10 +2,8 @@ package com.gul.product.service.resources;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,10 +16,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.codahale.metrics.annotation.Timed;
 import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CustomerDao;
@@ -142,29 +138,29 @@ public class CustomerResource {
 		}
 	}
 	
-	@POST
-	@UnitOfWork
-	@Path("/{customerId}/cchat")
-	@Timed
-    @ApiOperation("Adding a new cchat record against a customer.")
-	public Response add(@PathParam("customerId") Long customerId, @Valid CChat cchat) {
-		Customer customer = customerDao.findById(customerId);
-		customer.getCchat().add(cchat);
-		cchat.setCustomer(customer);
-		CChat cc = cchatDao.create(cchat);		
-		return Response.status(Response.Status.CREATED).entity(cc).build();
-	}
-
-	
-	@GET
-	@UnitOfWork
-	@Path("/{customerId}/cchat")
-    @ApiOperation("Get unique names to chat with for a given customer id.")
-	public Response getCchat(@PathParam("customerId") Long customerId) {
-		Customer customer = customerDao.loadCchat(customerId);
-		List<CChat> cchats = customer.getCchat();
-		return Response.status(Response.Status.OK).entity(cchats).build();		
-	}
+//	@POST
+//	@UnitOfWork
+//	@Path("/{customerId}/cchat")
+//	@Timed
+//    @ApiOperation("Adding a new cchat record against a customer.")
+//	public Response add(@PathParam("customerId") Long customerId, @Valid CChat cchat) {
+//		Customer customer = customerDao.findById(customerId);
+//		customer.getCchat().add(cchat);
+//		cchat.setCustomer(customer);
+//		CChat cc = cchatDao.create(cchat);		
+//		return Response.status(Response.Status.CREATED).entity(cc).build();
+//	}
+//
+//	
+//	@GET
+//	@UnitOfWork
+//	@Path("/{customerId}/cchat")
+//    @ApiOperation("Get unique names to chat with for a given customer id.")
+//	public Response getCchat(@PathParam("customerId") Long customerId) {
+//		Customer customer = customerDao.loadCchat(customerId);
+//		List<CChat> cchats = customer.getCchat();
+//		return Response.status(Response.Status.OK).entity(cchats).build();		
+//	}
 
 	@GET
 	@UnitOfWork

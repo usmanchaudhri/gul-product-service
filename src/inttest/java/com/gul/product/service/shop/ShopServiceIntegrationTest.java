@@ -32,7 +32,7 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		client.register(feature);
 		
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("usman.chaudhri@gmail.com", "password");
@@ -66,7 +66,7 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		client.register(feature);
 		
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("usman.chaudhri@gmail.com", "password");
@@ -114,7 +114,7 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 
 
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("usman.chaudhri1@gmail.com", "password");
@@ -149,7 +149,7 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		client.register(feature);
 		
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("usman.chaudhri2@gmail.com", "password");
@@ -197,7 +197,7 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 		client.register(feature);
 
 		// Create Customer
-		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("usman.chaudhri3@gmail.com", "password");

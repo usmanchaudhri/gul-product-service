@@ -22,14 +22,15 @@ CREATE SEQUENCE customer_customer_id_seq
     
 create table CUSTOMER_SHIPPING (
     customer_shipping_id bigint not null,
-    first_name varchar(255) NOT NULL,
-    last_name varchar(255) NOT NULL,
-    address varchar(255) not null,
-    city varchar(255) not null,
-    country varchar(255) not null,
-    state varchar(255) not null,
-    zipcode varchar(255) not null,
+    first_name varchar(255),
+    last_name varchar(255),
+    address varchar(255),
+    city varchar(255),
+    country varchar(255),
+    state varchar(255),
+    zipcode varchar(255),
     customer_id bigint,
+	is_active varchar(2),    
     created_on timestamp,
     updated_on timestamp,    
     primary key (customer_shipping_id)

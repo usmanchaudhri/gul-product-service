@@ -35,13 +35,13 @@ public class CustomerShipping implements TimeStamped {
 	@Column(name = "customer_shipping_id", nullable = false)
 	private Long id;
 	
-	@Column(name = "first_name", nullable = false) private String firstName;
-	@Column(name = "last_name", nullable = false) private String lastName;
-	@Column(name = "address", nullable = false) private String address;
-	@Column(name = "city", nullable = false) private String city;
-	@Column(name = "state", nullable = false) private String state;
-	@Column(name = "zipcode", nullable = false) private String zipcode;
-	@Column(name = "country", nullable = false) private String country;
+	@Column(name = "first_name", nullable = true) private String firstName;
+	@Column(name = "last_name", nullable = true) private String lastName;
+	@Column(name = "address", nullable = true) private String address;
+	@Column(name = "city", nullable = true) private String city;
+	@Column(name = "state", nullable = true) private String state;
+	@Column(name = "zipcode", nullable = true) private String zipcode;
+	@Column(name = "country", nullable = true) private String country;
 	@Column(name = "is_active", nullable = true) private String isActive;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
@@ -53,7 +53,14 @@ public class CustomerShipping implements TimeStamped {
 	
 	public CustomerShipping() {}
 	
-	public CustomerShipping(String firstName, String lastName, String address, String city, String state, String zipcode, String country) {
+	public CustomerShipping(String firstName, 
+			String lastName, 
+			String address, 
+			String city, 
+			String state, 
+			String zipcode, 
+			String country,
+			String isActive) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
@@ -61,6 +68,7 @@ public class CustomerShipping implements TimeStamped {
 		this.state = state;
 		this.zipcode = zipcode; 
 		this.country = country;
+		this.isActive = isActive;
 	}
 	
 	public Long getId() {

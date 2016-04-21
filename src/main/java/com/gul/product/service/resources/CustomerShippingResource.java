@@ -60,7 +60,7 @@ public class CustomerShippingResource {
 		
 		CustomerShipping persistedCustomerShipping = customerShippingDao.findById(customerShippingId);
 		updateShipping(customerShipping, persistedCustomerShipping);
-		CustomerShipping cusShipping = customerShippingDao.update(customerShipping);
+		CustomerShipping cusShipping = customerShippingDao.update(persistedCustomerShipping);
 		return Response.status(Response.Status.OK).entity(cusShipping).build();
 	}
 	
@@ -110,6 +110,10 @@ public class CustomerShippingResource {
 
 		if(customerShipping.getZipcode() != null && !customerShipping.getZipcode().isEmpty()) {
 			persistedCustomerShipping.setZipcode(customerShipping.getZipcode());
+		}
+		
+		if(customerShipping.getIsActive() != null && !customerShipping.getIsActive().isEmpty()) {
+			persistedCustomerShipping.setIsActive(customerShipping.getIsActive());
 		}
 	}
 

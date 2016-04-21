@@ -25,7 +25,7 @@ public class CustomerMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 		
-		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("azhar.rao@gmail.com", "password");		
@@ -44,7 +44,7 @@ public class CustomerMappingTest {
 		Injector injector = Guice.createInjector(new DbModule());	// test method will have it's own EntityManager 
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 				
-		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA");
+		CustomerShipping customerShipping = new CustomerShipping("Usman" , "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
 		shipping.add(customerShipping);
 		Customer customer = new Customer("azhar.rao@gmail.com", "password");		

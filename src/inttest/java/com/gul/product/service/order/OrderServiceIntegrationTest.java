@@ -2,6 +2,7 @@ package com.gul.product.service.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,15 +17,23 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gul.product.service.product.AbstractProductServiceIntegrationTest;
+import com.gul.product.service.representation.CChat;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.Order;
 
 public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
 
 	@Test
-	public void test_submit_multiple_orders() {
+	public void test_submit_multiple_orders() throws JsonParseException, JsonMappingException, IOException {
 		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("talha.khan", "password");
+		client.register(feature);
 
 		Customer customerRequest = new Customer();
 		customerRequest.setUsername("talha.khan");
@@ -36,8 +45,6 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 				.post(Entity.json(customerRequest), Customer.class);
 		assertThat(customerPersisted.getId());
 
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("talha.khan", "password");
-		client.register(feature);
 
 		Order order1 = new Order();
 		order1.setProductId("101");
@@ -67,26 +74,23 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 		orders.add(order1);
 		orders.add(order2);
 
-		List<Order> persistedOrders = client
+		JsonNode persistedOrders = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/orders").append("/submit") .toString())
+				.path(new StringBuilder("/orders").append("/submit").toString())
 				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(orders), List.class);
+				.post(Entity.json(orders), JsonNode.class);
 
-		// TODO - getting LinkedHashMap instead of Order
-//		Order orderTest1 = (Order) persistedOrders.get(0);
-//		System.out.println("");
-		
-//		for(Order persistedOrder : persistedOrders) {
-//			assertThat(persistedOrder.getId()).isNotNull();
-//			assertThat(persistedOrder.getProductId()).containsIgnoringCase("101");
-//			assertThat(persistedOrder.getProductId()).containsIgnoringCase("102");
-//		}
+		ObjectMapper mapper = new ObjectMapper();
+		List<Order> getPersistedOrders = mapper.readValue(mapper.treeAsTokens(persistedOrders) , new TypeReference<List<Order>>(){});
+		assertThat(getPersistedOrders.get(0).getId()).isNotNull();
+		assertThat(getPersistedOrders.get(1).getId()).isNotNull();
 	}
 	
 	@Test
 	public void test_place_a_new_order() {
 		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
+		client.register(feature);
 
 		Customer customerRequest = new Customer();
 		customerRequest.setUsername("azhar.rao");
@@ -97,9 +101,6 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customerRequest), Customer.class);
 		assertThat(customerPersisted.getId());
-
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("azhar.rao", "password");
-		client.register(feature);
 
 		Order orderRequest = new Order();
 		orderRequest.setProductId("101");
@@ -126,16 +127,29 @@ public class OrderServiceIntegrationTest extends AbstractProductServiceIntegrati
 		assertThat(persistedOrder.getId()).isNotNull();
 		assertThat(persistedOrder.getProductId()).isEqualToIgnoringCase("101");
 		assertThat(persistedOrder.getProductCategoryId()).isEqualToIgnoringCase("10");
+		assertThat(persistedOrder.getProductQuantity()).isEqualToIgnoringCase("5");
 		assertThat(persistedOrder.getCustomer().getId()).isEqualTo(customerPersisted.getId());
 		
-		// updating Order
-//		Order orderPersistedUpdated = client
-//				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-//				.path(new StringBuilder("/orders/").append(orderPersistedId).toString())
-//				.request(MediaType.APPLICATION_JSON)
-//				.put(Entity.json(orderRequestUpdate), Order.class);
-//		assertThat(orderPersistedUpdated.getId()).isNotNull();
-//		assertThat(orderPersistedUpdated.getStatus()).isEqualTo("Cancelled");
+		// GET ORDER
+		Order getPersistedOrder = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/orders/").append(persistedOrder.getId()).toString())
+				.request(MediaType.APPLICATION_JSON)
+				.get(Order.class);
+		assertThat(getPersistedOrder.getId()).isNotNull();
+		
+		// UPDATE ORDER
+		Order orderUpdateRequest = new Order();
+		orderUpdateRequest.setStatus("In process");
+		orderUpdateRequest.setProductQuantity("20");
+		Order updatePersistedOrder = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/orders/").append(getPersistedOrder.getId()).toString())
+				.request(MediaType.APPLICATION_JSON)
+				.put(Entity.json(orderUpdateRequest), Order.class);
+		assertThat(updatePersistedOrder.getId()).isNotNull();
+		assertThat(updatePersistedOrder.getStatus()).isEqualToIgnoringCase("In process");
+		assertThat(updatePersistedOrder.getProductQuantity()).isEqualToIgnoringCase("20");
 	}
 
 	

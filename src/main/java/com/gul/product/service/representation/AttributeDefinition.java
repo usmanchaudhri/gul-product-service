@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
 
 /**
@@ -23,6 +25,7 @@ import com.gul.product.service.audit.TimeStamped;
  **/
 @Entity
 @Table(name = "ATTRIBUTE_DEFINITION")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "attributeName")
 public class AttributeDefinition implements TimeStamped {
 	
 	@Id

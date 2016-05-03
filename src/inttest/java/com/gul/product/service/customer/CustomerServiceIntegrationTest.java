@@ -86,7 +86,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		CustomerShipping persistedCustomerShipping = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customershipping").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/customershipping").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customerShipping), CustomerShipping.class);
 		assertThat(persistedCustomerShipping.getId()).isNotNull();
@@ -136,7 +136,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		CustomerShipping persistedCustomerShipping = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customershipping").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/customershipping").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customerShipping), CustomerShipping.class);
 		assertThat(persistedCustomerShipping.getId()).isNotNull();
@@ -323,7 +323,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		CustomerShipping persistedCustomerShipping = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customershipping").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/customershipping").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customerShipping), CustomerShipping.class);
 		assertThat(persistedCustomerShipping.getId()).isNotNull();
@@ -332,7 +332,8 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShippingNew = new CustomerShipping("Zarka", "Ahmed", "92E Street 3", "Lahore", "PJ", "04004", "Pakistan", "Y");
 		CustomerShipping customerShippingUpdated = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customershipping/").append(persistedCustomerShipping.getId()).toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/customershipping/")
+						.append(persistedCustomerShipping.getId()).toString())
 				.request(MediaType.APPLICATION_JSON)
 				.put(Entity.json(customerShippingNew), CustomerShipping.class);
 		
@@ -364,7 +365,7 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
 		CustomerShipping persistedCustomerShipping = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customershipping").toString())
+				.path(new StringBuilder("/customer/").append(customerPersisted.getId()).append("/customershipping").toString())
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(customerShipping), CustomerShipping.class);
 		assertThat(persistedCustomerShipping.getId()).isNotNull();
@@ -380,7 +381,10 @@ public class CustomerServiceIntegrationTest extends AbstractProductServiceIntegr
 		customerShippingNew.setIsActive("N");
 		CustomerShipping customerShippingUpdated = client
 				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
-				.path(new StringBuilder("/customershipping/").append(persistedCustomerShipping.getId()).toString())
+				.path(new StringBuilder("/customer/")
+					.append(customerPersisted.getId())
+					.append("/customershipping/")
+					.append(persistedCustomerShipping.getId()).toString())
 				.request(MediaType.APPLICATION_JSON)
 				.put(Entity.json(customerShippingNew), CustomerShipping.class);
 		assertThat(customerShippingUpdated.getId()).isNotNull();

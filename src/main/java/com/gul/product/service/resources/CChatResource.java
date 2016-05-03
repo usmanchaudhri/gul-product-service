@@ -1,15 +1,11 @@
 package com.gul.product.service.resources;
 
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;

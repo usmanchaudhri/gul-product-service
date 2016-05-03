@@ -39,14 +39,19 @@ import com.wordnik.swagger.annotations.ApiOperation;
 public class CustomerResource {
 	
 	private CustomerDao customerDao;
-	private CChatDao cchatDao;
 	
-	public CustomerResource(CustomerDao customerDao, CChatDao cchatDao) {
+	public CustomerResource(CustomerDao customerDao) {
 		this.customerDao = customerDao;
-		this.cchatDao = cchatDao;
 	}
 	
-	public void updatePassword() {}
+	@PUT
+	@Path("/{userName}/updatePassword")
+	@UnitOfWork
+	@Timed
+	@ApiOperation(value = "Update password", notes = "Update password", response = Customer.class)
+	public void updatePassword() {
+		
+	}
 	
 	@GET
 	@Path("/login")

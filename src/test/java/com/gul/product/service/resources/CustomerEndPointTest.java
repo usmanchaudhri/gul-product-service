@@ -29,7 +29,7 @@ public class CustomerEndPointTest {
 
     @Rule
 	public final ResourceTestRule resources = 
-			ResourceTestRule.builder().addResource(new CustomerResource(customerDao, cchatDao)).build();
+			ResourceTestRule.builder().addResource(new CustomerResource(customerDao)).build();
 
 	@Test
 	public void creating_new_customer() {

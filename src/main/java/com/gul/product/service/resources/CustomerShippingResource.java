@@ -26,8 +26,8 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 // customer can add / edit address at any time during the checkout process hence 
 // exposing the shipping resource.
-@Api("/customershipping")
-@Path("/customershipping")
+@Api("/customer/{customerId}/customershipping")
+@Path("/customer/{customerId}/customershipping")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CustomerShippingResource {
@@ -73,6 +73,7 @@ public class CustomerShippingResource {
 		return Response.status(Response.Status.OK).entity(customerShipping).build();
 	}
 	
+	// TODO - currently not fully functional
 	@DELETE
 	@UnitOfWork
 	@Path("/{customerShippingId}")

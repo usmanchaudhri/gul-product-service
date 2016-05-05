@@ -317,6 +317,12 @@
 			<artifactId>rest-assured</artifactId>
 			<version>${version.restassured}</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpmime</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 <!-- 		<dependency> -->

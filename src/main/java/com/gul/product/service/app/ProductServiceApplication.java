@@ -70,6 +70,7 @@ import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
 import com.gul.product.service.resources.DesignerResource;
+import com.gul.product.service.resources.EmailServiceResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.OrderResource;
@@ -190,6 +191,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
+        environment.jersey().register(new EmailServiceResource(configuration.getSendGridUsername(), configuration.getSendGridPassword()));
+        
 //        environment.jersey().register(new DesignerResource(designerDao, shopDao));
         
         // Twillio ip-messaging

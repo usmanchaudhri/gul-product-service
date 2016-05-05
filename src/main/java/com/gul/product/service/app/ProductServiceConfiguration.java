@@ -68,6 +68,13 @@ public class ProductServiceConfiguration extends Configuration {
 	@JsonProperty
 	public String twillioAccessUrl;
 	
+	@JsonProperty
+	public String sendGridUsername;
+
+	@JsonProperty
+	public String sendGridPassword;
+	
+	
 	public Template buildTemplate() {
 		return new Template(template, defaultName);
 	}
@@ -176,6 +183,22 @@ public class ProductServiceConfiguration extends Configuration {
 
 	public void setTwillioAccessUrl(String twillioAccessUrl) {
 		this.twillioAccessUrl = twillioAccessUrl;
+	}
+
+	public String getSendGridUsername() {
+		return sendGridUsername;
+	}
+
+	public void setSendGridUsername(String sendGridUsername) {
+		this.sendGridUsername = sendGridUsername;
+	}
+
+	public String getSendGridPassword() {
+		return sendGridPassword;
+	}
+
+	public void setSendGridPassword(String sendGridPassword) {
+		this.sendGridPassword = sendGridPassword;
 	}
 
 }

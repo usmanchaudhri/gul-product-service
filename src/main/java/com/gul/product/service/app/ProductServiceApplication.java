@@ -188,7 +188,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CustomerResource(customerDao));
         environment.jersey().register(new CustomerShippingResource(customerShippingDao));
         environment.jersey().register(new OrderResource(orderDao));
-        environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao));
+        environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao, productDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
         environment.jersey().register(new EmailServiceResource(configuration.getSendGridUsername(), configuration.getSendGridPassword()));

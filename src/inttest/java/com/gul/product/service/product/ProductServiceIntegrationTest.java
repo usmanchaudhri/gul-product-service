@@ -3,7 +3,10 @@ package com.gul.product.service.product;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -13,6 +16,8 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.gul.product.service.representation.AttributeDefinition;
+import com.gul.product.service.representation.AttributeValue;
 import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.Designer;
@@ -27,6 +32,108 @@ import com.gul.product.service.representation.Shop;
  * called using HTTP client and response are than verified.
  **/
 public class ProductServiceIntegrationTest extends AbstractProductServiceIntegrationTest {
+	
+	@Test
+	public void test_add_attribute_definition_to_product() {
+		Client client = JerseyClientBuilder.createClient();
+		Product productRequest = new Product();
+		productRequest.setName("Test Women Skirt");
+		productRequest.setSku("SKU101");
+		productRequest.setShortDesc("Short Description Women Skirt");
+		productRequest.setLongDesc("Long Description Women Skirt");
+		productRequest.setQuantity(10L);
+
+		Category categoryRequest = new Category("1000", "Women");
+		Category categoryPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(categoryRequest), Category.class);
+		assertThat(categoryPersisted.getId());
+
+		// CREATE SHOP
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		// CREATE SHOP
+		Shop shopRequest = new Shop("gulgs");
+		shopRequest.setShopOwner(customerPersisted);
+
+		// CREATE DESIGNER
+		Designer designer = new Designer();
+		designer.setName("Nayyar Chaudhri");
+		designer.setImagePath("/winter/clothes");
+		List<Designer> designers = new ArrayList<Designer>();
+		designers.add(designer);
+		shopRequest.setDesigners(designers);
+		Shop shopPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/shop")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(shopRequest), Shop.class);
+		assertThat(shopPersisted.getId());
+		Designer persistedDesigner = shopPersisted.getDesigners().get(0);
+		assertThat(persistedDesigner.getId()).isNotNull();
+
+		productRequest.setCategory(categoryPersisted);
+		productRequest.setShop(shopPersisted);
+		
+		// set empty variations if there are none 
+		ProductVariation variation = new ProductVariation();
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation);
+		productRequest.setProductVariation(variations);
+		
+		// set imageInfo
+		ImageInfo imageInfo = new ImageInfo();
+		imageInfo.setImagePath("/winter/clothes");
+		productRequest.setImageInfo(imageInfo);
+		
+		// set attributeDefinition
+		AttributeDefinition attrDefinition = new AttributeDefinition();
+		attrDefinition.setAttributeName("Neckline");
+		attrDefinition.setIsActive(true);
+		
+		// set attributeValue
+		AttributeValue attrValue = new AttributeValue();
+		attrValue.setAttrValue("Round Neck");
+		attrValue.setImagePath("/listing/customization/images");
+		attrValue.setIsActive(true);
+		attrValue.setAttributeDefinition(attrDefinition);
+		
+		List<AttributeValue> attrValues = new ArrayList<AttributeValue>();
+		attrValues.add(attrValue);
+		
+		attrDefinition.setAttributeValues(attrValues);
+		Set<AttributeDefinition> attrDefinitions = new HashSet<AttributeDefinition>();
+		attrDefinitions.add(attrDefinition);
+		
+			// setting definition in product request
+		attrDefinition.setProduct(productRequest);
+		productRequest.setAttributeDefinitions(attrDefinitions);
+		
+		// persist product
+		Product productPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(productRequest), Product.class);
+
+		// check if the attributeDefinition is saved
+		Set<AttributeDefinition> persistedAttrDefinition = productPersisted.getAttributeDefinitions();
+		assertThat(persistedAttrDefinition).isNotNull();
+		Iterator<AttributeDefinition> ite = persistedAttrDefinition.iterator();
+		while(ite.hasNext()) {
+			AttributeDefinition temp = ite.next();
+			assertThat(temp.getId()).isNotNull();
+		}
+			
+	}
+	
 	
 	@Test
 	public void test_fetch_all_product_pagination() {

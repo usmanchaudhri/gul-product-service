@@ -9,6 +9,9 @@ public class EmailDefinition {
 	private String image;
 	private String miscellaneous;
 	
+	public EmailDefinition() {
+	}
+	
 	public EmailDefinition (String from, String to, String subject, String body, String image, String miscellanous) {
 		this.from = from;
 		this.to = to;

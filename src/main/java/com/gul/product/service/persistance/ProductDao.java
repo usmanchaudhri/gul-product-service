@@ -23,8 +23,14 @@ public class ProductDao extends AbstractDAO<Product> {
 		return persist(product);
 	}
 	
-	public Product findById(Long id) {
-		return get(id);
+	public Product findById(Long productId) {
+		return get(productId);
+	}
+	
+	public Product loadAttributeDefinitions(Long productId) {
+		Product product = get(productId);
+		initialize(product.getAttributeDefinitions());
+		return product;
 	}
 	
 	public List<Product> findAllPagination(int first, int max) {	

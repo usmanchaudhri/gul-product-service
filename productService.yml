@@ -88,8 +88,8 @@ twillioAuthorizationHeaderName: Authorization
 twillioAccessUrl: https://ip-messaging.twilio.com/v1
 
 #Email Service
-sendGridUsername: app41139901@heroku.com
-sendGridPassword: 1tps67gx4017
+sendGridUsername:
+sendGridPassword:
 
 
 # when registering other exception mappers, we need to set it false.

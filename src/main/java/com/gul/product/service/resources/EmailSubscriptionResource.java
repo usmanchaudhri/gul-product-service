@@ -29,6 +29,7 @@ public class EmailSubscriptionResource {
 	@POST
 	@UnitOfWork
 	@Timed
+	@ApiOperation(value = "Subscribing customer email address", response = EmailSubscription.class)	
 	public Response add (@Valid EmailSubscription emailSubscription) {
 		EmailSubscription eSubscription = emailSubscriptionDao.create(emailSubscription);
 		return Response.status(Response.Status.CREATED).entity(eSubscription).build();

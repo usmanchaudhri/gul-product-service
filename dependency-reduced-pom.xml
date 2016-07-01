@@ -270,16 +270,16 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
+          <artifactId>httpmime</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>groovy</artifactId>
           <groupId>org.codehaus.groovy</groupId>
         </exclusion>
         <exclusion>
           <artifactId>groovy-xml</artifactId>
           <groupId>org.codehaus.groovy</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>httpmime</artifactId>
-          <groupId>org.apache.httpcomponents</groupId>
         </exclusion>
         <exclusion>
           <artifactId>hamcrest-library</artifactId>

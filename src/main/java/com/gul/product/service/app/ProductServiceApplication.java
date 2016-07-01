@@ -43,6 +43,7 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
 import com.gul.product.service.persistance.DesignerDao;
+import com.gul.product.service.persistance.EmailSubscriptionDao;
 import com.gul.product.service.persistance.ImageInfoDao;
 import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.ProductDao;
@@ -55,6 +56,7 @@ import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Designer;
+import com.gul.product.service.representation.EmailSubscription;
 import com.gul.product.service.representation.FeaturedProduct;
 import com.gul.product.service.representation.ImageInfo;
 import com.gul.product.service.representation.Order;
@@ -63,14 +65,13 @@ import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
-import com.gul.product.service.representation.User;
 import com.gul.product.service.resources.AttributeDefinitionResource;
 import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
-import com.gul.product.service.resources.DesignerResource;
 import com.gul.product.service.resources.EmailServiceResource;
+import com.gul.product.service.resources.EmailSubscriptionResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.OrderResource;
@@ -105,7 +106,8 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
             		AttributeValue.class,
             		Designer.class,
             		ImageInfo.class,
-            		CChat.class) {
+            		CChat.class,
+            		EmailSubscription.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfiguration configuration) {
                 	return configuration.getDatabase();
@@ -167,6 +169,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final ImageInfoDao imageInfoDao = new ImageInfoDao(hibernateBundle.getSessionFactory());		
 		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
 		final DesignerDao designerDao = new DesignerDao(hibernateBundle.getSessionFactory());
+		final EmailSubscriptionDao emailSubscriptionDao = new EmailSubscriptionDao(hibernateBundle.getSessionFactory());
 		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
 
@@ -192,6 +195,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
         environment.jersey().register(new EmailServiceResource(configuration.getSendGridUsername(), configuration.getSendGridPassword()));
+        environment.jersey().register(new EmailSubscriptionResource(emailSubscriptionDao));
         
 //        environment.jersey().register(new DesignerResource(designerDao, shopDao));
         

@@ -33,6 +33,7 @@ import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
 import com.gul.product.service.persistance.CustomerShippingDao;
 import com.gul.product.service.persistance.DesignerDao;
+import com.gul.product.service.persistance.EmailSubscriptionDao;
 import com.gul.product.service.persistance.ImageInfoDao;
 import com.gul.product.service.persistance.OrderDao;
 import com.gul.product.service.persistance.PricingProductDao;
@@ -46,6 +47,7 @@ import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.Customer;
 import com.gul.product.service.representation.CustomerShipping;
 import com.gul.product.service.representation.Designer;
+import com.gul.product.service.representation.EmailSubscription;
 import com.gul.product.service.representation.FeaturedProduct;
 import com.gul.product.service.representation.ImageInfo;
 import com.gul.product.service.representation.Order;
@@ -59,6 +61,7 @@ import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
 import com.gul.product.service.resources.CustomerShippingResource;
+import com.gul.product.service.resources.EmailSubscriptionResource;
 import com.gul.product.service.resources.HelloProductResource;
 import com.gul.product.service.resources.ImageInfoResource;
 import com.gul.product.service.resources.OrderResource;
@@ -90,7 +93,8 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
             		AttributeValue.class,
             		Designer.class,
             		ImageInfo.class,
-            		CChat.class) {
+            		CChat.class,
+            		EmailSubscription.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(ProductServiceConfigurationTest configuration) {
                 	return configuration.getDatabase();
@@ -139,7 +143,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 		final OrderDao orderDao = new OrderDao(hibernateBundle.getSessionFactory());
 		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
 		final DesignerDao designerDao = new DesignerDao(hibernateBundle.getSessionFactory());
-
+		final EmailSubscriptionDao emailSubscriptionDao = new EmailSubscriptionDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         removeDefaultExceptionMappers(Boolean.TRUE, environment);
@@ -159,6 +163,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new AttributeDefinitionResource(attributeDefinitionDao, productDao));
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
+        environment.jersey().register(new EmailSubscriptionResource(emailSubscriptionDao));
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "AUTH REALM", Customer.class)));
 
         environment.jersey().register(new TwillioChannelResource(

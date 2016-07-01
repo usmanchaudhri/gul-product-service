@@ -19,6 +19,7 @@
 		<class>com.gul.product.service.representation.ImageInfo</class>
 		<class>com.gul.product.service.representation.Designer</class>
 		<class>com.gul.product.service.representation.CChat</class>
+		<class>com.gul.product.service.representation.EmailSubscription</class>				
 						
 		<properties>
 			<!-- Disable the second-level cache -->

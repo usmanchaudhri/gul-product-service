@@ -50,6 +50,7 @@ public class AbstractProductServiceIntegrationTest {
 		flyway.migrate();		// 6 migrate featureProducts
 		flyway.migrate();		// 7 migrate note
 		flyway.migrate();		// 8 migrate image info
+		flyway.migrate();		// 9 migrate EmailSubscription
 	}
 	
 //	@After

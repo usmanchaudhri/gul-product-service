@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -46,13 +47,30 @@ public class AttributeDefinitionResource {
 		AttributeDefinition attrDefinition = attributeDefinitionDao.create(attributeDefinition);
 		return Response.status(Response.Status.CREATED).entity(attrDefinition).build();
 	}		
+	
+	// do we need to update any customization - maybe ??
 
+	@PUT
+    @Path("/{attributeDefinitionId}")
+	@UnitOfWork
+	@Timed
+	@ApiOperation(value = "Update existing customization", notes = "updates existing customization - AttributeDefinition", response = AttributeDefinition.class)	
+	public Response update(@PathParam("attributeDefinitionId") Long attributeDefinitionId, AttributeDefinition attributeDefinition) {
+		AttributeDefinition persistedAttributeDefinition = attributeDefinitionDao.findById(attributeDefinitionId);
+		updateDefinition(persistedAttributeDefinition, attributeDefinition);
+		return null;
+	}
+	
 	@GET
 	@UnitOfWork
     @ApiOperation("Get all AttributeDefinition for the specified Product.")
 	public Response getAttributeDefinition(@PathParam("productId") @NotEmpty Long productId) {
 		Product product = productDao.loadAttributeDefinitions(productId);
 		return Response.status(Response.Status.OK).entity(product.getAttributeDefinitions()).build();
+	}
+	
+	private void updateDefinition(AttributeDefinition persistedAttributeDefinition, AttributeDefinition attributeDefinition) {
+		
 	}
 	
 	

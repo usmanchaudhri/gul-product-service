@@ -87,11 +87,6 @@ twillioServiceSid: ISaeb57c40715247f4a3b3924065ee17a0
 twillioAuthorizationHeaderName: Authorization
 twillioAccessUrl: https://ip-messaging.twilio.com/v1
 
-#Email Service
-sendGridUsername:
-sendGridPassword:
-
-
 # when registering other exception mappers, we need to set it false.
 # registerDefaultExceptionMappers: false
 

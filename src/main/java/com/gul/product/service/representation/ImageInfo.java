@@ -15,7 +15,9 @@ import com.gul.product.service.audit.TimeStamped;
 
 /**
  * contains info about image for a particular product. The ImageInfo object
- * represents a resource which will
+ * represents a resource which will.
+ * 
+ * Also keeps track of how many images are stored along with an individual product.
  **/
 @Entity
 @Table(name = "IMAGE_INFO")

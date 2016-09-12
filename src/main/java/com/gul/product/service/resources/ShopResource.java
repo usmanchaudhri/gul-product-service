@@ -80,7 +80,7 @@ public class ShopResource {
     @Path("/{shopId}")
 	@UnitOfWork
 	@Timed
-    @ApiOperation("Update an existing shop name only.")
+    @ApiOperation("Update Shop name, detail, designer info.")
 	public Response update(@PathParam("shopId") Long shopId, @Valid Shop shop) {
 		Shop persistedShop = shopDao.findById(shopId);
 		updateShop(persistedShop, shop);
@@ -88,14 +88,18 @@ public class ShopResource {
 		return Response.status(Response.Status.OK).entity(s).build();
 	}
 
-	private void updateShop(Shop persistedShop, Shop shop) {
-		if(shop.getName() != null && !shop.getName().isEmpty()) {
-			persistedShop.setName(shop.getName());
+	/**
+	 *	 
+	 **/
+	private void updateShop(Shop persisted, Shop request) {
+		if(request.getName() != null && !request.getName().isEmpty()) {
+			persisted.setName(request.getName());
+			persisted.setDetails(request.getDetails());
 		}
 		
-		for(Designer designer : shop.getDesigners()) {
-			designer.setShop(persistedShop);
-			persistedShop.getDesigners().add(designer);
+		for(Designer designer : request.getDesigners()) {
+			designer.setShop(persisted);
+			persisted.getDesigners().add(designer);
 		}
 	}
 	

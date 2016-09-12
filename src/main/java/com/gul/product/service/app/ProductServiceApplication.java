@@ -38,6 +38,7 @@ import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.exception.mappers.RuntimeExceptionMapper;
 import com.gul.product.service.exception.mappers.TwillioExceptionMapper;
 import com.gul.product.service.persistance.AttributeDefinitionDao;
+import com.gul.product.service.persistance.AttributeValueDao;
 import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
@@ -66,6 +67,7 @@ import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.AttributeDefinitionResource;
+import com.gul.product.service.resources.AttributeValueResource;
 import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
@@ -170,8 +172,10 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
 		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
 		final DesignerDao designerDao = new DesignerDao(hibernateBundle.getSessionFactory());
 		final EmailSubscriptionDao emailSubscriptionDao = new EmailSubscriptionDao(hibernateBundle.getSessionFactory());
+		final AttributeValueDao attributeValueDao = new AttributeValueDao(hibernateBundle.getSessionFactory());
 		
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
+        
 
         final Template template = configuration.buildTemplate();
         environment.jersey().register(RolesAllowedDynamicFeature.class);
@@ -196,6 +200,7 @@ public class ProductServiceApplication extends Application<ProductServiceConfigu
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
         environment.jersey().register(new EmailServiceResource(configuration.getSendGridUsername(), configuration.getSendGridPassword()));
         environment.jersey().register(new EmailSubscriptionResource(emailSubscriptionDao));
+        environment.jersey().register(new AttributeValueResource(attributeDefinitionDao, attributeValueDao));
         
 //        environment.jersey().register(new DesignerResource(designerDao, shopDao));
         

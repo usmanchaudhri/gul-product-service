@@ -28,6 +28,7 @@ import com.gul.product.service.cli.RenderCommand;
 import com.gul.product.service.core.Template;
 import com.gul.product.service.exception.mappers.ProductJsonExceptionMapper;
 import com.gul.product.service.persistance.AttributeDefinitionDao;
+import com.gul.product.service.persistance.AttributeValueDao;
 import com.gul.product.service.persistance.CChatDao;
 import com.gul.product.service.persistance.CategoryDao;
 import com.gul.product.service.persistance.CustomerDao;
@@ -57,6 +58,7 @@ import com.gul.product.service.representation.ProductVariation;
 import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 import com.gul.product.service.resources.AttributeDefinitionResource;
+import com.gul.product.service.resources.AttributeValueResource;
 import com.gul.product.service.resources.CChatResource;
 import com.gul.product.service.resources.CategoryResource;
 import com.gul.product.service.resources.CustomerResource;
@@ -144,6 +146,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
 		final CChatDao cchatDao = new CChatDao(hibernateBundle.getSessionFactory());
 		final DesignerDao designerDao = new DesignerDao(hibernateBundle.getSessionFactory());
 		final EmailSubscriptionDao emailSubscriptionDao = new EmailSubscriptionDao(hibernateBundle.getSessionFactory());
+		final AttributeValueDao attributeValueDao = new AttributeValueDao(hibernateBundle.getSessionFactory());
 		
         final Template template = configuration.buildTemplate();
         removeDefaultExceptionMappers(Boolean.TRUE, environment);
@@ -164,6 +167,7 @@ public class ProductServiceApplicationTest extends Application<ProductServiceCon
         environment.jersey().register(new ImageInfoResource(imageInfoDao));
         environment.jersey().register(new CChatResource(cchatDao, customerDao));
         environment.jersey().register(new EmailSubscriptionResource(emailSubscriptionDao));
+        environment.jersey().register(new AttributeValueResource(attributeDefinitionDao, attributeValueDao));
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(new CustomerAuthenticator(customerDao), "AUTH REALM", Customer.class)));
 
         environment.jersey().register(new TwillioChannelResource(

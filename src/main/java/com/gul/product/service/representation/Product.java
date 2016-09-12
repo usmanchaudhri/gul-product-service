@@ -3,6 +3,7 @@ package com.gul.product.service.representation;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.TypeDef;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gul.product.service.audit.TimeStamped;
@@ -46,6 +49,10 @@ import com.gul.product.service.audit.TimeStamped;
     @NamedQuery(
             name = "com.gul.product.service.representation.Product.findProductsByCategory",
             query = "SELECT p FROM Product p WHERE p.category.id = :categoryId"
+    ),    
+    @NamedQuery(
+            name = "com.gul.product.service.representation.Product.findCustomizableProducts",
+            query = "SELECT p FROM Product p WHERE p.customize = 'true'"
     )
 })
 
@@ -89,6 +96,7 @@ public class Product implements TimeStamped {
 	private Set<AttributeDefinition> attributeDefinitions;
 	
 	/**
+	 * TODO - change this to a flag instead of a separate field.
 	 * Optional feature for now.
 	 **/
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
@@ -98,6 +106,16 @@ public class Product implements TimeStamped {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
 	@JoinColumn(name="image_info_id", nullable=true)
 	private ImageInfo imageInfo;
+	
+	// if the product is customizable or not.
+	@Column(name="customize", nullable = true) private Boolean customize;
+	
+	// where all the products could be shipped
+//	@OneToOne(mappedBy="product", fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name="shipsto_id", nullable=true)
+	private ShipsTo shipsTo;
+
 
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
@@ -262,6 +280,22 @@ public class Product implements TimeStamped {
 
 	public void setImageInfo(ImageInfo imageInfo) {
 		this.imageInfo = imageInfo;
+	}
+
+	public Boolean getCustomize() {
+		return customize;
+	}
+
+	public void setCustomize(Boolean customize) {
+		this.customize = customize;
+	}
+
+	public ShipsTo getShipsTo() {
+		return shipsTo;
+	}
+
+	public void setShipsTo(ShipsTo shipsTo) {
+		this.shipsTo = shipsTo;
 	}
 
 }

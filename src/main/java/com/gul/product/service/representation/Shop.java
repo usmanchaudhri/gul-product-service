@@ -31,6 +31,7 @@ import com.gul.product.service.audit.TimeStamped;
  * represents a Shop which contains list of products. 
  * - A shop can exits without a product.
  * - A shop needs to have a return address in case if customer wants to return items.
+ * - TODO - add what all locations the Shop ships too ???
  **/
 @Entity
 @Table(name = "SHOP")
@@ -63,6 +64,9 @@ public class Shop implements Serializable, TimeStamped {
 	
 	@OneToOne(mappedBy="shop", fetch = FetchType.LAZY)
 	private Customer shopOwner;
+		
+	// terms and conditions for the store
+	@Column(name = "policy", nullable = true) private String policy;
 	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
@@ -155,6 +159,14 @@ public class Shop implements Serializable, TimeStamped {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public String getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(String policy) {
+		this.policy = policy;
 	}
 
 }

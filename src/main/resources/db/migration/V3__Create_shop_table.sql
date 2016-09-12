@@ -6,6 +6,7 @@ CREATE TABLE shop (
     shop_id bigint not null,
     shop_name varchar(255) not null,
     details varchar(255),
+	policy text,    
     image_path varchar(255),
     created_on timestamp,
     updated_on timestamp,

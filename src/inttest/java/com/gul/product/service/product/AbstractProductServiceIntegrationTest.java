@@ -42,15 +42,16 @@ public class AbstractProductServiceIntegrationTest {
 		ds.setPassword(password);		
 
 		flyway = flywayFactory.build(ds);
-		flyway.migrate();		// 1 migrate category
-		flyway.migrate();		// 2 migrate product
-		flyway.migrate();		// 3 migrate shop
-		flyway.migrate();		// 4 migrate customer
-		flyway.migrate();		// 5 migrate productVariation
-		flyway.migrate();		// 6 migrate featureProducts
-		flyway.migrate();		// 7 migrate note
-		flyway.migrate();		// 8 migrate image info
-		flyway.migrate();		// 9 migrate EmailSubscription
+		flyway.migrate();		// 1  migrate category
+		flyway.migrate();		// 2  migrate product
+		flyway.migrate();		// 3  migrate shop
+		flyway.migrate();		// 4  migrate customer
+		flyway.migrate();		// 5  migrate productVariation
+		flyway.migrate();		// 6  migrate featureProducts
+		flyway.migrate();		// 7  migrate note
+		flyway.migrate();		// 8  migrate image info
+		flyway.migrate();		// 9  migrate EmailSubscription
+		flyway.migrate();		// 10 migrate Shipping
 	}
 	
 //	@After

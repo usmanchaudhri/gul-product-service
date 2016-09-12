@@ -117,6 +117,14 @@ public class ProductResource {
 		Product product = productDao.findById(productId);
 		return Response.status(Response.Status.OK).entity(product).build();
 	}
+	
+	/**
+	 * product could only be deleted by the user, authentication is required.
+	 * delete by productId
+	 **/
+	public Response deleteProduct(@PathParam("productId") Long productId) {
+		return null;
+	}
 
 	@GET
 	@UnitOfWork
@@ -126,8 +134,18 @@ public class ProductResource {
 		List<Product> products = productDao.findAllPagination(first, max);		
 		return Response.status(Response.Status.OK).entity(products).build();
 	}	
+	
+	@GET
+	@UnitOfWork
+	@Path("/customize")
+    @ApiOperation("Get customizable products.")
+	public List<Product> customizableProduct() {
+		return productDao.findCustomizableProducts();
+	}
 
-	// sets product in ProductVariation since it is a bi-relation.
+	/**
+	 * sets product in ProductVariation since it is a bi-relation.
+	 **/
 	private void setProductVariation(Product request) {
 		List<ProductVariation> variations = request.getProductVariation();
 		for(ProductVariation variation : variations) {
@@ -135,6 +153,12 @@ public class ProductResource {
 		}
 	}
 	
+	/**
+	 * updates the following for a product. 
+	 * - product name. 
+	 * - product short description. 
+	 * - product long description - customize.
+	 **/
 	private void updateProduct(Product persistedProduct, Product requestProduct) {
 		if(requestProduct.getName() != null && !requestProduct.getName().isEmpty()) {
 			persistedProduct.setName(requestProduct.getName());			
@@ -147,27 +171,12 @@ public class ProductResource {
 		if(requestProduct.getLongDesc() != null && !requestProduct.getLongDesc().isEmpty()) {
 			persistedProduct.setLongDesc(requestProduct.getLongDesc()); 
 		}
+		
+		if(requestProduct.getCustomize() != null) {
+			persistedProduct.setCustomize(requestProduct.getCustomize());
+		}		
 	}
-
-	private SolrDoc sendToSolr(Product product) {
-		SolrDocument solrDocument = new SolrDocument();
-		solrDocument.addField("id", "456");
-		solrDocument.addField("productName", "Handbag tote");
-		solrDocument.addField("productDesc", "Handmade handbag tote");
-		solrDocument.addField("productSku", "SKU_HANDMADE_HANDBAG_101");
-		solrDocument.addField("productCategory", "handbags");
-		solrDocument.addField("productShop", "gulgs test");
-		solrDocument.addField("productPrice", "30.99");
-
-		SolrDoc solrDoc = new SolrDoc();
-		solrDoc.setId(1L);
-		solrDoc.setProductName("Handbag");
-		solrDoc.setProductDesc("Handbag handmade");
-		solrDoc.setProductSku("SKU_HANDBAG_101");
-		solrDoc.setProductShop("gulgs");
-		return solrDoc;
-	}
-	
+		
 	public Product findProduct(@PathParam("id") Long id) {
 		return productDao.findById(id);
 	}

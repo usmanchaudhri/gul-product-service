@@ -25,6 +25,41 @@ public class ShopServiceIntegrationTest extends AbstractProductServiceIntegratio
 	
 	private static final String REST_PRODUCT_SERVICE_URL = "http://localhost:%d/gul-product-service";
 	
+	
+	@Test
+	public void test_get_shop_terms_and_conditions() {
+		Client client = JerseyClientBuilder.createClient();
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic("usman.chaudhri@gmail.com", "password");
+		client.register(feature);
+		
+		// Create Customer
+		CustomerShipping customerShipping = new CustomerShipping("Usman", "Chaudhri", "2460 Fulton", "San Francisco", "CA", "94118", "USA", "Y");
+		List<CustomerShipping> shipping = new ArrayList<CustomerShipping>();
+		shipping.add(customerShipping);
+		Customer customer = new Customer("usman.chaudhri@gmail.com", "password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		Shop shopRequest = new Shop("BridalShop");
+		shopRequest.setDetails("This is a Bridal Shop.");
+		shopRequest.setImagePath("/gul/images/2016");
+		shopRequest.setShopOwner(customerPersisted);
+		shopRequest.setPolicy("All sales are final and product could not be sold at our shop.");
+		Shop shopPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/shop/").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(shopRequest), Shop.class);
+
+		assertThat(shopPersisted.getId()).isNotNull();
+		assertThat(shopPersisted.getName()).isEqualToIgnoringCase("BridalShop");
+		assertThat(shopPersisted.getPolicy()).isEqualToIgnoringCase("All sales are final and product could not be sold at our shop.");
+	}
+	
 	@Test
 	public void test_get_shop_details() {
 		Client client = JerseyClientBuilder.createClient();

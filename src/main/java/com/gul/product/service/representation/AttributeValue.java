@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,6 +21,12 @@ import com.gul.product.service.audit.TimeStamped;
  **/
 @Entity
 @Table(name = "ATTRIBUTE_VALUE")
+@NamedQueries({
+    @NamedQuery(
+            name = "com.gul.product.service.representation.AttributeValue.findAll",
+            query = "SELECT AV FROM AttributeValue AV"
+    )
+})
 public class AttributeValue implements TimeStamped {
 
 	@Id

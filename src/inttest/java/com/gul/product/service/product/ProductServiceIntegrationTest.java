@@ -462,6 +462,118 @@ public class ProductServiceIntegrationTest extends AbstractProductServiceIntegra
 		}
 	}
 	
+	@Test
+	public void get_customized_products() {
+		Client client = JerseyClientBuilder.createClient();
+
+		Product productRequest = new Product(); 
+		productRequest.setName("Non Customizable Product");
+		productRequest.setSku("NON-CUSTOMIZE101");
+		productRequest.setShortDesc("This is not a customizable product");
+		productRequest.setLongDesc("This is not a customizable product");
+		productRequest.setQuantity(10L);
+		productRequest.setCustomize(Boolean.TRUE);
+
+		Product productRequest2 = new Product(); 
+		productRequest2.setName("Customizable Product");
+		productRequest2.setSku("CUSTOMIZE101");
+		productRequest2.setShortDesc("This is a customizable product");
+		productRequest2.setLongDesc("This is a customizable product");
+		productRequest2.setQuantity(8L);
+		productRequest2.setCustomize(Boolean.TRUE);
+		
+		
+		// CREATE CUSTOMER
+		Customer customer = new Customer();
+		customer.setUsername("usman.chaudhri@gmail.com");
+		customer.setPassword("password");
+		Customer customerPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort()))
+				.path(new StringBuilder("/customer").append("/signup").toString())
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(customer), Customer.class);
+		assertThat(customerPersisted.getId()).isNotNull();
+
+		// CREATE SHOP
+		Shop shopRequest = new Shop("gulgs");
+		shopRequest.setShopOwner(customerPersisted);
+
+		// CREATE DESIGNER
+		Designer designer = new Designer();
+		designer.setName("Nayyar Chaudhri");
+		designer.setImagePath("/winter/clothes");
+		List<Designer> designers = new ArrayList<Designer>();
+		designers.add(designer);
+		shopRequest.setDesigners(designers);
+		Shop shopPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/shop")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(shopRequest), Shop.class);
+		assertThat(shopPersisted.getId());
+		Designer persistedDesigner = shopPersisted.getDesigners().get(0);
+		assertThat(persistedDesigner.getId()).isNotNull();
+		productRequest.setShop(shopPersisted);
+		
+		productRequest2.setShop(shopPersisted);
+		
+		ProductVariation variation1 = new ProductVariation();
+		variation1.setColor("blue");
+		variation1.setQuantity("5");
+		variation1.setSize("x");
+		variation1.setProduct(productRequest);
+		variation1.setProduct(productRequest2);
+		ProductVariation variation2 = new ProductVariation();
+		variation2.setColor("blue");
+		variation2.setQuantity("2");
+		variation2.setSize("m");
+		variation2.setProduct(productRequest);
+		variation2.setProduct(productRequest2);
+
+		List<ProductVariation> variations = new ArrayList<ProductVariation>();
+		variations.add(variation1);
+		variations.add(variation2);
+		productRequest.setProductVariation(variations);
+		productRequest2.setProductVariation(variations);
+		
+		ImageInfo imageInfo = new ImageInfo();
+		imageInfo.setImagePath("/2015/winter");
+		productRequest.setImageInfo(imageInfo);
+		productRequest2.setImageInfo(imageInfo);
+		
+		Category categoryRequest = new Category("1000", "Women");
+		Category categoryPersisted = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/category")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(categoryRequest), Category.class);
+		assertThat(categoryPersisted).isNotNull();	
+		productRequest.setCategory(categoryPersisted);
+		productRequest2.setCategory(categoryPersisted);
+	
+		Product persistedProduct = client
+			.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
+			.request(MediaType.APPLICATION_JSON)
+			.post(Entity.json(productRequest), Product.class);		
+		assertThat(persistedProduct).isNotNull();
+		assertThat(persistedProduct.getId()).isNotNull();
+
+
+		Product persistedProduct2 = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(productRequest2), Product.class);
+		assertThat(persistedProduct2).isNotNull();
+		assertThat(persistedProduct2.getId()).isNotNull();
+		
+		
+		List<Product> customizableProduct = client
+				.target(String.format(REST_PRODUCT_SERVICE_URL, RULE.getLocalPort())).path("/product/customize")
+				.request(MediaType.APPLICATION_JSON)
+				.get(List.class);			
+		assertThat(customizableProduct).isNotNull();		
+		assertThat(customizableProduct.size() == 2);		
+	}
+	
+	
 	public void restAssuredTesting() {
 //		given()
 //		.contentType(MediaType.APPLICATION_JSON)

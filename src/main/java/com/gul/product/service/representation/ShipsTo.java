@@ -11,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,6 +32,7 @@ public class ShipsTo implements TimeStamped {
 	@Id 
     @SequenceGenerator(name = "shippingSeq", sequenceName="shipping_shipping_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shippingSeq")
+	@Column(name = "shipsTo_id", nullable = false, unique = true)
 	private Long id;
 
 	@Column(name="country_name", nullable=false) private String countryName;
@@ -42,6 +45,9 @@ public class ShipsTo implements TimeStamped {
 	@OneToMany(mappedBy="shippingFrom", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ShipsTo> shippingTo;
 
+	@OneToOne(mappedBy = "shipsTo")	
+	private Product product;
+	
 	@Column(name = "created_on", nullable = true) private Date createdOn;
 	@Column(name = "updated_on", nullable = true) private Date updatedOn;
 	
@@ -125,6 +131,14 @@ public class ShipsTo implements TimeStamped {
 	@Override
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 		
 	

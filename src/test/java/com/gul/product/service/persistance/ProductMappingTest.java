@@ -2,10 +2,15 @@ package com.gul.product.service.persistance;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
+
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -14,6 +19,7 @@ import com.gul.product.service.representation.Category;
 import com.gul.product.service.representation.PricingProduct;
 import com.gul.product.service.representation.Product;
 import com.gul.product.service.representation.ProductVariation;
+import com.gul.product.service.representation.ShipsTo;
 import com.gul.product.service.representation.Shop;
 
 /**
@@ -132,13 +138,13 @@ public class ProductMappingTest {
 		Assert.assertTrue(pricing.getProduct().getSku().equals("SKU101"));
 	}
 	
+	// this also includes the shipsTo data
 	@Test
 	public void test_named_query_fetech_product_by_category() {
 		Injector injector = Guice.createInjector(new DbModule());
 		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
 
-		Shop shop = new Shop("Usman Chaudhri");
-		
+		Shop shop = new Shop("Usman Chaudhri");		
 		Category category = new Category("1001", "Women");
 		Product product = new Product("SKU101", "Embroided Skirt",
 				"Embroided Women Skirt",
@@ -146,17 +152,45 @@ public class ProductMappingTest {
 				10L);
 		product.setQuantity(10L);
 		product.setCategory(category);
-		
 		product.setShop(shop);
+
+		/*   *************************   */
+		ShipsTo shipsFrom = new ShipsTo();
+		shipsFrom.setCountryName("PAKISTAN");
+
+		// shipping to
+		ShipsTo shipsToUSA = new ShipsTo();
+		shipsToUSA.setShippingFrom(shipsFrom);
+		shipsToUSA.setCountryName("USA");
+		shipsToUSA.setProcessingDays(10L);
+		shipsToUSA.setShippingCost(2000.00);
+		
+		Set<ShipsTo> allShipsTo = new HashSet<ShipsTo>();
+		allShipsTo.add(shipsToUSA);
+		
+		shipsFrom.setShippingTo(allShipsTo);
+		/*   *************************   */
+		
+		product.setShipsTo(shipsFrom);
 		
 		persistedClassDao.saveInNewTransaction(category);
 		persistedClassDao.saveInNewTransaction(product);
 		
 		Product productQuery = (Product) persistedClassDao.getEntityManager().
 		createNamedQuery("com.gul.product.service.representation.Product.findProductsByCategory").
-		setParameter("categoryId", 1L).
-		getSingleResult();
+		setParameter("categoryId", 1L).getSingleResult();
 
+		
+		// Assertion begins
+		ShipsTo persistedShipsTo = productQuery.getShipsTo();
+		Assert.assertNotNull(persistedShipsTo.getId());
+		Collection<ShipsTo> shippingsTo = persistedShipsTo.getShippingTo();
+		Assert.assertTrue(shippingsTo.size() == 1);
+		Iterator<ShipsTo> ite = shippingsTo.iterator();
+		while(ite.hasNext()) {
+			Assert.assertNotNull(ite.next().getId());
+		}
+		
 		Assert.assertNotNull(productQuery.getId());
 		Assert.assertTrue(productQuery.getName().equals("Embroided Skirt"));
 		Assert.assertTrue(productQuery.getSku().equals("SKU101"));
@@ -197,6 +231,48 @@ public class ProductMappingTest {
 		for(ProductVariation persistedVariation : persistedVariations) {
 			Assert.assertNotNull(persistedVariation.getId());
 		}
+	}
+	
+	@Test
+	public void test_mark_product_as_customizable() {
+		Injector injector = Guice.createInjector(new DbModule());
+		PersistedClassDao persistedClassDao = injector.getInstance(PersistedClassDao.class);
+
+		Shop shop = new Shop("Gulgs");
+		Category category = new Category("1001", "Women");
+		Product product = new Product("SKU101", "Embroided Skirt",
+				"Embroided Women Skirt",
+				"Handmade embroided Women Skirt made from the finest silk",
+				10L);
+		product.setQuantity(10L);
+		product.setCategory(category);
+		product.setShop(shop);
+	
+		ProductVariation productVariation = new ProductVariation();
+		productVariation.setColor("Blue");
+		productVariation.setMaterial("Leather");
+		productVariation.setPrice("99.99");
+		productVariation.setQuantity("5");
+		
+		List<ProductVariation> productVariations = new ArrayList<ProductVariation>();
+		productVariations.add(productVariation);
+		product.setProductVariation(productVariations);
+		
+		product.setCustomize(Boolean.TRUE);
+		
+		persistedClassDao.saveInNewTransaction(category);
+		persistedClassDao.saveInNewTransaction(product);
+
+		Product persistedProduct = persistedClassDao.getEntityManager().find(Product.class, product.getId());
+		Assert.assertNotNull(persistedProduct.getId());
+
+		Object[] obj = new Object[1];
+		obj[0] = Boolean.TRUE;
+
+		Object[] obj1 = new Object[1];
+		obj1[0] = persistedProduct.getCustomize();
+
+		Assert.assertArrayEquals(obj, obj1);		
 	}
 	
 	

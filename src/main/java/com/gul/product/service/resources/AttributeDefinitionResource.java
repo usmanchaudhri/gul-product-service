@@ -62,6 +62,17 @@ public class AttributeDefinitionResource {
 	}
 	
 	@GET
+    @Path("/{attributeDefinitionId}")
+	@UnitOfWork
+	@Timed
+	@ApiOperation(value = "get attributes for a product", notes = "this will fetch the items which are to be customized.", response = AttributeDefinition.class)	
+	public Response getAttribute(@PathParam("attributeDefinitionId") Long attributeDefinitionId) {
+		AttributeDefinition attributeDefinition = attributeDefinitionDao.findById(attributeDefinitionId);
+		return Response.status(Response.Status.OK).entity(attributeDefinition).build();
+	}
+	
+	// SHOULDN'T WE BE PASSING THE ATTRIBUTE-DEFINITION ID HERE INSTEAD OF THE PRODUCT-ID ???
+	@GET
 	@UnitOfWork
     @ApiOperation("Get all AttributeDefinition for the specified Product.")
 	public Response getAttributeDefinition(@PathParam("productId") @NotEmpty Long productId) {
@@ -69,6 +80,7 @@ public class AttributeDefinitionResource {
 		return Response.status(Response.Status.OK).entity(product.getAttributeDefinitions()).build();
 	}
 	
+	// TODO - what all in attribute definition should be updated ? Should we allow updating attributeValue as well.
 	private void updateDefinition(AttributeDefinition persistedAttributeDefinition, AttributeDefinition attributeDefinition) {
 		
 	}

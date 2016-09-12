@@ -47,7 +47,7 @@ public class CategoryMappingTest {
 		womenBagsCategory.setParentCategory(womenCategory);
 		womenCategory.setSubCategories(Arrays.asList(womenSkirtCategory, womenBagsCategory));
 		
-		// save the parent child relationship with-in a transaction
+		// save the parent child relationship with-in a single transaction
 		persistedClassDao.getEntityManager().getTransaction().begin();
 		persistedClassDao.save(womenCategory);
 		persistedClassDao.save(womenSkirtCategory);

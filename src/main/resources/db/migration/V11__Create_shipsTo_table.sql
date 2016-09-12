@@ -3,7 +3,7 @@
 --
 
 create table SHIPPING (
-    shipsTo_id bigint not null,
+    shipping_id bigint not null,
     country_name varchar(255) not null,
     created_on timestamp,
     shipping_processing_time bigint,

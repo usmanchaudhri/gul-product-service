@@ -32,7 +32,7 @@ public class ShipsTo implements TimeStamped {
 	@Id 
     @SequenceGenerator(name = "shippingSeq", sequenceName="shipping_shipping_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shippingSeq")
-	@Column(name = "shipsTo_id", nullable = false, unique = true)
+	@Column(name = "shipping_id", nullable = false, unique = true)
 	private Long id;
 
 	@Column(name="country_name", nullable=false) private String countryName;

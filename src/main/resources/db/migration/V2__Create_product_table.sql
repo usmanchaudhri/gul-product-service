@@ -14,7 +14,7 @@ create table PRODUCT (
     category_id bigint not null,
     featured_product_id bigint,
     pricing_product_id bigint,
-    shipsto_id bigint,
+    shipping_id bigint,
     shop_id bigint not null,
     image_info_id bigint not null,
     customize boolean,
